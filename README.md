@@ -7,6 +7,8 @@ build_project.sh TestMinimal c
 This project uses a small 2D mesh to check the computation of slow wave electrophysiology in simplified Imtiaz ICC models (Du et al., 2013, PMID: 24111242)
 
 ## Milestones (branch)
+For 2D and 3D meshes.
+
 1) Simplified Imtiaz model (master)
 2) With checkpointing (chkpt)
 3) With neural data (inp_neural)
@@ -15,8 +17,8 @@ This project uses a small 2D mesh to check the computation of slow wave electrop
 ## Progress
 |***Passing TestMinimal for milestone number***|Series| Parallel|
 |--|--|--|
-|Laptop|1||
-|HPC|1||
+|Laptop|1<sub>2D</sub>||
+|HPC|1<sub>2D</sub>||
 
 ## Planned neural input implementation
 This approach can avoid issues with additional functions in derived cell classes and serialisation issues with the neural data. Should be able to serialise the singleton ParamConfig class separate from the Chaste checkpoint BidomainProblem function.
@@ -42,4 +44,3 @@ This approach can avoid issues with additional functions in derived cell classes
 ## Future work
 - Have *Python neural preprocessing script* work as part of NEURON output procedures OR call the preprocessing script at runtime in Chaste
   - This would need information about the control region grid to be passed between scripts/programmes automatically not by manual entry
-- Run the same milestones for a 3D mesh
