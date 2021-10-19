@@ -58,7 +58,7 @@ template<unsigned DIM>
 void BidomainProblemNeural<DIM>::AtBeginningOfTimestep(double time)
 {
   // Run electrode update as per BidomainProblem
-  BidomainProblemNeural<DIM>::AtBeginningOfTimestep(time);
+  BidomainProblem<DIM>::AtBeginningOfTimestep(time);
 
   // TODO: Update parameters from singleton instance of ParamConfig
   // -- Where parameters are changed in a region: for cells in region, set respective parameters to new value
