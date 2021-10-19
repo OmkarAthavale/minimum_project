@@ -44,8 +44,8 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
   {
     unsigned index = pNode->GetIndex();
 
-    ChastePoint<PROBLEM_SPACE_DIM> centre(0.00,0.025);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.01,0.01);
+    ChastePoint<PROBLEM_SPACE_DIM> centre(0.02,0.04);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (0.01,0.03);
     ChasteEllipsoid<PROBLEM_SPACE_DIM> pacemaker(centre, radii);
     
     if(setICCNode.find(index) != setICCNode.end())
@@ -54,7 +54,7 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
       
       if (pacemaker.DoesContain(pNode->GetPoint()))
       {
-        cell->SetParameter("cor", 1.2);
+        cell->SetParameter("correction", 1.05);
       }
 
       return cell;
@@ -75,8 +75,8 @@ class TestHello : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
     std::string output_dir = mesh_ident + "-2DSerial";
-    double duration = 50.0;      // ms
-    double print_step = 5.0;        // ms
+    double duration = 10000.0;      // ms
+    double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
