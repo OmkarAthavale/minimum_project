@@ -14,13 +14,16 @@
  */
 
 #include "Debug.hpp"
-#include "NeuralComponents.hpp"
+
 #include "ChasteEllipsoid.hpp"
 #include "ChastePoint.hpp"
+
 #include "../src/DummyDerivedCa.hpp"
 #include "../src/Du2013_neural.hpp"
+
 #include "AbstractCardiacCellFactory.hpp"
 #include "../src/BidomainProblemNeural.hpp"
+
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
 
