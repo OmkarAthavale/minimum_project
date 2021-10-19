@@ -33,20 +33,50 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "Hello.hpp"
-#include "Exception.hpp"
 
-Hello::Hello(const std::string& rMessage)
-    : mMessage(rMessage)
+#include "BidomainProblemNeural.hpp"
+
+template<unsigned DIM>
+BidomainProblemNeural<DIM>::BidomainProblemNeural(
+            AbstractCardiacCellFactory<DIM>* pCellFactory, bool hasBath)
+    : BidomainProblem<DIM>(pCellFactory, hasBath)
 {
 }
 
-std::string Hello::GetMessage()
+template<unsigned DIM>
+BidomainProblemNeural<DIM>::BidomainProblemNeural()
+    : BidomainProblem<DIM>()
 {
-    return mMessage;
 }
 
-void Hello::Complain(const std::string& rComplaint)
+template<unsigned DIM>
+BidomainProblemNeural<DIM>::~BidomainProblemNeural()
 {
-    EXCEPTION(rComplaint);
 }
+
+template<unsigned DIM>
+void BidomainProblemNeural<DIM>::AtBeginningOfTimestep(double time)
+{
+  // Run electrode update as per BidomainProblem
+  BidomainProblemNeural<DIM>::AtBeginningOfTimestep(time);
+
+  // TODO: Update parameters from singleton instance of ParamConfig
+  // -- Where parameters are changed in a region: for cells in region, set respective parameters to new value
+  // ---- Call a function of ParamConfig that returns a vector of objects
+  // ---- where each object has (int globalIndex, std::string paramNameString, double paramValue)
+/*
+  std::vector< customStruct > update_list(ParamConfig::GetUpdateList(double time));
+  for each row in update_list
+    GetBidomainTissue->GetCardiacCell(row.globalIndex)->SetParameter(row.paramName, row.paramValue)
+*/
+}
+
+
+// Serialization for Boost >= 1.36
+#include "SerializationExportWrapperForCpp.hpp"
+EXPORT_TEMPLATE_CLASS_SAME_DIMS(BidomainProblemNeural)
+
+// Explicit instantiation
+template class BidomainProblemNeural<1>;
+template class BidomainProblemNeural<2>;
+template class BidomainProblemNeural<3>;
