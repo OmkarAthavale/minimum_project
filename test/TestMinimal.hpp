@@ -69,7 +69,7 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
   };
 };
 
-class TestHello : public CxxTest::TestSuite
+class TestMinimal : public CxxTest::TestSuite
 {
   public:
   void TestMinimalSimulation()
