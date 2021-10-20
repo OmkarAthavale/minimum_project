@@ -6,10 +6,10 @@ You now simply click the big green "Use this template" button to use a copy of t
 Alternatively, if you aren't a github user, you can download a zip (see Releases button) and start your own repository with that.
 
 ## Progress
-|***Passing TestMinimal for milestone number***|Series| Parallel|
+|***Passing TestMinimal for milestone number***|Series|Parallel|
 |--|--|--|
-|Laptop|1<sub>2D</sub>||
-|HPC|1<sub>2D</sub>||
+|Laptop|1<sub>2D</sub>, 2<sub>2D</sub>||
+|HPC|1<sub>2D</sub>, 2<sub>2D</sub>|1<sub>2D</sub>, 2<sub>2D</sub>|
 
 ## Planned neural input implementation
 This approach can avoid issues with additional functions in derived cell classes and serialisation issues with the neural data. Should be able to serialise the singleton ParamConfig class separate from the Chaste checkpoint BidomainProblem function.
