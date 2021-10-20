@@ -1,8 +1,3 @@
-``` 
-git clone https://github.com/OmkarAthavale/minimum_project.git/
-cd ${CHASTE_HOME}/scripts
-build_project.sh TestMinimal c
-```
 # minimum_project
 This project uses a small 2D mesh to check the computation of slow wave electrophysiology in simplified Imtiaz ICC models (Du et al., 2013, PMID: 24111242)
 
@@ -37,7 +32,7 @@ This approach can avoid issues with additional functions in derived cell classes
   - Also calls parent's BidomainProblem::AtBeginningOfTimestep to update electrodes.
 
 ## Notes
-- Laptop has Chaste 2021.1 in Docker on [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) using standard [Chaste Docker](https://github.com/Chaste/chaste-docker) instructions. Passes all tests, including parallel tests, including after rebuild using build_chaste.sh script supplied in Docker image. 
+- Laptop has Chaste 2021.1 in Docker on [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) using standard [Chaste Docker](https://github.com/Chaste/chaste-docker) instructions. Passes all tests, including parallel tests, including after rebuild using build_chaste.sh script supplied in Docker image. HPC has Chaste 2019.1 and does not pass all tests in the Parallel test pack. However, it does successfully run some custom project tests in parallel, with checkpointing (ICC3D_Longit).
 - chaste_codegen is used to generate Du2013_neural derived cell classes. This seems to (so far!) be backward compatible with Chaste 2019.1 on HPC, and the 2021.1 release notes do not that that chaste_codegen and PyCml outputs are not backward+forward compatible.
 - Du2013_neural is generated from Du2013_neural.cellml (.txt in repo to avoid compilation conflicts). This file has certain parameters annotated as modifiable-parameters, derived-output or special Chaste-recognised parameters (eg V_m, C_m, i_Ca). Parameters match Imtiaz2002d_noTStart.cellml
 
