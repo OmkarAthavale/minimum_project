@@ -100,7 +100,7 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // Define boundary nodes as bath
     double eleIdentify = 0;
-    for (DistributedTetrahedralMesh<2,2>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
+    for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
       if (eleIdentify == 1) // ICC=1 and Bath=0
