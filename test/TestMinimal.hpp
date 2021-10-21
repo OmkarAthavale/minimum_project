@@ -81,7 +81,7 @@ class TestMinimal : public CxxTest::TestSuite
 
     // Mesh location
     std::string mesh_dir = "projects/mesh/ICC2D/" + mesh_ident;
-    TrianglesMeshReader<2,2> mesh_reader(mesh_dir.c_str());
+    TrianglesMeshReader<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
     std::set<unsigned> iccNodes;
