@@ -76,7 +76,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-3DSerial";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 10000.0;      // ms
+    double duration = 5000.0;      // ms
     double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
