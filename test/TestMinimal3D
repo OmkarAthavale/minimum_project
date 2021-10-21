@@ -1,8 +1,8 @@
-#ifndef TESTMINIMAL_HPP_
-#define TESTMINIMAL_HPP_
+#ifndef TESTMINIMAL3D_HPP_
+#define TESTMINIMAL3D_HPP_
 
-#define PROBLEM_SPACE_DIM 2
-#define PROBLEM_ELEMENT_DIM 2
+#define PROBLEM_SPACE_DIM 3
+#define PROBLEM_ELEMENT_DIM 3
 /**
  * @file
  * This test runs a minimal simulation with Simplified Imtiaz cells in a 2D mesh
@@ -66,21 +66,21 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
   };
 };
 
-class TestMinimal : public CxxTest::TestSuite
+class TestMinimal3D : public CxxTest::TestSuite
 {
   public:
   void TestMinimalSimulation()
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
-    std::string output_dir = mesh_ident + "-2DSerial";
+    std::string mesh_ident = "rat_ventCorpus";
+    std::string output_dir = mesh_ident + "-3DSerial";
     double duration = 10000.0;      // ms
     double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
-    std::string mesh_dir = "projects/mesh/ICC2D/" + mesh_ident;
+    std::string mesh_dir = "projects/mesh/ICC3D/" + mesh_ident;
     TrianglesMeshReader<2,2> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
@@ -92,7 +92,7 @@ class TestMinimal : public CxxTest::TestSuite
     std::set<unsigned> ICC_id;
     ICC_id.insert(1);
     std::set<unsigned> bath_id;
-    bath_id.insert(0);
+    bath_id.insert(2);
 
     // Construct ICC mesh network from mesh file
     mesh.ConstructFromMeshReader(mesh_reader);
@@ -147,8 +147,8 @@ class TestMinimal : public CxxTest::TestSuite
     HeartConfig::Instance()->SetOutputDirectory(output_dir.c_str());
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
     HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.12, 0.12)); // these are quite smaller than cm values
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.2, 0.2)); // these are quite smaller than cm values
+    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.12, 0.12, 0.12)); // these are quite smaller than cm values
+    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.2, 0.2, 0.2)); // these are quite smaller than cm values
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
     HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);
