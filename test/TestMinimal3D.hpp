@@ -105,7 +105,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
-      if (eleIdentify == 1) // ICC=1 and Bath=2
+      if (eleIdentify == icc_attr) // ICC=1 and Bath=2
       {
         for(int j = 0; j<=3; ++j)
         {
