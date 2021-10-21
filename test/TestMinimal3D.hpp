@@ -103,20 +103,11 @@ class TestMinimal3D : public CxxTest::TestSuite
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
-      if (eleIdentify == 1) // ICC=1 and Bath=0
+      if (eleIdentify == 1) // ICC=1 and Bath=2
       {
-        if(!iter->GetNode(0)->IsBoundaryNode())
+        for(int j = 0; j<=3; ++j)
         {
-          iccNodes.insert(iter->GetNodeGlobalIndex(0));
-        }
-        if(!iter->GetNode(1)->IsBoundaryNode())
-        {
-          iccNodes.insert(iter->GetNodeGlobalIndex(1));
-        }
-        // 2D has two nodes per element for line elements?
-        if(!iter->GetNode(2)->IsBoundaryNode())
-        {
-          iccNodes.insert(iter->GetNodeGlobalIndex(2));
+            iccNodes.insert(iter->GetNodeGlobalIndex(j));
         }
       }
     }
