@@ -1,1 +1,2 @@
 TestMinimal.hpp
+TestMinimal3D.hpp
