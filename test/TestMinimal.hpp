@@ -75,6 +75,8 @@ class TestMinimal : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
     std::string output_dir = mesh_ident + "-2DSerial";
+    unsigned bath_attr = 0;
+    unsigned icc_attr = 1;
     double duration = 10000.0;      // ms
     double print_step = 100.0;        // ms
     // ---------------------------------------- //
@@ -90,9 +92,9 @@ class TestMinimal : public CxxTest::TestSuite
 
     // Cell labels
     std::set<unsigned> ICC_id;
-    ICC_id.insert(1);
+    ICC_id.insert(icc_attr);
     std::set<unsigned> bath_id;
-    bath_id.insert(0);
+    bath_id.insert(bath_attr);
 
     // Construct ICC mesh network from mesh file
     mesh.ConstructFromMeshReader(mesh_reader);
