@@ -79,7 +79,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-3DChkpt";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 2000.0;      // ms
+    double duration = 90000.0;      // ms
     double print_step = 1000.0;        // ms
     // ---------------------------------------- //
 
@@ -170,8 +170,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_ventCorpus";
     std::string output_dir = mesh_ident + "-3DChkpt";
-    double added_duration = 2000.0;      // ms
-    double print_step = 1000.0;              //ms
+    double added_duration = 30000.0;      // ms
+    double print_step = 100.0;              //ms
     // ---------------------------------------- //
 
     BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(output_dir + "/checkpoint_problem");
