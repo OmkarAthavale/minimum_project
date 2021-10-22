@@ -1,2 +1,3 @@
 TestMinimal.hpp
 TestMinimal3D.hpp
+TestMinimal3DRestart.hpp
