@@ -76,7 +76,7 @@ class TestMinimal : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
-    std::string output_dir = mesh_ident + "-2DSerial";
+    std::string output_dir = mesh_ident + "-2DChkpt";
     unsigned bath_attr = 0;
     unsigned icc_attr = 1;
     double duration = 10000.0;      // ms
@@ -178,11 +178,11 @@ class TestMinimal : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
-    std::string output_dir = mesh_ident + "-2DSerial";
+    std::string output_dir = mesh_ident + "-2DChkpt";
     double added_duration = 10000.0;      // ms
     // ---------------------------------------- //
 
-    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load("MeshNetwork-2D-85Nodes-144Elems-2DSerial/checkpoint_problem");
+    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(output_dir + "checkpoint_problem");
 
     HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
 
