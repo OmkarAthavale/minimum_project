@@ -1,15 +1,19 @@
 # minimum_project
 This project uses a small 2D mesh to check the computation of slow wave electrophysiology in simplified Imtiaz ICC models (Du et al., 2013, PMID: 24111242)
 
-You now simply click the big green "Use this template" button to use a copy of this repository as the basis of your own new repository under your github username/organisation (this 'template' status avoids complications with forks all being linked back to this repo).
+## Milestones (branch)
+For 2D and 3D meshes.
 
-Alternatively, if you aren't a github user, you can download a zip (see Releases button) and start your own repository with that.
+1) Simplified Imtiaz model (master)
+2) With checkpointing (chkpt)
+3) With neural data (inp_neural)
+4) With checkpointing and neural data (neural_chkpt)
 
 ## Progress
 |***Passing TestMinimal for milestone number***|Series|Parallel|
 |--|--|--|
 |Laptop|1<sub>2D</sub>, 2<sub>2D</sub>||
-|HPC|1<sub>2D</sub>, 2<sub>2D</sub>|1<sub>2D</sub>, 2<sub>2D</sub>|
+|HPC|1<sub>2D</sub>, 2<sub>2D</sub>|1<sub>2D,3D</sub>, 2<sub>2D</sub>|
 
 ## Planned neural input implementation
 This approach can avoid issues with additional functions in derived cell classes and serialisation issues with the neural data. Should be able to serialise the singleton ParamConfig class separate from the Chaste checkpoint BidomainProblem function.

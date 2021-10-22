@@ -1,8 +1,8 @@
-#ifndef TESTMINIMAL_HPP_
-#define TESTMINIMAL_HPP_
+#ifndef TESTMINIMAL3D_HPP_
+#define TESTMINIMAL3D_HPP_
 
-#define PROBLEM_SPACE_DIM 2
-#define PROBLEM_ELEMENT_DIM 2
+#define PROBLEM_SPACE_DIM 3
+#define PROBLEM_ELEMENT_DIM 3
 /**
  * @file
  * This test runs a minimal simulation with Simplified Imtiaz cells in a 2D mesh
@@ -27,9 +27,6 @@
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
 
-#include "../src/CardiacSimulationArchiverNeural.hpp"
-
-
 #include "PetscSetupAndFinalize.hpp"
 
 class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
@@ -46,8 +43,8 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
   {
     unsigned index = pNode->GetIndex();
 
-    ChastePoint<PROBLEM_SPACE_DIM> centre(0.02,0.04);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.01,0.03);
+    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6,-1.1,-3.1);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3,0.3, 0.3);
     ChasteEllipsoid<PROBLEM_SPACE_DIM> pacemaker(centre, radii);
     
     if(setICCNode.find(index) != setICCNode.end())
@@ -56,7 +53,7 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
       
       if (pacemaker.DoesContain(pNode->GetPoint()))
       {
-        cell->SetParameter("correction", 1.05);
+        cell->SetParameter("correction", 1.4);
       }
 
       return cell;
@@ -68,23 +65,23 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
   };
 };
 
-class TestMinimal : public CxxTest::TestSuite
+class TestMinimal3D : public CxxTest::TestSuite
 {
   public:
   void TestMinimalSimulation()
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
-    std::string output_dir = mesh_ident + "-2DSerial";
-    unsigned bath_attr = 0;
-    unsigned icc_attr = 1;
-    double duration = 10000.0;      // ms
+    std::string mesh_ident = "rat_ventCorpus";
+    std::string output_dir = mesh_ident + "-3DSerial";
+    unsigned bath_attr = 1;
+    unsigned icc_attr = 2;
+    double duration = 5000.0;      // ms
     double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
-    std::string mesh_dir = "projects/mesh/ICC2D/" + mesh_ident;
+    std::string mesh_dir = "projects/mesh/ICC3D/" + mesh_ident;
     TrianglesMeshReader<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
@@ -107,20 +104,11 @@ class TestMinimal : public CxxTest::TestSuite
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
-      if (eleIdentify == icc_attr) // ICC=1 and Bath=0
+      if (eleIdentify == icc_attr) // ICC=1 and Bath=2
       {
-        if(!iter->GetNode(0)->IsBoundaryNode())
+        for(int j = 0; j<=3; ++j)
         {
-          iccNodes.insert(iter->GetNodeGlobalIndex(0));
-        }
-        if(!iter->GetNode(1)->IsBoundaryNode())
-        {
-          iccNodes.insert(iter->GetNodeGlobalIndex(1));
-        }
-        // 2D has two nodes per element for line elements?
-        if(!iter->GetNode(2)->IsBoundaryNode())
-        {
-          iccNodes.insert(iter->GetNodeGlobalIndex(2));
+            iccNodes.insert(iter->GetNodeGlobalIndex(j));
         }
       }
     }
@@ -151,8 +139,8 @@ class TestMinimal : public CxxTest::TestSuite
     HeartConfig::Instance()->SetOutputDirectory(output_dir.c_str());
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
     HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.12, 0.12)); // these are quite smaller than cm values
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.2, 0.2)); // these are quite smaller than cm values
+    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.12, 0.12, 0.12)); // these are quite smaller than cm values
+    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.2, 0.2, 0.2)); // these are quite smaller than cm values
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
     HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);
@@ -166,30 +154,9 @@ class TestMinimal : public CxxTest::TestSuite
     // Solve problem
     bidomain_problem.Solve();
 
-    CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
-
     // Print summary to terminal
     HeartEventHandler::Headings();
     HeartEventHandler::Report();
-  };
-
-  void TestRestarting()
-  {
-
-    // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
-    std::string output_dir = mesh_ident + "-2DSerial";
-    double added_duration = 10000.0;      // ms
-    // ---------------------------------------- //
-
-    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load("MeshNetwork-2D-85Nodes-144Elems-2DSerial/checkpoint_problem");
-
-    HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
-
-    p_bidomain_problem->Solve();
-
-    delete p_bidomain_problem;
-
   };
 
 };
