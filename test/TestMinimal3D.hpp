@@ -43,8 +43,8 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
   {
     unsigned index = pNode->GetIndex();
 
-    ChastePoint<PROBLEM_SPACE_DIM> centre(0.02,0.04);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.01,0.03);
+    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6,-1.1,-3.1);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3,0.3, 0.3);
     ChasteEllipsoid<PROBLEM_SPACE_DIM> pacemaker(centre, radii);
     
     if(setICCNode.find(index) != setICCNode.end())
@@ -53,7 +53,7 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
       
       if (pacemaker.DoesContain(pNode->GetPoint()))
       {
-        cell->SetParameter("correction", 1.05);
+        cell->SetParameter("correction", 1.4);
       }
 
       return cell;
