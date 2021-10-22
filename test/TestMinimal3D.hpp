@@ -27,6 +27,9 @@
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
 
+#include "../src/CardiacSimulationArchiverNeural.hpp"
+
+
 #include "PetscSetupAndFinalize.hpp"
 
 class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
@@ -73,11 +76,11 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_ventCorpus";
-    std::string output_dir = mesh_ident + "-3DSerial";
+    std::string output_dir = mesh_ident + "-3DChkpt";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 5000.0;      // ms
-    double print_step = 100.0;        // ms
+    double duration = 2000.0;      // ms
+    double print_step = 1000.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -104,7 +107,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
-      if (eleIdentify == icc_attr) // ICC=1 and Bath=2
+      if (eleIdentify == icc_attr) // ICC=2 and Bath=1
       {
         for(int j = 0; j<=3; ++j)
         {
@@ -154,9 +157,31 @@ class TestMinimal3D : public CxxTest::TestSuite
     // Solve problem
     bidomain_problem.Solve();
 
+    CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
+
     // Print summary to terminal
     HeartEventHandler::Headings();
     HeartEventHandler::Report();
+  };
+
+  void TestRestarting()
+  {
+
+    // -------------- OPTIONS ----------------- //
+    std::string mesh_ident = "rat_ventCorpus";
+    std::string output_dir = mesh_ident + "-3DChkpt";
+    double added_duration = 2000.0;      // ms
+    double print_step = 1000;              //ms
+    // ---------------------------------------- //
+
+    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(output_dir + "checkpoint_problem");
+
+    HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
+    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.1, print_step);
+    p_bidomain_problem->Solve();
+
+    delete p_bidomain_problem;
+
   };
 
 };
