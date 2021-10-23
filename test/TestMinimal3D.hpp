@@ -15,13 +15,9 @@
 
 #include "Debug.hpp"
 
-#include "ChasteEllipsoid.hpp"
 #include "ChastePoint.hpp"
+#include "../src/ICCFactory3D.hpp"
 
-#include "../src/DummyDerivedCa.hpp"
-#include "../src/Du2013_neural.hpp"
-
-#include "AbstractCardiacCellFactory.hpp"
 #include "../src/BidomainProblemNeural.hpp"
 
 #include "DistributedTetrahedralMesh.hpp"
@@ -32,41 +28,41 @@
 
 #include "PetscSetupAndFinalize.hpp"
 
-class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
-{
-  private:
-  std::set<unsigned> setICCNode;
+// class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
+// {
+//   private:
+//   std::set<unsigned> setICCNode;
 
-  public:
-  ICCFactory(std::set<unsigned> iccNodes) : AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>(), setICCNode(iccNodes)
-  {
-  };
+//   public:
+//   ICCFactory(std::set<unsigned> iccNodes) : AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>(), setICCNode(iccNodes)
+//   {
+//   };
 
-  AbstractCardiacCell* CreateCardiacCellForTissueNode(Node<PROBLEM_SPACE_DIM>* pNode)
-  {
-    unsigned index = pNode->GetIndex();
+//   AbstractCardiacCell* CreateCardiacCellForTissueNode(Node<PROBLEM_SPACE_DIM>* pNode)
+//   {
+//     unsigned index = pNode->GetIndex();
 
-    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6,-1.1,-3.1);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3,0.3, 0.3);
-    ChasteEllipsoid<PROBLEM_SPACE_DIM> pacemaker(centre, radii);
+//     ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6,-1.1,-3.1);
+//     ChastePoint<PROBLEM_SPACE_DIM> radii (0.3,0.3, 0.3);
+//     ChasteEllipsoid<PROBLEM_SPACE_DIM> pacemaker(centre, radii);
     
-    if(setICCNode.find(index) != setICCNode.end())
-    {
-      CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(mpSolver, mpZeroStimulus);
+//     if(setICCNode.find(index) != setICCNode.end())
+//     {
+//       CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(mpSolver, mpZeroStimulus);
       
-      if (pacemaker.DoesContain(pNode->GetPoint()))
-      {
-        cell->SetParameter("correction", 1.4);
-      }
+//       if (pacemaker.DoesContain(pNode->GetPoint()))
+//       {
+//         cell->SetParameter("correction", 1.4);
+//       }
 
-      return cell;
+//       return cell;
 
-    }
+//     }
 
-    return new DummyDerivedCa(mpSolver, mpZeroStimulus);
+//     return new DummyDerivedCa(mpSolver, mpZeroStimulus);
 
-  };
-};
+//   };
+// };
 
 class TestMinimal3D : public CxxTest::TestSuite
 {
@@ -79,8 +75,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-3DChkpt";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 90000.0;      // ms
-    double print_step = 1000.0;        // ms
+    double duration = 50.0;      // ms
+    double print_step = 10.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -130,9 +126,12 @@ class TestMinimal3D : public CxxTest::TestSuite
     // ParamConfig::SetInputTimestep(stepInMillisec)
 
 
+    // Set pacemaker location
+    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6,-1.1,-3.1);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3,0.3, 0.3);
 
     // Initialise problem with cells
-    ICCFactory network_cells(iccNodes);
+    ICCFactory3D network_cells(iccNodes, &centre, &radii);
     BidomainProblemNeural<PROBLEM_SPACE_DIM> bidomain_problem(&network_cells, true);
     bidomain_problem.SetMesh( &mesh );
 
@@ -170,8 +169,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_ventCorpus";
     std::string output_dir = mesh_ident + "-3DChkpt";
-    double added_duration = 30000.0;      // ms
-    double print_step = 100.0;              //ms
+    double added_duration = 50.0;      // ms
+    double print_step = 10.0;              //ms
     // ---------------------------------------- //
 
     BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(output_dir + "/checkpoint_problem");
