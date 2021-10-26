@@ -51,11 +51,11 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
     {
       CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(mpSolver, mpZeroStimulus);
       
+      TRACE(pNode->GetPoint()[0] << ", " << pNode->GetPoint()[1] << ", " << pNode->GetPoint()[2]);
       if (pacemaker.DoesContain(pNode->GetPoint()))
       {
-        TRACE("changed");
         cell->SetParameter("correction", 1.4);
-      } else { TRACE("not changed");}
+      }
 
       return cell;
 
