@@ -43,8 +43,8 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
   {
     unsigned index = pNode->GetIndex();
 
-    ChastePoint<PROBLEM_SPACE_DIM> centre(-6,-11,-31);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (3, 3, 3);
+    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6,-1.1,-3.1);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3, 0.3, 0.3);
     ChasteEllipsoid<PROBLEM_SPACE_DIM> pacemaker(centre, radii);
     
     if(setICCNode.find(index) != setICCNode.end())
@@ -54,9 +54,7 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
       TRACE(pNode->GetPoint()[0] << ", " << pNode->GetPoint()[1] << ", " << pNode->GetPoint()[2]);
       if (pacemaker.DoesContain(pNode->GetPoint()))
       {
-        double scalingVal = sqrt(pow((pNode->GetPoint()[0] + 6),2)+pow((pNode->GetPoint()[1] + 11),2) + pow((pNode->GetPoint()[2] + 31),2))/20.0;
-        TRACE(scalingVal);
-        cell->SetParameter("correction", 1.6-0.6*scalingVal);
+        cell->SetParameter("correction", 1.6);
       }
 
       return cell;
@@ -75,12 +73,12 @@ class TestMinimal3D : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "rat_ventCorpus";
+    std::string mesh_ident = "stom_bath_mm";
     std::string output_dir = mesh_ident + "-3DSerial";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 30000.0;      // ms
-    double print_step = 50.0;        // ms
+    double duration = 5000.0;      // ms
+    double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
