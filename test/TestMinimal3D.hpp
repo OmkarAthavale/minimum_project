@@ -79,8 +79,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-3DSerial";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 2000.0;      // ms
-    double print_step = 100.0;        // ms
+    double duration = 30000.0;      // ms
+    double print_step = 50.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -100,6 +100,7 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // Construct ICC mesh network from mesh file
     mesh.ConstructFromMeshReader(mesh_reader);
+    
     nElements = mesh.GetNumLocalElements();
 
     // Define boundary nodes as bath
