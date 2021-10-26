@@ -55,6 +55,7 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
       if (pacemaker.DoesContain(pNode->GetPoint()))
       {
         double scalingVal = sqrt(pow((pNode->GetPoint()[0] + 6),2)+pow((pNode->GetPoint()[1] + 11),2) + pow((pNode->GetPoint()[2] + 31),2))/20.0;
+        TRACE(scalingVal);
         cell->SetParameter("correction", 1.6-0.6*scalingVal);
       }
 
