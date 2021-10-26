@@ -43,8 +43,8 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
   {
     unsigned index = pNode->GetIndex();
 
-    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6,-1.1,-3.1);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3,0.3, 0.3);
+    ChastePoint<PROBLEM_SPACE_DIM> centre(-6,-11,-31);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (3, 3, 3);
     ChasteEllipsoid<PROBLEM_SPACE_DIM> pacemaker(centre, radii);
     
     if(setICCNode.find(index) != setICCNode.end())
