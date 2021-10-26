@@ -77,7 +77,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
     double duration = 5000.0;      // ms
-    double print_step = 100.0;        // ms
+    double print_step = 50.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -139,8 +139,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetOutputDirectory(output_dir.c_str());
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
     HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.12, 0.12, 0.12)); // these are quite smaller than cm values
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.2, 0.2, 0.2)); // these are quite smaller than cm values
+    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.000005, 0.005, 0.075)); // these are quite smaller than cm values
+    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.000005, 0.005, 0.075)); // these are quite smaller than cm values
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
     HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);
