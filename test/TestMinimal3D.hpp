@@ -53,8 +53,9 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
       
       if (pacemaker.DoesContain(pNode->GetPoint()))
       {
+        TRACE("changed");
         cell->SetParameter("correction", 1.4);
-      }
+      } else { TRACE("not changed");}
 
       return cell;
 
@@ -76,7 +77,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-3DSerial";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 5000.0;      // ms
+    double duration = 3000.0;      // ms
     double print_step = 50.0;        // ms
     // ---------------------------------------- //
 
