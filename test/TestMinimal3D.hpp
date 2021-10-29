@@ -142,7 +142,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
     HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
     HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(1.0, 1.0, 1.0));
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(1.0, 1.0, 1.0));
+    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.001, 0.001, 0.001));
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
     HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);
