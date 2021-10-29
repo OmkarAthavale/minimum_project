@@ -32,20 +32,23 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
 {
   public:
   
-  void TestRestarting()
+  void TestRestarting() throw(Exception)
   {
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "stom_bath_cm";
-    std::string output_dir = mesh_ident + "-3DSerial";
+    std::string chkpt_dir = mesh_ident + "-3DChkpt";
     double added_duration = 50.0;      // ms
     double print_step = 10.0;        // ms
+    std::string output_dir = chkpt_dir + "_res" + "_test";
     // ---------------------------------------- //
 
-    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(output_dir + "/checkpoint_problem");
+    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
 
     HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.1, print_step);
+    HeartConfig::Instance()->SetOutputDirectory(output_dir);
+
     p_bidomain_problem->Solve();
 
     delete p_bidomain_problem;
