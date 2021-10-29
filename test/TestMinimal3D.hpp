@@ -50,7 +50,8 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
     if(setICCNode.find(index) != setICCNode.end())
     {
       CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(mpSolver, mpZeroStimulus);
-      
+      double distance = norm_2(pNode->GetPoint()->rGetLocation()-centre);
+      TRACE(distance);
       if (pacemaker.DoesContain(pNode->GetPoint()))
       {
         cell->SetParameter("correction", 1.1);
@@ -140,8 +141,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetOutputDirectory(output_dir.c_str());
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
     HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
+    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(1.0, 1.0, 1.0));
+    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(1.0, 1.0, 1.0));
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
     HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);
