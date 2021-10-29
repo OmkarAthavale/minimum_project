@@ -12,7 +12,7 @@ For 2D and 3D meshes.
 ## Progress
 |***Passing TestMinimal for milestone number***|Series|Parallel|
 |--|--|--|
-|Laptop|1<sub>2D</sub>, 2<sub>2D</sub>||
+|Laptop|1<sub>2D,3D</sub>, 2<sub>2D,3D</sub>||
 |HPC|1<sub>2D</sub>, 2<sub>2D</sub>|1<sub>2D,3D</sub>, 2<sub>2D,3D</sub>|
 
 ## Planned neural input implementation
