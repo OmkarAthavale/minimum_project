@@ -25,8 +25,8 @@ class CellDu2013_neuralFromCellML : public AbstractCardiacCell
     template<class Archive>
     void serialize(Archive & archive, const unsigned int version)
     {
+        TRACE("called serialize cell");
         archive & boost::serialization::base_object<AbstractCardiacCell >(*this);
-            TRACE("completed serialize cell");
         
     }
 
@@ -58,23 +58,23 @@ namespace boost
         inline void save_construct_data(
             Archive & ar, const CellDu2013_neuralFromCellML * t, const unsigned int fileVersion)
         {
+            TRACE("called save cell");
             const boost::shared_ptr<AbstractIvpOdeSolver> p_solver = t->GetSolver();
             const boost::shared_ptr<AbstractStimulusFunction> p_stimulus = t->GetStimulusFunction();
             ar << p_solver;
             ar << p_stimulus;
-            TRACE("completed save cell");
         }
 
         template<class Archive>
         inline void load_construct_data(
             Archive & ar, CellDu2013_neuralFromCellML * t, const unsigned int fileVersion)
         {
+            TRACE("called load cell");
             boost::shared_ptr<AbstractIvpOdeSolver> p_solver;
             boost::shared_ptr<AbstractStimulusFunction> p_stimulus;
             ar >> p_solver;
             ar >> p_stimulus;
             ::new(t)CellDu2013_neuralFromCellML(p_solver, p_stimulus);
-            TRACE("completed load cell");
         }
 
     }
