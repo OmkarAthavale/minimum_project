@@ -15,56 +15,18 @@
 
 #include "Debug.hpp"
 
-#include "ChasteEllipsoid.hpp"
 #include "ChastePoint.hpp"
+#include "../src/ICCFactory3D.hpp"
 
-#include "../src/DummyDerivedCa.hpp"
-#include "../src/Du2013_neural.hpp"
-
-#include "AbstractCardiacCellFactory.hpp"
 #include "../src/BidomainProblemNeural.hpp"
 
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
 
+#include "../src/CardiacSimulationArchiverNeural.hpp"
+
+
 #include "PetscSetupAndFinalize.hpp"
-
-class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
-{
-  private:
-  std::set<unsigned> setICCNode;
-
-  public:
-  ICCFactory(std::set<unsigned> iccNodes) : AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>(), setICCNode(iccNodes)
-  {
-  };
-
-  AbstractCardiacCell* CreateCardiacCellForTissueNode(Node<PROBLEM_SPACE_DIM>* pNode)
-  {
-    unsigned index = pNode->GetIndex();
-
-    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6,-1.1,-3.1);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3, 0.3, 0.3);
-    ChasteEllipsoid<PROBLEM_SPACE_DIM> pacemaker(centre, radii);
-    
-    if(setICCNode.find(index) != setICCNode.end())
-    {
-      CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(mpSolver, mpZeroStimulus);
-      double distance = norm_2(pNode->GetPoint().rGetLocation()-centre.rGetLocation());
-      TRACE(distance);
-      if (pacemaker.DoesContain(pNode->GetPoint()))
-      {
-        cell->SetParameter("correction", 1.15);
-      }
-
-      return cell;
-
-    }
-
-    return new DummyDerivedCa(mpSolver, mpZeroStimulus);
-
-  };
-};
 
 class TestMinimal3D : public CxxTest::TestSuite
 {
@@ -106,7 +68,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
-      if (eleIdentify == icc_attr) // ICC=1 and Bath=2
+      if (eleIdentify == icc_attr) // ICC=2 and Bath=1
       {
         for(int j = 0; j<=3; ++j)
         {
@@ -129,9 +91,12 @@ class TestMinimal3D : public CxxTest::TestSuite
     // ParamConfig::SetInputTimestep(stepInMillisec)
 
 
+    // Set pacemaker location
+    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6, -1.1, -3.1);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3, 0.3, 0.3);
 
     // Initialise problem with cells
-    ICCFactory network_cells(iccNodes);
+    ICCFactory3D network_cells(iccNodes, &centre, &radii);
     BidomainProblemNeural<PROBLEM_SPACE_DIM> bidomain_problem(&network_cells, true);
     bidomain_problem.SetMesh( &mesh );
 
@@ -156,11 +121,12 @@ class TestMinimal3D : public CxxTest::TestSuite
     // Solve problem
     bidomain_problem.Solve();
 
+    CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
+
     // Print summary to terminal
     HeartEventHandler::Headings();
     HeartEventHandler::Report();
   };
-
 };
 
 #endif /*TESTMINIMAL_HPP_*/
