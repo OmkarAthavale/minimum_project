@@ -13,7 +13,7 @@ AbstractCardiacCell* ICCFactory3D::CreateCardiacCellForTissueNode(Node<PROBLEM_S
     
     if (pacemaker.DoesContain(pNode->GetPoint()))
     {
-      cell->SetParameter("correction", 1.4);
+      cell->SetParameter("correction", 1.15);
     }
 
     return cell;

@@ -71,8 +71,8 @@ class TestMinimal3D : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "rat_ventCorpus";
-    std::string output_dir = mesh_ident + "-3DChkpt";
+    std::string mesh_ident = "stom_bath_cm";
+    std::string output_dir = mesh_ident + "-3DSerial";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
     double duration = 50.0;      // ms
@@ -127,8 +127,8 @@ class TestMinimal3D : public CxxTest::TestSuite
 
 
     // Set pacemaker location
-    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6,-1.1,-3.1);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3,0.3, 0.3);
+    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6, -1.1, -3.1);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3, 0.3, 0.3);
 
     // Initialise problem with cells
     ICCFactory3D network_cells(iccNodes, &centre, &radii);
@@ -141,8 +141,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetOutputDirectory(output_dir.c_str());
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
     HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.000005, 0.005, 0.075)); // these are quite smaller than cm values
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.000005, 0.005, 0.075)); // these are quite smaller than cm values
+    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
+    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.000005, 0.005, 0.075));
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
     HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);
@@ -167,10 +167,10 @@ class TestMinimal3D : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "rat_ventCorpus";
-    std::string output_dir = mesh_ident + "-3DChkpt";
-    double added_duration = 50.0;      // ms
-    double print_step = 10.0;              //ms
+    std::string mesh_ident = "stom_bath_cm";
+    std::string output_dir = mesh_ident + "-3DSerial";
+    double duration = 50.0;      // ms
+    double print_step = 10.0;        // ms
     // ---------------------------------------- //
 
     BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(output_dir + "/checkpoint_problem");
