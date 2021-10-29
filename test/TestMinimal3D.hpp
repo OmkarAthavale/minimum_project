@@ -169,7 +169,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "stom_bath_cm";
     std::string output_dir = mesh_ident + "-3DSerial";
-    double duration = 50.0;      // ms
+    double added_duration = 50.0;      // ms
     double print_step = 10.0;        // ms
     // ---------------------------------------- //
 
