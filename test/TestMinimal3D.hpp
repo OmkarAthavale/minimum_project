@@ -50,7 +50,7 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
     if(setICCNode.find(index) != setICCNode.end())
     {
       CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(mpSolver, mpZeroStimulus);
-      double distance = norm_2(pNode->GetPoint().rGetLocation()-centre);
+      double distance = norm_2(pNode->GetPoint().rGetLocation()-centre.rGetLocation());
       TRACE(distance);
       if (pacemaker.DoesContain(pNode->GetPoint()))
       {
