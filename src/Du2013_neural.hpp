@@ -17,7 +17,6 @@
 #include <boost/serialization/base_object.hpp>
 #include "AbstractStimulusFunction.hpp"
 #include "AbstractCardiacCell.hpp"
-#include "Debug.hpp"
 
 class CellDu2013_neuralFromCellML : public AbstractCardiacCell
 {
@@ -25,7 +24,6 @@ class CellDu2013_neuralFromCellML : public AbstractCardiacCell
     template<class Archive>
     void serialize(Archive & archive, const unsigned int version)
     {
-        TRACE("called serialize cell");
         archive & boost::serialization::base_object<AbstractCardiacCell >(*this);
         
     }
@@ -58,7 +56,6 @@ namespace boost
         inline void save_construct_data(
             Archive & ar, const CellDu2013_neuralFromCellML * t, const unsigned int fileVersion)
         {
-            TRACE("called save cell");
             const boost::shared_ptr<AbstractIvpOdeSolver> p_solver = t->GetSolver();
             const boost::shared_ptr<AbstractStimulusFunction> p_stimulus = t->GetStimulusFunction();
             ar << p_solver;
@@ -69,7 +66,6 @@ namespace boost
         inline void load_construct_data(
             Archive & ar, CellDu2013_neuralFromCellML * t, const unsigned int fileVersion)
         {
-            TRACE("called load cell");
             boost::shared_ptr<AbstractIvpOdeSolver> p_solver;
             boost::shared_ptr<AbstractStimulusFunction> p_stimulus;
             ar >> p_solver;
