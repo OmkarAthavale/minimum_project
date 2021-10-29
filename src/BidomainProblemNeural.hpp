@@ -42,6 +42,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "BidomainProblem.hpp"
 #include "AbstractCardiacCellFactory.hpp"
+#include "Debug.hpp"
 
 /**
  * Class which specifies and solves a bidomain problem.
@@ -66,6 +67,7 @@ class BidomainProblemNeural : public BidomainProblem<DIM>
     void serialize(Archive & archive, const unsigned int version)
     {
         archive & boost::serialization::base_object< BidomainProblem<DIM> >(*this);
+        TRACE("completed serialize problem");
     }
 public:
     /**
