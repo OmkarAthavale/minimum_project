@@ -96,7 +96,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     ChastePoint<PROBLEM_SPACE_DIM> radii (0.3, 0.3, 0.3);
 
     // Initialise problem with cells
-    ICCFactory network_cells(iccNodes, &centre, &radii);
+    ICCFactory<3> network_cells(iccNodes, &centre, &radii);
     BidomainProblemNeural<PROBLEM_SPACE_DIM> bidomain_problem(&network_cells, true);
     bidomain_problem.SetMesh( &mesh );
 
