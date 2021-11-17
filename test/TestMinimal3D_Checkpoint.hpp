@@ -23,6 +23,8 @@
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
 
+#include "../src/CardiacSimulationArchiverNeural.hpp"
+
 
 #include "PetscSetupAndFinalize.hpp"
 
@@ -118,6 +120,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     TRACE("Starting Solve");
     // Solve problem
     bidomain_problem.Solve();
+
+    CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
 
     // Print summary to terminal
     HeartEventHandler::Headings();
