@@ -16,7 +16,7 @@
 #include "Debug.hpp"
 
 #include "ChastePoint.hpp"
-#include "../src/ICCFactory3D.hpp"
+#include "../src/ICCFactory.hpp"
 
 #include "../src/BidomainProblemNeural.hpp"
 
@@ -32,7 +32,7 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
 {
   public:
   
-  void TestRestarting_bathCondInc() throw(Exception)
+  void TestRestarting() throw(Exception)
   {
 
     // -------------- OPTIONS ----------------- //
@@ -45,34 +45,11 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
 
     BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
 
-    HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
+    // Heart config changes
     HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
     HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.0005, 0.5, 7.5));
-    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.1, print_step);
-    HeartConfig::Instance()->SetOutputDirectory(output_dir);
-
-    p_bidomain_problem->Solve();
-
-    delete p_bidomain_problem;
-
-  };
-
-    void TestRestarting_bathCondDec() throw(Exception)
-  {
-
-    // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "stom_bath_cm";
-    std::string chkpt_dir = mesh_ident + "-3DcorrectionPM";
-    double added_duration = 60000.0;      // ms
-    double print_step = 1000.0;        // ms
-    std::string output_dir = chkpt_dir + "_res" + "_bathCondDec";
-    // ---------------------------------------- //
-
-    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
-
+    
     HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.000005, 0.005, 0.075));
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.1, print_step);
     HeartConfig::Instance()->SetOutputDirectory(output_dir);
 
@@ -81,7 +58,6 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
     delete p_bidomain_problem;
 
   };
-
   
 };
 
