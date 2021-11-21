@@ -71,7 +71,7 @@ class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
 class TestMinimal : public CxxTest::TestSuite
 {
   public:
-  void TestMinimalSimulation()
+  void TestMinimalSimulation() throw(Exception)
   {
 
     // -------------- OPTIONS ----------------- //
@@ -162,17 +162,17 @@ class TestMinimal : public CxxTest::TestSuite
 
     // Update problem from config
     bidomain_problem.SetWriteInfo();
-    bidomain_problem.Initialise();    // resets initial conditions and time to 0.0 ms
+    // bidomain_problem.Initialise();    // resets initial conditions and time to 0.0 ms
 
-    TRACE("Starting Solve");
-    // Solve problem
-    bidomain_problem.Solve();
+    // TRACE("Starting Solve");
+    // // Solve problem
+    // bidomain_problem.Solve();
 
-    // CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
+    // // CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
 
-    // Print summary to terminal
-    HeartEventHandler::Headings();
-    HeartEventHandler::Report();
+    // // Print summary to terminal
+    // HeartEventHandler::Headings();
+    // HeartEventHandler::Report();
   };
 
   // void xTestRestarting()
