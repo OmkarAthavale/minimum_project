@@ -28,7 +28,7 @@
 #include "TrianglesMeshReader.hpp"
 
 #include "../src/CardiacSimulationArchiverNeural.hpp"
-
+#include "../src/ParamConfig.hpp"
 
 #include "PetscSetupAndFinalize.hpp"
 
