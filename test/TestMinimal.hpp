@@ -175,24 +175,24 @@ class TestMinimal : public CxxTest::TestSuite
     HeartEventHandler::Report();
   };
 
-  void xTestRestarting()
-  {
+  // void xTestRestarting()
+  // {
 
-    // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
-    std::string output_dir = mesh_ident + "-2DChkpt";
-    double added_duration = 10000.0;      // ms
-    // ---------------------------------------- //
+  //   // -------------- OPTIONS ----------------- //
+  //   std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
+  //   std::string output_dir = mesh_ident + "-2DChkpt";
+  //   double added_duration = 10000.0;      // ms
+  //   // ---------------------------------------- //
 
-    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(output_dir + "checkpoint_problem");
+  //   BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(output_dir + "checkpoint_problem");
 
-    HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
+  //   HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
 
-    p_bidomain_problem->Solve();
+  //   p_bidomain_problem->Solve();
 
-    delete p_bidomain_problem;
+  //   delete p_bidomain_problem;
 
-  };
+  // };
 
 };
 
