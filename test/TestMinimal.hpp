@@ -162,7 +162,7 @@ class TestMinimal : public CxxTest::TestSuite
 
     // Update problem from config
     bidomain_problem.SetWriteInfo();
-    // bidomain_problem.Initialise();    // resets initial conditions and time to 0.0 ms
+    bidomain_problem.Initialise();    // resets initial conditions and time to 0.0 ms
 
     // TRACE("Starting Solve");
     // // Solve problem
