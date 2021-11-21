@@ -76,10 +76,10 @@ class TestMinimal : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
-    std::string output_dir = mesh_ident + "-2DChkpt";
+    std::string output_dir = mesh_ident + "-2DParamConfig";
     unsigned bath_attr = 0;
     unsigned icc_attr = 1;
-    double duration = 10000.0;      // ms
+    double duration = 25000.0;      // ms
     double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
@@ -137,8 +137,10 @@ class TestMinimal : public CxxTest::TestSuite
     // ParamConfig::SetInhibitory("path/to/preprocessed_i.txt");
     // ParamConfig::SetupInfluenceRegionGrid(width, length, width_bins, length_bins)
     // ParamConfig::SetInputTimestep(stepInMillisec)
-
-
+    ParamConfig::InitInstance("projects/NeuralData/testData.txt");
+    // ParamConfig::CreateGriddedControlRegions(0.0, 2.0, 20, 0.0, 3.0, 30);
+    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 0.055, 3, 0.0, 0.055, 3);
+    ParamConfig::GetInstance()->MapNodeToControl(mesh);
 
     // Initialise problem with cells
     ICCFactory network_cells(iccNodes);
@@ -173,7 +175,7 @@ class TestMinimal : public CxxTest::TestSuite
     HeartEventHandler::Report();
   };
 
-  void TestRestarting()
+  void xTestRestarting()
   {
 
     // -------------- OPTIONS ----------------- //

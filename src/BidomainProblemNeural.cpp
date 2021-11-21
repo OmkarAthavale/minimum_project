@@ -64,11 +64,16 @@ void BidomainProblemNeural<DIM>::AtBeginningOfTimestep(double time)
   // -- Where parameters are changed in a region: for cells in region, set respective parameters to new value
   // ---- Call a function of ParamConfig that returns a vector of objects
   // ---- where each object has (int globalIndex, std::string paramNameString, double paramValue)
-/*
-  std::vector< customStruct > update_list(ParamConfig::GetUpdateList(double time));
-  for each row in update_list
-    GetBidomainTissue->GetCardiacCell(row.globalIndex)->SetParameter(row.paramName, row.paramValue)
-*/
+
+  std::vector<NeuralChangeSet> changeNodes;
+  ParamConfig::GetInstance()->GetUpdateList(time, changeNodes);
+
+  std::vector<NeuralChangeSet>::iterator row;
+
+  for(row = changeNodes.begin(); row != changeNodes.end(); row++){
+    this->GetBidomainTissue()->GetCardiacCell(row->globalIndex)->SetParameter(row->paramName, row->paramValue);
+  }
+
 }
 
 

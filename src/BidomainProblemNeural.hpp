@@ -42,6 +42,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "BidomainProblem.hpp"
 #include "AbstractCardiacCellFactory.hpp"
+#include "ParamConfig.hpp"
 
 /**
  * Class which specifies and solves a bidomain problem.
