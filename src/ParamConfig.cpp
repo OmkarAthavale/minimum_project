@@ -1,52 +1,65 @@
 
 #include "../src/ParamConfig.hpp"
 #include "Debug.hpp"
+
+// Function from https://stackoverflow.com/a/236803 26 Nov 2021
+void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<unsigned > > result) {
+    std::istringstream iss(s);
+    std::string item;
+    while (std::getline(iss, item, delim)) {
+        *result++ = std::stoi(item);
+    }
+}
+
+void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<double > > result) {
+    std::istringstream iss(s);
+    std::string item;
+    while (std::getline(iss, item, delim)) {
+        *result++ = std::stod(item);
+    }
+}
+
+void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<std::string > > result) {
+    std::istringstream iss(s);
+    std::string item;
+    while (std::getline(iss, item, delim)) {
+        *result++ = item;
+    }
+}
+
+
 TidyNeuralData::TidyNeuralData(std::string dataFile){
+
+    // Read input file
     std::ifstream in(dataFile.c_str());
-
-
-    // if (in.is_open()) {
-    //     // print file:
-    //     char c = in.get();
-    //     while (in.good()) {
-    //     TRACE(c);
-    //     c = in.get();
-    //     }
-    // }
-    // else {
-    //     // show message:
-    //     TRACE("Error opening file");
-    // }
-
     std::string line;
-    std::string::size_type sz;     // alias of size_t
 
+    // ----- Parse input file: Four rows of single space separated elements -----
     // Row of times
     std::getline(in,line);       
     TRACE(line);
-    times.push_back(std::stod(line,&sz));
+    split(line, ' ', std::back_inserter(times));
+    for (std::vector<double >::iterator i = times.begin(); i != times.end(); ++i) cout << *i << ", \n";
 
     // Row of control regions
     std::getline(in,line);       
     TRACE(line);
-    ctrlRegions.push_back(std::stoi(line,&sz));
+    split(line, ' ', std::back_inserter(ctrlRegions));
+    for (std::vector<unsigned >::iterator i = ctrlRegions.begin(); i != ctrlRegions.end(); ++i) cout << *i << ", \n";
 
     // Row of parameter names
     std::getline(in,line); 
     TRACE(line);
-    std::stringstream ss(line);
-    std::string item;
-
-    while (getline (ss, item, ' ')) {
-        paramNames.push_back (item);
-        TRACE(item);
-    }
+    split(line, ' ', std::back_inserter(paramNames));
+    for (std::vector<std::string >::iterator i = paramNames.begin(); i != paramNames.end(); ++i) cout << *i << ", \n";
 
     // Row of parameter values
     std::getline(in,line);       
     TRACE(line);
-    paramVals.push_back(std::stod(line,&sz));
+    split(line, ' ', std::back_inserter(paramVals));
+    for (std::vector<double >::iterator i = paramVals.begin(); i != paramVals.end(); ++i) cout << *i << ", \n";
 
+    maxLength = times.size();
 }
 
 
@@ -106,7 +119,7 @@ void ParamConfig::MapNodeToControl(DistributedTetrahedralMesh<2,2>& mesh){
 
 void ParamConfig::GetUpdateList(double time, std::vector<NeuralChangeSet> changeNodes){
 
-    while (time >= nextChangeTime){
+    while (!NData.neural_end && time >= nextChangeTime){
         unsigned ctrlReg = NData.GetCtrlReg();
 
         std::vector<unsigned>::iterator it;
@@ -126,8 +139,15 @@ ParamConfig::ParamConfig(std::string NdataLoc):NData(NdataLoc){
 }
 
 double TidyNeuralData::NextTime(){
-    currIndex++;
-    return times[currIndex];
+
+    if (currIndex < (maxLength - 1)) {
+        currIndex++;
+        return times[currIndex];
+    } else {
+        neural_end = true;
+        return 0.0;
+    }
+    
 }
 
 int TidyNeuralData::GetCtrlReg(){

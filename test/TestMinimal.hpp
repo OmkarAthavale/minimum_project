@@ -164,15 +164,15 @@ class TestMinimal : public CxxTest::TestSuite
     bidomain_problem.SetWriteInfo();
     bidomain_problem.Initialise();    // resets initial conditions and time to 0.0 ms
 
-    // TRACE("Starting Solve");
-    // // Solve problem
-    // bidomain_problem.Solve();
+    TRACE("Starting Solve");
+    // Solve problem
+    bidomain_problem.Solve();
 
     // // CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
 
-    // // Print summary to terminal
-    // HeartEventHandler::Headings();
-    // HeartEventHandler::Report();
+    // Print summary to terminal
+    HeartEventHandler::Headings();
+    HeartEventHandler::Report();
   };
 
   // void xTestRestarting()

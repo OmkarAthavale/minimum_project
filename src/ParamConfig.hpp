@@ -15,14 +15,19 @@
 #include "DistributedTetrahedralMesh.hpp"
 #include "ChasteSerialization.hpp"
 
+void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<unsigned > > result);
+void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<double > > result);
+void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<std::string > > result);
+
 class TidyNeuralData
 {
     private:
     std::vector< double > times;
-    std::vector< int > ctrlRegions;
+    std::vector< unsigned > ctrlRegions;
     std::vector< std::string > paramNames;
     std::vector< double > paramVals;
     unsigned currIndex = -1;
+    std::size_t maxLength;
 
     public:
     TidyNeuralData(std::string dataFile);
@@ -30,6 +35,8 @@ class TidyNeuralData
     int GetCtrlReg();
     std::string GetParamName();
     double GetParamVal();
+
+    bool neural_end = false;
 };
 
 struct NeuralChangeSet
