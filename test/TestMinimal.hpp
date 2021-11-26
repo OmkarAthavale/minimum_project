@@ -130,15 +130,8 @@ class TestMinimal : public CxxTest::TestSuite
     TRACE("Number of ICC nodes: " << iccNodes.size());
     TRACE("Total number of nodes: " << mesh.GetNumAllNodes());
 
-    // TODO: Load neural info and set up ParamConfig singleton instance
-    // NeuralData eData = NeuralData("projects/NeuralData/T1_e.txt", 1, 2, 3, 0.12, 0.36); // this will be a pre-processed (in Python) table instead of a histogram
-    // maybe possible to call Python pre-processor on the fly at runtime (future work)
-    // ParamConfig::SetExcitatory("path/to/preprocessed_e.txt");
-    // ParamConfig::SetInhibitory("path/to/preprocessed_i.txt");
-    // ParamConfig::SetupInfluenceRegionGrid(width, length, width_bins, length_bins)
-    // ParamConfig::SetInputTimestep(stepInMillisec)
+    // Loads neural info and set up ParamConfig singleton instance
     ParamConfig::InitInstance("projects/NeuralData/testData.txt");
-    // ParamConfig::CreateGriddedControlRegions(0.0, 2.0, 20, 0.0, 3.0, 30);
     ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 0.055, 3, 0.0, 0.055, 3);
     ParamConfig::GetInstance()->MapNodeToControl(mesh);
 
