@@ -77,7 +77,11 @@ ParamConfig* ParamConfig::InitInstance(std::string NdataLoc)
 
 ParamConfig* ParamConfig::GetInstance()
 {
-    return instance;
+    if (instance == 0) {
+        return NULL;
+    } else {
+        return instance;
+    }
 }
 
 void ParamConfig::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y){
