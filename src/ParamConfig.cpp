@@ -105,7 +105,7 @@ void ParamConfig::CreateGriddedControlRegions(double lb_x, double ub_x, int bins
 
 void ParamConfig::MapNodeToControl(DistributedTetrahedralMesh<2,2>& mesh){
     
-    for (unsigned i=0; i<keyNum; ++i){
+    for (unsigned i=1; i<=keyNum; ++i){
         std::vector<unsigned> nodes;
         for (DistributedTetrahedralMesh<2,2>::NodeIterator iter = mesh.GetNodeIteratorBegin(); iter != mesh.GetNodeIteratorEnd(); ++iter){
             if (ctrlRegionDefn.find(i)!=ctrlRegionDefn.end() && ctrlRegionDefn.find(i)->second.DoesContain(iter->GetPoint())){
