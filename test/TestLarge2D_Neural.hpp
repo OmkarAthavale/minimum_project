@@ -23,13 +23,15 @@
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
 
+#include "../src/CardiacSimulationArchiverNeural.hpp"
+
 
 #include "PetscSetupAndFinalize.hpp"
 
 class TestMinimal3D : public CxxTest::TestSuite
 {
   public:
-  void TestMinimalSimulation()
+  void TestMinimalSimulation() throw (Exception)
   {
 
     // -------------- OPTIONS ----------------- //
@@ -37,8 +39,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-2D_Large_Neural";
     unsigned bath_attr = 0;
     unsigned icc_attr = 1;
-    double duration = 20000.0;      // ms
-    double print_step = 50.0;        // ms
+    double duration = 60000.0;      // ms
+    double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -60,7 +62,6 @@ class TestMinimal3D : public CxxTest::TestSuite
     mesh.ConstructFromMeshReader(mesh_reader);
     
     nElements = mesh.GetNumLocalElements();
-
     // Define boundary nodes as bath
     double eleIdentify = 0;
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
@@ -68,9 +69,18 @@ class TestMinimal3D : public CxxTest::TestSuite
       eleIdentify = iter->GetAttribute();
       if (eleIdentify == icc_attr) 
       {
-        for(int j = 0; j<=3; ++j)
+        if(!iter->GetNode(0)->IsBoundaryNode())
         {
-            iccNodes.insert(iter->GetNodeGlobalIndex(j));
+          iccNodes.insert(iter->GetNodeGlobalIndex(0));
+        }
+        if(!iter->GetNode(1)->IsBoundaryNode())
+        {
+          iccNodes.insert(iter->GetNodeGlobalIndex(1));
+        }
+        // 2D has two nodes per element for line elements?
+        if(!iter->GetNode(2)->IsBoundaryNode())
+        {
+          iccNodes.insert(iter->GetNodeGlobalIndex(2));
         }
       }
     }
@@ -81,8 +91,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     TRACE("Total number of nodes: " << mesh.GetNumAllNodes());
 
     // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig::InitInstance("projects/NeuralData/2DLarge.txt");
-    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 2.0, 20, 0.0, 3.0, 30);
+    ParamConfig::InitInstance("projects/NeuralData/large2D_test.txt");
+    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 2.0, 1, 0.0, 3.0, 3);
     ParamConfig::GetInstance()->MapNodeToControl(mesh);
 
 
@@ -91,7 +101,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     ChastePoint<PROBLEM_SPACE_DIM> vertex2 (2.0, 0.8);
 
     // Initialise problem with cells
-    ICCFactory<PROBLEM_SPACE_DIM> network_cells(iccNodes, &vertex1, &vertex2);
+    ICCFactory_Large2D_Neural<PROBLEM_SPACE_DIM> network_cells(iccNodes, &vertex1, &vertex2);
     BidomainProblemNeural<PROBLEM_SPACE_DIM> bidomain_problem(&network_cells, true);
     bidomain_problem.SetMesh( &mesh );
 
@@ -115,6 +125,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     TRACE("Starting Solve");
     // Solve problem
     bidomain_problem.Solve();
+
+    CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
 
     // Print summary to terminal
     HeartEventHandler::Headings();
