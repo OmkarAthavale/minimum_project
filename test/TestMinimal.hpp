@@ -133,7 +133,7 @@ class TestMinimal : public CxxTest::TestSuite
     // Loads neural info and set up ParamConfig singleton instance
     ParamConfig::InitInstance("projects/NeuralData/testData.txt");
     ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 0.055, 3, 0.0, 0.055, 3);
-    ParamConfig::GetInstance()->MapNodeToControl(mesh);
+    ParamConfig::GetInstance()->MapNodeToControl(&mesh);
 
     // Initialise problem with cells
     ICCFactory network_cells(iccNodes);

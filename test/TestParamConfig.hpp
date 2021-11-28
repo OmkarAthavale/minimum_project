@@ -82,7 +82,7 @@ class TestMinimal : public CxxTest::TestSuite
     ParamConfig::InitInstance("projects/NeuralData/testData.txt");
     // ParamConfig::CreateGriddedControlRegions(0.0, 2.0, 20, 0.0, 3.0, 30);
     ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 0.055, 3, 0.0, 0.055, 3);
-    ParamConfig::GetInstance()->MapNodeToControl(mesh);
+    ParamConfig::GetInstance()->MapNodeToControl(&mesh);
   };
 
 };
