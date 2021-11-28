@@ -93,7 +93,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     // Loads neural info and set up ParamConfig singleton instance
     ParamConfig::InitInstance("projects/NeuralData/large2D_test.txt");
     ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 2.0, 1, 0.0, 3.0, 3);
-    ParamConfig::GetInstance()->MapNodeToControl(mesh);
+    ParamConfig::GetInstance()->MapNodeToControl(&mesh);
 
 
     // Set pacemaker location
