@@ -5,3 +5,4 @@ TestMinimal3D_Checkpoint.hpp
 TestLarge2D_Base.hpp
 TestLarge2D_Neural.hpp
 TestParamConfig.hpp
+TestLarge2D_Restart_Neural.hpp
