@@ -45,7 +45,7 @@ class TestLarge2D_Restart_Neural : public CxxTest::TestSuite
     BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
 
     // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig::InitInstance("projects/NeuralData/proc_chaste_seq_wcb_1.txt");
+    ParamConfig::InitInstance("projects/NeuralData/proc_chaste_seq_movmean_wcb_1.txt");
     ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 2.0, 20, 0.0, 3.0, 30);
     ParamConfig::GetInstance()->MapNodeToControl(&(p_bidomain_problem->rGetMesh()));
 
