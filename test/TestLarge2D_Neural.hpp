@@ -91,8 +91,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     TRACE("Total number of nodes: " << mesh.GetNumAllNodes());
 
     // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig::InitInstance("projects/NeuralData/proc_chaste_seq_movmean_wcb_1.txt");
-    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 2.0, 20, 0.0, 3.0, 30);
+    ParamConfig::InitInstance("projects/NeuralData/testShort_2DLarge.txt.txt");
+    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.5, 1.5, 2, 1.5, 2.5, 2);
     ParamConfig::GetInstance()->MapNodeToControl(&mesh);
 
 
