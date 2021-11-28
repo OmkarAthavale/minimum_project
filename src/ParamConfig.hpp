@@ -9,7 +9,7 @@
 #include <unordered_map>
 #include <utility>
 
-
+#include "../src/NeuralComponents.hpp"
 #include "ChasteCuboid.hpp"
 #include "ChastePoint.hpp"
 #include "DistributedTetrahedralMesh.hpp"

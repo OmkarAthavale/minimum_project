@@ -13,8 +13,8 @@ double CalibrationFunctions::Beta_Zhang2011(double f_EFS)
     double a = 0.000756965785697425;
     double b = 0.0001;
     
-    double toHz = 500.0 * 0.001;
-    double endings_per_ICC = 0.04;
+    double toHz = 1;
+    double endings_per_ICC = 1;
 
     double eval_val = a * f_EFS * toHz * endings_per_ICC + b;
 
@@ -37,8 +37,8 @@ double CalibrationFunctions::GBKmax_Kim2003(double f_EFS)
     double c = 1.00016775704983;
     double d = 0.0285035244071441;
 
-    double toHz = 500.0 * 0.01;
-    double endings_per_ICC = 0.04;
+    double toHz = 1;
+    double endings_per_ICC = 1;
 
     double eval_val = a*exp(b * f_EFS * toHz * endings_per_ICC) + c*exp(d * f_EFS * toHz * endings_per_ICC);
 
