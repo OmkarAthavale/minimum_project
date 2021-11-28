@@ -30,7 +30,7 @@ void split(const std::string &s, char delim, std::back_insert_iterator<std::vect
 
 TidyNeuralData::TidyNeuralData(std::string dataFile){
 
-    bool debugRead = false;
+    bool debugRead = true;
 
     // Read input file
     std::ifstream in(dataFile.c_str());
