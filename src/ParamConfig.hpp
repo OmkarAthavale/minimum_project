@@ -26,12 +26,13 @@ class TidyNeuralData
     std::vector< unsigned > ctrlRegions;
     std::vector< std::string > paramNames;
     std::vector< double > paramVals;
-    unsigned currIndex = -1;
+    unsigned currIndex = 0;
     std::size_t maxLength;
 
     public:
     TidyNeuralData(std::string dataFile);
     double NextTime();
+    double GetInitTime();
     int GetCtrlReg();
     std::string GetParamName();
     double GetParamVal();

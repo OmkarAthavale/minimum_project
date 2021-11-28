@@ -124,7 +124,7 @@ void ParamConfig::MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh){
 }
 
 void ParamConfig::GetUpdateList(double time, std::vector<NeuralChangeSet> changeNodes){
-
+    
     while (!NData.neural_end && time >= nextChangeTime){
         unsigned ctrlReg = NData.GetCtrlReg();
 
@@ -141,7 +141,7 @@ void ParamConfig::GetUpdateList(double time, std::vector<NeuralChangeSet> change
 }
 
 ParamConfig::ParamConfig(std::string NdataLoc):NData(NdataLoc){
-    nextChangeTime = NData.NextTime();
+    nextChangeTime = NData.GetInitTime();
 }
 
 double TidyNeuralData::NextTime(){
@@ -154,6 +154,10 @@ double TidyNeuralData::NextTime(){
         return 0.0;
     }
     
+}
+
+double TidyNeuralData::GetInitTime(){
+    return times[currIndex];
 }
 
 int TidyNeuralData::GetCtrlReg(){
