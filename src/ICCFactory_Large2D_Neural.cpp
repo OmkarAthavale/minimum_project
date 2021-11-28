@@ -17,7 +17,7 @@ AbstractCardiacCell* ICCFactory_Large2D_Neural<DIM>::CreateCardiacCellForTissueN
       cell->SetParameter("correction", 0.0);
     }
 
-    bool excitabilityGradient = false;
+    bool excitabilityGradient = true;
     if (excitabilityGradient) {
       double x = pNode->GetPoint()[0];
       double y = pNode->GetPoint()[1];

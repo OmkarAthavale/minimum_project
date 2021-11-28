@@ -36,10 +36,10 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "MeshNetwork-2D-2147Nodes-4160Elems";
-    std::string output_dir = mesh_ident + "-2D_Large_Neural_test";
+    std::string output_dir = mesh_ident + "-2D_Large_Neural_WCB";
     unsigned bath_attr = 0;
     unsigned icc_attr = 1;
-    double duration = 20000.0;      // ms
+    double duration = 240000.0;      // ms
     double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
@@ -91,8 +91,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     TRACE("Total number of nodes: " << mesh.GetNumAllNodes());
 
     // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig::InitInstance("projects/NeuralData/testShort_2DLarge.txt");
-    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.5, 1.5, 2, 1.5, 2.5, 2);
+    ParamConfig::InitInstance("projects/NeuralData/proc_chaste_seq_movmean_wcb_1.txt");
+    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 2.0, 20, 0.0, 3.0, 30);
     ParamConfig::GetInstance()->MapNodeToControl(&mesh);
 
 
