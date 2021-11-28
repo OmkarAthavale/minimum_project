@@ -65,7 +65,7 @@ class ParamConfig
     static ParamConfig* GetInstance();
 
     void CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y);
-    void MapNodeToControl(DistributedTetrahedralMesh<2,2>& mesh);
+    void MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh);
     void GetUpdateList(double time, std::vector<NeuralChangeSet> changeNodes);
 
 };

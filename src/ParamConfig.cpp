@@ -30,6 +30,8 @@ void split(const std::string &s, char delim, std::back_insert_iterator<std::vect
 
 TidyNeuralData::TidyNeuralData(std::string dataFile){
 
+    bool debugRead = false;
+
     // Read input file
     std::ifstream in(dataFile.c_str());
     std::string line;
@@ -37,27 +39,27 @@ TidyNeuralData::TidyNeuralData(std::string dataFile){
     // ----- Parse input file: Four rows of single space separated elements -----
     // Row of times
     std::getline(in,line);       
-    TRACE(line);
+    if (debugRead) {TRACE(line)};
     split(line, ' ', std::back_inserter(times));
-    for (std::vector<double >::iterator i = times.begin(); i != times.end(); ++i) cout << *i << ", \n";
+    if (debugRead) for (std::vector<double >::iterator i = times.begin(); i != times.end(); ++i) cout << *i << ", \n";
 
     // Row of control regions
     std::getline(in,line);       
-    TRACE(line);
+    if (debugRead) {TRACE(line)};
     split(line, ' ', std::back_inserter(ctrlRegions));
-    for (std::vector<unsigned >::iterator i = ctrlRegions.begin(); i != ctrlRegions.end(); ++i) cout << *i << ", \n";
+    if (debugRead) for (std::vector<unsigned >::iterator i = ctrlRegions.begin(); i != ctrlRegions.end(); ++i) cout << *i << ", \n";
 
     // Row of parameter names
     std::getline(in,line); 
-    TRACE(line);
+    if (debugRead) {TRACE(line)};
     split(line, ' ', std::back_inserter(paramNames));
-    for (std::vector<std::string >::iterator i = paramNames.begin(); i != paramNames.end(); ++i) cout << *i << ", \n";
+    if (debugRead) for (std::vector<std::string >::iterator i = paramNames.begin(); i != paramNames.end(); ++i) cout << *i << ", \n";
 
     // Row of parameter values
     std::getline(in,line);       
-    TRACE(line);
+    if (debugRead) {TRACE(line)};
     split(line, ' ', std::back_inserter(paramVals));
-    for (std::vector<double >::iterator i = paramVals.begin(); i != paramVals.end(); ++i) cout << *i << ", \n";
+    if (debugRead) for (std::vector<double >::iterator i = paramVals.begin(); i != paramVals.end(); ++i) cout << *i << ", \n";
 
     maxLength = times.size();
 }
@@ -103,11 +105,11 @@ void ParamConfig::CreateGriddedControlRegions(double lb_x, double ub_x, int bins
     }
 }
 
-void ParamConfig::MapNodeToControl(DistributedTetrahedralMesh<2,2>& mesh){
+void ParamConfig::MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh){
     
     for (unsigned i=1; i<=keyNum; ++i){
         std::vector<unsigned> nodes;
-        for (DistributedTetrahedralMesh<2,2>::NodeIterator iter = mesh.GetNodeIteratorBegin(); iter != mesh.GetNodeIteratorEnd(); ++iter){
+        for (DistributedTetrahedralMesh<2,2>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
             if (ctrlRegionDefn.find(i)!=ctrlRegionDefn.end() && ctrlRegionDefn.find(i)->second.DoesContain(iter->GetPoint())){
                 nodes.push_back(iter->GetIndex());
             }
