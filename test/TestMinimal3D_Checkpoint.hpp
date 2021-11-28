@@ -35,16 +35,16 @@ class TestMinimal3D : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "stom_bath_cm";
-    std::string output_dir = mesh_ident + "-3DcorrectionPM";
+    std::string mesh_ident = "stom_bath.1";
+    std::string output_dir = mesh_ident + "-thickened";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 90000.0;      // ms
-    double print_step = 3000.0;        // ms
+    double duration = 300.0;      // ms
+    double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
-    std::string mesh_dir = "projects/mesh/ICC3D/" + mesh_ident;
+    std::string mesh_dir = "projects/mesh/adding_bath/" + mesh_ident;
     TrianglesMeshReader<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
@@ -54,7 +54,9 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // Cell labels
     std::set<unsigned> ICC_id;
-    ICC_id.insert(icc_attr);
+    ICC_id.insert(2);
+    ICC_id.insert(3);
+    ICC_id.insert(4);
     std::set<unsigned> bath_id;
     bath_id.insert(bath_attr);
 
@@ -68,7 +70,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
-      if (eleIdentify == icc_attr) // ICC=2 and Bath=1
+      if (eleIdentify >= icc_attr) // ICC=2 and Bath=1
       {
         for(int j = 0; j<=3; ++j)
         {
