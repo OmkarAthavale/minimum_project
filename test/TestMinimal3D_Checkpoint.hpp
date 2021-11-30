@@ -31,7 +31,7 @@
 class TestMinimal3D : public CxxTest::TestSuite
 {
   public:
-  void TestMinimalSimulation()
+  void TestMinimalSimulation() throw (Exception)
   {
 
     // -------------- OPTIONS ----------------- //
@@ -39,7 +39,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-thickened";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 120000.0;      // ms
+    double duration = 15000.0;      // ms
     double print_step = 7500.0;        // ms
     // ---------------------------------------- //
 
