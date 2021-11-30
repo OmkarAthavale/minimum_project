@@ -38,17 +38,15 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "stom_bath.1";
     std::string chkpt_dir = mesh_ident + "-thickened";
-    double added_duration = 30000.0;      // ms
-    double print_step = 100.0;        // ms
-    std::string output_dir = chkpt_dir + "_end150000";
+    double added_duration = 1000.0;      // ms
+    double print_step = 25.0;        // ms
+    std::string output_dir = chkpt_dir + "_end2000";
     // ---------------------------------------- //
 
     BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
 
     // Heart config changes
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.0005, 0.5, 7.5));
-    
+   
     HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.1, print_step);
     HeartConfig::Instance()->SetOutputDirectory(output_dir);
