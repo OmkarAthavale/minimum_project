@@ -36,7 +36,7 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "stom_bath.1";
-    std::string output_dir = mesh_ident + "-thickenedCorDec";
+    std::string output_dir = mesh_ident + "-thickenedModPar";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
     double duration = 1000.0;      // ms
