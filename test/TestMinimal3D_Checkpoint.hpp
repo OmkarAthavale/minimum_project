@@ -36,11 +36,11 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "stom_bath.1";
-    std::string output_dir = mesh_ident + "-thickenedModPar";
+    std::string output_dir = mesh_ident + "-thickened";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 1000.0;      // ms
-    double print_step = 50.0;        // ms
+    double duration = 120000.0;      // ms
+    double print_step = 6000.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -94,8 +94,8 @@ class TestMinimal3D : public CxxTest::TestSuite
 
 
     // Set pacemaker location
-    ChastePoint<PROBLEM_SPACE_DIM> centre(-0.6, -1.1, -3.1);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.3, 0.3, 0.3);
+    ChastePoint<PROBLEM_SPACE_DIM> centre(0.0, -0.9, -3.15);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (1.5, 1.0, 0.3);
 
     // Initialise problem with cells
     ICCFactory<3> network_cells(iccNodes, &centre, &radii);
