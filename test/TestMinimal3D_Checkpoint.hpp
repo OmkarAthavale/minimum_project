@@ -108,12 +108,15 @@ class TestMinimal3D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetOutputDirectory(output_dir.c_str());
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
     HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
+    HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3);
+    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.024, 0.024, 0.024));
+    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.036, 0.036, 0.036));
+    HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3); //Changed to get around the DIVERGED_ITS error default:2e-4
+    HeartConfig::Instance()->SetBathConductivity(0.02); // Bath capacitance
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
-    HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);
-    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.1, print_step);
+    HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);        
+    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 1, print_step); //timesteps: ode, pde, printing
 
     // Update problem from config
     bidomain_problem.SetWriteInfo();
