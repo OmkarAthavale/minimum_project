@@ -37,10 +37,10 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "stom_bath.1";
-    std::string chkpt_dir = mesh_ident + "-thickenedModPar";
-    double added_duration = 2000.0;      // ms
-    double print_step = 50.0;        // ms
-    std::string output_dir = chkpt_dir;// + "_end2000";
+    std::string chkpt_dir = mesh_ident + "-thickened";
+    double added_duration = 30000.0;      // ms
+    double print_step = 100.0;        // ms
+    std::string output_dir = chkpt_dir + "_add30s";
     // ---------------------------------------- //
 
     BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
