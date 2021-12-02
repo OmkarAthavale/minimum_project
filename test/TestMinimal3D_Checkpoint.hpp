@@ -39,8 +39,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-thickened";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 120000.0;      // ms
-    double print_step = 6000.0;        // ms
+    double duration = 18000.0;      // ms
+    double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
