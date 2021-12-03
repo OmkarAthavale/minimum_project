@@ -7,6 +7,7 @@
 #include "AbstractCardiacCellFactory.hpp"
 #include "ChastePoint.hpp"
 #include "ChasteEllipsoid.hpp"
+#include "CorriasBuistICCModified.hpp"
 #include "../src/DummyDerivedCa.hpp"
 #include "../src/Du2013_neural.hpp"
 

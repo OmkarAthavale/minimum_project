@@ -37,7 +37,7 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "stom_bath.1";
-    std::string chkpt_dir = mesh_ident + "-thickened";
+    std::string chkpt_dir = mesh_ident + "-thickenedCB";
     double added_duration = 30000.0;      // ms
     double print_step = 100.0;        // ms
     std::string output_dir = chkpt_dir + "_add30s";
