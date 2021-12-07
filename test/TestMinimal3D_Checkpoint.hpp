@@ -36,7 +36,7 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "stom_bath.1";
-    std::string output_dir = mesh_ident + "-thickenedCB";
+    std::string output_dir = mesh_ident + "-thickenedICC";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
     double duration = 18000.0;      // ms
@@ -44,7 +44,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     // ---------------------------------------- //
 
     // Mesh location
-    std::string mesh_dir = "projects/mesh/adding_bath/" + mesh_ident;
+    std::string mesh_dir = "projects/mesh/thickened_icc/" + mesh_ident;
     TrianglesMeshReader<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
