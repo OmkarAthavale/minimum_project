@@ -11,6 +11,11 @@ AbstractCardiacCell* ICCFactory<DIM>::CreateCardiacCellForTissueNode(Node<DIM>* 
   if(setICCNode.find(index) != setICCNode.end())
   {
     CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(this->mpSolver, this->mpZeroStimulus);
+    
+    if (pacemaker.DoesContain(pNode->GetPoint()))
+    {
+      cell->SetParameter("correction", 1.075);
+    }
 
     return cell;
 
