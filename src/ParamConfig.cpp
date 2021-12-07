@@ -178,3 +178,20 @@ double TidyNeuralData::GetParamVal(){
     }
 }
 
+
+SinusoidalData::SinusoidalData(std::string dataFile) : varName(varName) {
+    bool debugRead = false;
+
+    // Read input file
+    std::ifstream in(dataFile.c_str());
+    std::string line;
+
+    while (std::getline(in, line)) {
+        std::vector<double> rowData;
+        std::vector<SinParamSet> sets;
+        split(line, ' ', std::back_inserter(rowData))
+        inputParams.push_back(SinParamSet(static_cast<unsigned> rowData[0], rowData[1], rowData[2], rowData[3], rowData[4]))
+        
+        if (debugRead) for (std::vector<double >::iterator i = rowData.begin(); i != rowData.end(); ++i) cout << *i << ", \n";
+    }
+}
