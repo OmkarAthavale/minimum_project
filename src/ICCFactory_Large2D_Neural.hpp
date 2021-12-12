@@ -8,7 +8,7 @@
 #include "ChastePoint.hpp"
 #include "ChasteEllipsoid.hpp"
 #include "../src/DummyDerivedCa.hpp"
-#include "../src/Du2013_neural.hpp"
+#include "../src/Du2013_neural_sens.hpp"
 
 template<unsigned DIM>
 class ICCFactory_Large2D_Neural : public AbstractCardiacCellFactory<DIM>

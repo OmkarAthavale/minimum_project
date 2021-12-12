@@ -10,7 +10,7 @@ AbstractCardiacCell* ICCFactory_Large2D_Neural<DIM>::CreateCardiacCellForTissueN
   
   if(setICCNode.find(index) != setICCNode.end())
   {
-    CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(this->mpSolver, this->mpZeroStimulus);
+    CellDu2013_neural_sensFromCellML* cell = new CellDu2013_neural_sensFromCellML(this->mpSolver, this->mpZeroStimulus);
     
     if (fundus.DoesContain(pNode->GetPoint()))
     {
