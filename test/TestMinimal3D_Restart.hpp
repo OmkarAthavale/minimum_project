@@ -38,9 +38,9 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "stom_bath.1";
     std::string chkpt_dir = mesh_ident + "-thickenedICC_monodomain";
-    double added_duration = 30000.0;      // ms
+    double added_duration = 120000.0;      // ms
     double print_step = 100.0;        // ms
-    std::string output_dir = chkpt_dir + "_add30s";
+    std::string output_dir = chkpt_dir + "_add10s";
     // ---------------------------------------- //
 
     MonodomainProblem<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiver< MonodomainProblem<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
