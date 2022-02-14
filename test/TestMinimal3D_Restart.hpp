@@ -23,7 +23,7 @@
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
 
-#include "../src/CardiacSimulationArchiverNeural.hpp"
+#include "../src/CardiacSimulationArchiver.hpp"
 
 
 #include "PetscSetupAndFinalize.hpp"
