@@ -53,7 +53,7 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
 
     p_monodomain_problem->Solve();
 
-    CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(*p_monodomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiver< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(*p_monodomain_problem, output_dir + "/checkpoint_problem");
 
     delete p_monodomain_problem;
 
