@@ -37,10 +37,10 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "stom_bath.1";
-    std::string output_dir = mesh_ident + "-thickenedICC_monodomain";
+    std::string output_dir = mesh_ident + "-thickenedICC_monodomain_long";
     unsigned bath_attr = 1;
     unsigned icc_attr = 2;
-    double duration = 18000.0;      // ms
+    double duration = 360000.0;      // ms
     double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
