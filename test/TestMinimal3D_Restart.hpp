@@ -18,8 +18,8 @@
 #include "ChastePoint.hpp"
 #include "../src/ICCFactory.hpp"
 
-#include "../src/BidomainProblemNeural.hpp"
-
+//#include "../src/BidomainProblemNeural.hpp"
+#include "MonodomainProblem.hpp"
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
 
@@ -43,19 +43,19 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
     std::string output_dir = chkpt_dir + "_add30s";
     // ---------------------------------------- //
 
-    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
+    MonodomainProblem<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
 
     // Heart config changes
    
-    HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
+    HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.1, print_step);
     HeartConfig::Instance()->SetOutputDirectory(output_dir);
 
-    p_bidomain_problem->Solve();
+    p_monodomain_problem->Solve();
 
-    CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(*p_bidomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(*p_monodomain_problem, output_dir + "/checkpoint_problem");
 
-    delete p_bidomain_problem;
+    delete p_monodomain_problem;
 
   };
   

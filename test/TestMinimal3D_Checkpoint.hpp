@@ -18,7 +18,8 @@
 #include "ChastePoint.hpp"
 #include "../src/ICCFactory.hpp"
 
-#include "../src/BidomainProblemNeural.hpp"
+//#include "../src/BidomainProblemNeural.hpp"
+#include "MonodomainProblem.hpp"
 
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
@@ -99,8 +100,8 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // Initialise problem with cells
     ICCFactory<3> network_cells(iccNodes, &centre, &radii);
-    BidomainProblemNeural<PROBLEM_SPACE_DIM> bidomain_problem(&network_cells, true);
-    bidomain_problem.SetMesh( &mesh );
+    MonodomainProblem<PROBLEM_SPACE_DIM> monodomain_problem(&network_cells);
+    monodomain_problem.SetMesh( &mesh );
 
     // Modify simulation config
     HeartConfig::Instance()->Reset();
@@ -110,7 +111,6 @@ class TestMinimal3D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
     HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3);
     HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
     HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3); //Changed to get around the DIVERGED_ITS error default:2e-4
     // HeartConfig::Instance()->SetBathConductivity(0.02); // Bath capacitance
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
@@ -119,14 +119,14 @@ class TestMinimal3D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 1, print_step); //timesteps: ode, pde, printing
 
     // Update problem from config
-    bidomain_problem.SetWriteInfo();
-    bidomain_problem.Initialise();    // resets initial conditions and time to 0.0 ms
+    monodomain_problem.SetWriteInfo();
+    monodomain_problem.Initialise();    // resets initial conditions and time to 0.0 ms
 
     TRACE("Starting Solve");
     // Solve problem
-    bidomain_problem.Solve();
+    monodomain_problem.Solve();
 
-    CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(monodomain_problem, output_dir + "/checkpoint_problem");
 
     // Print summary to terminal
     HeartEventHandler::Headings();
