@@ -40,8 +40,8 @@ class TestMinimal3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-3LayersICCwBath_longTime";
     unsigned bath_attr = 1; // no bath for monodomain
     unsigned icc_attr = 3; // 2=LM, 3=ICC, 4=CM
-    double duration = 360000.0;      // ms
-    double print_step = 100.0;        // ms
+    double duration = 20000.0;      // ms
+    double print_step = 1000.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -54,10 +54,10 @@ class TestMinimal3D : public CxxTest::TestSuite
     DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh;
 
     // Cell labels
-    std::set<unsigned> ICC_id;
-    ICC_id.insert(2);
-    ICC_id.insert(3);
-    ICC_id.insert(4);
+    std::set<unsigned> tissue_id;
+    tissue_id.insert(2);
+    tissue_id.insert(3);
+    tissue_id.insert(4);
     std::set<unsigned> bath_id;
     bath_id.insert(bath_attr);
 
@@ -71,7 +71,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
-      if (eleIdentify >= icc_attr) // ICC=2 and Bath=1
+      if (eleIdentify == icc_attr) // ICC=2 and Bath=1
       {
         for(int j = 0; j<=3; ++j)
         {
@@ -108,7 +108,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetSimulationDuration(duration);
     HeartConfig::Instance()->SetOutputDirectory(output_dir.c_str());
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
-    HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
+    HeartConfig::Instance()->SetTissueAndBathIdentifiers(tissue_id, bath_id);
     HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3);
     HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(1, 1, 1));
     HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3); //Changed to get around the DIVERGED_ITS error default:2e-4
