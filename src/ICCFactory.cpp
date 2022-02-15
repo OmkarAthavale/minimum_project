@@ -30,7 +30,7 @@ AbstractCardiacCell* ICCFactory<DIM>::CreateCardiacCellForTissueNode(Node<DIM>* 
     //   gradVal = 0.93;
     // }
 
-    cell->SetParameter("correction", gradVal);
+    // cell->SetParameter("correction", gradVal);
 
     if (pacemaker.DoesContain(pNode->GetPoint()))
     {
