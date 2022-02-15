@@ -36,16 +36,16 @@ class TestMinimal3D : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "stom_bath.1";
-    std::string output_dir = mesh_ident + "-thickenedICC_monodomain_long";
-    unsigned bath_attr = 1;
+    std::string mesh_ident = "rat_16_16_1_lm_icc_cm_12elems.1";
+    std::string output_dir = mesh_ident + "-3LayersICC_shortTime";
+    unsigned bath_attr = 0; // no bath for monodomain
     unsigned icc_attr = 2;
-    double duration = 360000.0;      // ms
-    double print_step = 100.0;        // ms
+    double duration = 30000.0;      // ms
+    double print_step = 1000.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
-    std::string mesh_dir = "projects/mesh/thickened_icc/" + mesh_ident;
+    std::string mesh_dir = "projects/mesh/cm_icc_lm/" + mesh_ident;
     TrianglesMeshReader<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
@@ -55,9 +55,9 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // Cell labels
     std::set<unsigned> ICC_id;
+    ICC_id.insert(1);
     ICC_id.insert(2);
     ICC_id.insert(3);
-    ICC_id.insert(4);
     std::set<unsigned> bath_id;
     bath_id.insert(bath_attr);
 
