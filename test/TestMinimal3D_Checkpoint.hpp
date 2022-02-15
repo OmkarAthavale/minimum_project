@@ -37,11 +37,11 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_16_16_1_bath_lm_icc_cm_12elems.1";
-    std::string output_dir = mesh_ident + "-3LayersICCwBath_shortTime";
+    std::string output_dir = mesh_ident + "-3LayersICCwBath_longTime";
     unsigned bath_attr = 1; // no bath for monodomain
     unsigned icc_attr = 3; // 2=LM, 3=ICC, 4=CM
-    double duration = 30000.0;      // ms
-    double print_step = 1000.0;        // ms
+    double duration = 360000.0;      // ms
+    double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
