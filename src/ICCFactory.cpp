@@ -13,7 +13,7 @@ AbstractCardiacCell* ICCFactory<DIM>::CreateCardiacCellForTissueNode(Node<DIM>* 
     CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(this->mpSolver, this->mpZeroStimulus);
     
     double xLoc = pNode->GetPoint()[0];
-    double zLoc = pnode->GetPoint()[2];
+    double zLoc = pNode->GetPoint()[2];
 
     double xRef = 0.0;
     double xExt = 0.9;
