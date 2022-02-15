@@ -12,7 +12,7 @@ AbstractCardiacCell* ICCFactory<DIM>::CreateCardiacCellForTissueNode(Node<DIM>* 
   {
     CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(this->mpSolver, this->mpZeroStimulus);
     
-    double xLoc = pnode->GetPoint()[0];
+    double xLoc = pNode->GetPoint()[0];
     double zLoc = pnode->GetPoint()[2];
 
     double xRef = 0.0;
@@ -24,12 +24,12 @@ AbstractCardiacCell* ICCFactory<DIM>::CreateCardiacCellForTissueNode(Node<DIM>* 
     double pkVal = 1.0;
     double minVal = 0.9;
 
-    double gradVal = (1.075 - (1.075-0.85) * fabs(xLoc-xRef)/(xExt-xRef) *  fabs(zLoc-zRef)/(zExt-zRef);
+    double gradVal = pkVal - (pkVal-minVal) * (fabs(xLoc-xRef)/(xExt-xRef) )*  (fabs(zLoc-zRef)/(zExt-zRef));
 
     if (zLoc < -4.7) {
       gradVal = 0.93;
     }
-    
+
     cell->SetParameter("correction", gradVal);
 
     if (pacemaker.DoesContain(pNode->GetPoint()))
