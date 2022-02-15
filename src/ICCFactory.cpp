@@ -41,7 +41,7 @@ AbstractCardiacCell* ICCFactory<DIM>::CreateCardiacCellForTissueNode(Node<DIM>* 
 
   }
 
-  return new DummyDerivedCa(this->mpSolver, this->mpZeroStimulus);
+  return new FakeBathCell(this->mpSolver, this->mpZeroStimulus);
 
 }
 
