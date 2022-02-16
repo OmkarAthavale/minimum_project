@@ -36,16 +36,16 @@ class TestMinimal3D : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "rat_16_16_1_bath_lm_icc_cm_12elems.1";
-    std::string output_dir = mesh_ident + "-1LayerICCwBath_shortTime";
-    unsigned bath_attr = 1; // no bath for monodomain
-    unsigned icc_attr = 3; // 2=LM, 3=ICC, 4=CM
-    double duration = 20000.0;      // ms
-    double print_step = 1000.0;        // ms
+    std::string mesh_ident = "rat_32_32_1_bath_stom_12elems.1";
+    std::string output_dir = mesh_ident + "_longTime";
+    unsigned bath_attr = 2;
+    unsigned icc_attr = 1;
+    double duration = 180000.0;      // ms
+    double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
-    std::string mesh_dir = "projects/mesh/cm_icc_lm_bath/" + mesh_ident;
+    std::string mesh_dir = "projects/mesh/bath_stom/" + mesh_ident;
     TrianglesMeshReader<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
@@ -55,9 +55,7 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // Cell labels
     std::set<unsigned> tissue_id;
-    tissue_id.insert(2);
-    tissue_id.insert(3);
-    tissue_id.insert(4);
+    tissue_id.insert(icc_attr);
     std::set<unsigned> bath_id;
     bath_id.insert(bath_attr);
 
@@ -71,7 +69,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
-      if (eleIdentify == icc_attr) // ICC=2 and Bath=1
+      if (eleIdentify == icc_attr)
       {
         for(int j = 0; j<=3; ++j)
         {
@@ -116,7 +114,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
     HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);        
-    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 1, print_step); //timesteps: ode, pde, printing
+    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step); //timesteps: ode, pde, printing
 
     // Update problem from config
     monodomain_problem.SetWriteInfo();
