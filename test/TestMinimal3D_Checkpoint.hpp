@@ -55,6 +55,7 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // Cell labels
     std::set<unsigned> tissue_id;
+    tissue_id.insert(icc_attr);
     // tissue_id.insert(2);
     // tissue_id.insert(3);
     // tissue_id.insert(4);
