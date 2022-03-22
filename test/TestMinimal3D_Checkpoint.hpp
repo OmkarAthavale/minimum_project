@@ -40,7 +40,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-test0Hz";
     unsigned bath_attr = 0; // no bath for monodomain
     unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM
-    double duration = 20000.0;      // ms
+    double duration = 5000.0;      // ms
     double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
