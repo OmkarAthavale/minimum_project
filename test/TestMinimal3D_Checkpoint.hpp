@@ -36,16 +36,16 @@ class TestMinimal3D : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "rat_16_16_1_bath_lm_icc_cm_12elems.1";
-    std::string output_dir = mesh_ident + "-1LayerICCwBath_shortTime";
-    unsigned bath_attr = 1; // no bath for monodomain
-    unsigned icc_attr = 3; // 2=LM, 3=ICC, 4=CM
+    std::string mesh_ident = "rat_scaffold_section_16_16_2.1";
+    std::string output_dir = mesh_ident + "-test0Hz";
+    unsigned bath_attr = 0; // no bath for monodomain
+    unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM
     double duration = 20000.0;      // ms
-    double print_step = 1000.0;        // ms
+    double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
-    std::string mesh_dir = "projects/mesh/cm_icc_lm_bath/" + mesh_ident;
+    std::string mesh_dir = "projects/mesh/scaffold/" + mesh_ident;
     TrianglesMeshReader<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
@@ -55,9 +55,9 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // Cell labels
     std::set<unsigned> tissue_id;
-    tissue_id.insert(2);
-    tissue_id.insert(3);
-    tissue_id.insert(4);
+    // tissue_id.insert(2);
+    // tissue_id.insert(3);
+    // tissue_id.insert(4);
     std::set<unsigned> bath_id;
     bath_id.insert(bath_attr);
 
