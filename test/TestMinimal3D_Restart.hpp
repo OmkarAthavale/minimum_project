@@ -39,7 +39,7 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_section_16_16_2.1";
     std::string chkpt_dir = mesh_ident + "-test0Hz";
-    double added_duration = 10000.0;      // ms
+    double added_duration = 120000.0;      // ms
     double print_step = 100.0;        // ms
     std::string output_dir = chkpt_dir + "_afterSS";
     // ---------------------------------------- //
