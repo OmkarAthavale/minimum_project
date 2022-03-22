@@ -8,7 +8,7 @@
 #include "ChastePoint.hpp"
 #include "ChasteEllipsoid.hpp"
 #include "../src/DummyDerivedCa.hpp"
-#include "../src/CellDu2013_CalibNeurFromCellML.hpp"
+#include "../src/Du2013_CalibNeur.hpp"
 
 template<unsigned DIM>
 class ICCFactory : public AbstractCardiacCellFactory<DIM>
