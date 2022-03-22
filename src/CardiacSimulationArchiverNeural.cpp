@@ -48,6 +48,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "FileFinder.hpp"
 
 #include "../src/BidomainProblemNeural.hpp"
+#include "MonodomainProblem.hpp"
 
 template<class PROBLEM_CLASS>
 void CardiacSimulationArchiverNeural<PROBLEM_CLASS>::Save(PROBLEM_CLASS& rSimulationToArchive,
@@ -189,3 +190,7 @@ PROBLEM_CLASS* CardiacSimulationArchiverNeural<PROBLEM_CLASS>::Migrate(const Fil
 template class CardiacSimulationArchiverNeural<BidomainProblemNeural<1> >;
 template class CardiacSimulationArchiverNeural<BidomainProblemNeural<2> >;
 template class CardiacSimulationArchiverNeural<BidomainProblemNeural<3> >;
+
+template class CardiacSimulationArchiverNeural<MonodomainProblem<1> >;
+template class CardiacSimulationArchiverNeural<MonodomainProblem<2> >;
+template class CardiacSimulationArchiverNeural<MonodomainProblem<3> >;
