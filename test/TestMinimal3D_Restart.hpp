@@ -18,7 +18,8 @@
 #include "ChastePoint.hpp"
 #include "../src/ICCFactory.hpp"
 
-#include "../src/BidomainProblemNeural.hpp"
+//#include "../src/BidomainProblemNeural.hpp"
+#include "MonodomainProblem.hpp"
 
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
@@ -36,26 +37,24 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "stom_bath.1";
-    std::string chkpt_dir = mesh_ident + "-thickenedICC";
-    double added_duration = 30000.0;      // ms
+    std::string mesh_ident = "rat_scaffold_section_16_16_2.1";
+    std::string chkpt_dir = mesh_ident + "-test0Hz";
+    double added_duration = 120000.0;      // ms
     double print_step = 100.0;        // ms
-    std::string output_dir = chkpt_dir + "_add30s";
+    std::string output_dir = chkpt_dir + "_afterSS";
     // ---------------------------------------- //
-
-    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
-
-    // Heart config changes
-   
-    HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
-    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.1, print_step);
+    
+    MonodomainProblem<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
+    
+    HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
+    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step);
     HeartConfig::Instance()->SetOutputDirectory(output_dir);
 
-    p_bidomain_problem->Solve();
+    p_monodomain_problem->Solve();
 
-    CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(*p_bidomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(*p_monodomain_problem, output_dir + "/checkpoint_problem");
 
-    delete p_bidomain_problem;
+    delete p_monodomain_problem;
 
   };
   

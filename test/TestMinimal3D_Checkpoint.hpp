@@ -18,7 +18,8 @@
 #include "ChastePoint.hpp"
 #include "../src/ICCFactory.hpp"
 
-#include "../src/BidomainProblemNeural.hpp"
+//#include "../src/BidomainProblemNeural.hpp"
+#include "MonodomainProblem.hpp"
 
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
@@ -35,16 +36,16 @@ class TestMinimal3D : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "stom_bath.1";
-    std::string output_dir = mesh_ident + "-thickenedICC";
-    unsigned bath_attr = 1;
-    unsigned icc_attr = 2;
-    double duration = 18000.0;      // ms
-    double print_step = 100.0;        // ms
+    std::string mesh_ident = "rat_scaffold_section_16_16_2.1";
+    std::string output_dir = mesh_ident + "-test0Hz";
+    unsigned bath_attr = 0; // no bath for monodomain
+    unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM
+    double duration =  300000.0;      // ms
+    double print_step = 10000.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
-    std::string mesh_dir = "projects/mesh/thickened_icc/" + mesh_ident;
+    std::string mesh_dir = "projects/mesh/scaffold/" + mesh_ident;
     TrianglesMeshReader<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
@@ -53,10 +54,11 @@ class TestMinimal3D : public CxxTest::TestSuite
     DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh;
 
     // Cell labels
-    std::set<unsigned> ICC_id;
-    ICC_id.insert(2);
-    ICC_id.insert(3);
-    ICC_id.insert(4);
+    std::set<unsigned> tissue_id;
+    tissue_id.insert(icc_attr);
+    // tissue_id.insert(2);
+    // tissue_id.insert(3);
+    // tissue_id.insert(4);
     std::set<unsigned> bath_id;
     bath_id.insert(bath_attr);
 
@@ -70,7 +72,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
-      if (eleIdentify >= icc_attr) // ICC=2 and Bath=1
+      if (eleIdentify == icc_attr)
       {
         for(int j = 0; j<=3; ++j)
         {
@@ -99,34 +101,33 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // Initialise problem with cells
     ICCFactory<3> network_cells(iccNodes, &centre, &radii);
-    BidomainProblemNeural<PROBLEM_SPACE_DIM> bidomain_problem(&network_cells, true);
-    bidomain_problem.SetMesh( &mesh );
+    MonodomainProblem<PROBLEM_SPACE_DIM> monodomain_problem(&network_cells);
+    monodomain_problem.SetMesh( &mesh );
 
     // Modify simulation config
     HeartConfig::Instance()->Reset();
     HeartConfig::Instance()->SetSimulationDuration(duration);
     HeartConfig::Instance()->SetOutputDirectory(output_dir.c_str());
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
-    HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
+    // HeartConfig::Instance()->SetTissueAndBathIdentifiers(tissue_id, bath_id);
     HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3);
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.00005, 0.05, 0.75));
+    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(1, 1, 1));
     HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3); //Changed to get around the DIVERGED_ITS error default:2e-4
     // HeartConfig::Instance()->SetBathConductivity(0.02); // Bath capacitance
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
     HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);        
-    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 1, print_step); //timesteps: ode, pde, printing
+    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step); //timesteps: ode, pde, printing
 
     // Update problem from config
-    bidomain_problem.SetWriteInfo();
-    bidomain_problem.Initialise();    // resets initial conditions and time to 0.0 ms
+    monodomain_problem.SetWriteInfo();
+    monodomain_problem.Initialise();    // resets initial conditions and time to 0.0 ms
 
     TRACE("Starting Solve");
     // Solve problem
-    bidomain_problem.Solve();
+    monodomain_problem.Solve();
 
-    CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(monodomain_problem, output_dir + "/checkpoint_problem");
 
     // Print summary to terminal
     HeartEventHandler::Headings();
