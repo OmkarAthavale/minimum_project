@@ -109,7 +109,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetSimulationDuration(duration);
     HeartConfig::Instance()->SetOutputDirectory(output_dir.c_str());
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
-    HeartConfig::Instance()->SetTissueAndBathIdentifiers(tissue_id, bath_id);
+    // HeartConfig::Instance()->SetTissueAndBathIdentifiers(tissue_id, bath_id);
     HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3);
     HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(1, 1, 1));
     HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3); //Changed to get around the DIVERGED_ITS error default:2e-4
