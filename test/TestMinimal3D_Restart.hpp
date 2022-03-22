@@ -36,11 +36,11 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "stom_bath.1";
-    std::string chkpt_dir = mesh_ident + "-thickenedICC_monodomain";
-    double added_duration = 120000.0;      // ms
+    std::string mesh_ident = "rat_scaffold_section_16_16_2.1";
+    std::string chkpt_dir = mesh_ident + "-test0Hz";
+    double added_duration = 10000.0;      // ms
     double print_step = 100.0;        // ms
-    std::string output_dir = chkpt_dir + "_add10s";
+    std::string output_dir = chkpt_dir + "_afterSS";
     // ---------------------------------------- //
 
     MonodomainProblem<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiver< MonodomainProblem<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
@@ -48,7 +48,7 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
     // Heart config changes
    
     HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
-    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.1, print_step);
+    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step);
     HeartConfig::Instance()->SetOutputDirectory(output_dir);
 
     p_monodomain_problem->Solve();
