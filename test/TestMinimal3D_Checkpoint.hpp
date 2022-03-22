@@ -127,7 +127,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     // Solve problem
     monodomain_problem.Solve();
 
-    CardiacSimulationArchiver< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(monodomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(monodomain_problem, output_dir + "/checkpoint_problem");
 
     // Print summary to terminal
     HeartEventHandler::Headings();
