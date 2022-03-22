@@ -44,7 +44,7 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
     std::string output_dir = chkpt_dir + "_afterSS";
     // ---------------------------------------- //
     
-    MonodomainProblem<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiver< MonodomainProblem<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
+    MonodomainProblem<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
     
     HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step);
@@ -52,7 +52,7 @@ class TestMinimal3DRestart : public CxxTest::TestSuite
 
     p_monodomain_problem->Solve();
 
-    CardiacSimulationArchiver< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(*p_monodomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(*p_monodomain_problem, output_dir + "/checkpoint_problem");
 
     delete p_monodomain_problem;
 
