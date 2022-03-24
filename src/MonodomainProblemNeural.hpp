@@ -48,7 +48,7 @@ public:
     /**
      * Destructor
      */
-     ~MonodomainProblem1Neural();
+     ~MonodomainProblemNeural();
 
     /**
      * Called at beginning of each time step in the main time-loop in
