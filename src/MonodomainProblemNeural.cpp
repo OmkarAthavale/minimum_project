@@ -2,8 +2,8 @@
 
 template<unsigned DIM>
 MonodomainProblemNeural<DIM>::MonodomainProblemNeural(
-            AbstractCardiacCellFactory<DIM>* pCellFactory, bool hasBath)
-    : MonodomainProblem<DIM>(pCellFactory, hasBath)
+            AbstractCardiacCellFactory<DIM>* pCellFactory)
+    : MonodomainProblem<DIM>(pCellFactory)
 {
 }
 

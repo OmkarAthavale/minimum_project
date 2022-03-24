@@ -38,7 +38,7 @@ public:
      * @param pCellFactory User defined cell factory which shows how the pde should
      *   create cells.
      */
-    MonodomainProblemNeural(AbstractCardiacCellFactory<DIM>* pCellFactory, bool hasBath=false);
+    MonodomainProblemNeural(AbstractCardiacCellFactory<DIM>* pCellFactory);
 
     /**
      * Constructor just used for archiving
