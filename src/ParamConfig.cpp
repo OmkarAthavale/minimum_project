@@ -65,19 +65,19 @@ TidyNeuralData::TidyNeuralData(std::string dataFile){
 }
 
 
-ParamConfig* ParamConfig::instance = 0;
+ParamConfig<DIM>* ParamConfig<DIM>::instance = 0;
 
-ParamConfig* ParamConfig::InitInstance(std::string NdataLoc)
+ParamConfig<DIM>* ParamConfig<DIM>::InitInstance(std::string NdataLoc)
 {
     if (instance == 0)
     {
-        instance = new ParamConfig(NdataLoc);
+        instance = new ParamConfig<DIM>(NdataLoc);
     }
 
     return instance;
 }
 
-ParamConfig* ParamConfig::GetInstance()
+ParamConfig<DIM>* ParamConfig<DIM>::GetInstance()
 {
     if (instance == 0) {
         return NULL;
@@ -86,7 +86,7 @@ ParamConfig* ParamConfig::GetInstance()
     }
 }
 
-void ParamConfig::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y){
+void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y){
 
 
     double x_bin_size = (ub_x-lb_x)/bins_x;
@@ -105,7 +105,7 @@ void ParamConfig::CreateGriddedControlRegions(double lb_x, double ub_x, int bins
     }
 }
 
-void ParamConfig::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y, double lb_z, double ub_z, int bins_z){
+void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y, double lb_z, double ub_z, int bins_z){
 
 
     double x_bin_size = (ub_x-lb_x)/bins_x;
@@ -126,7 +126,7 @@ void ParamConfig::CreateGriddedControlRegions(double lb_x, double ub_x, int bins
     }
 }
 
-void ParamConfig::MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh){
+void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh){
     
     for (unsigned i=1; i<=keyNum; ++i){
         std::vector<unsigned> nodes;
@@ -144,7 +144,7 @@ void ParamConfig::MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh){
 
 }
 
-void ParamConfig::MapNodeToControl(AbstractTetrahedralMesh<3,3>* mesh){
+void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<3,3>* mesh){
     
     for (unsigned i=1; i<=keyNum; ++i){
         std::vector<unsigned> nodes;
@@ -162,7 +162,7 @@ void ParamConfig::MapNodeToControl(AbstractTetrahedralMesh<3,3>* mesh){
 
 }
 
-void ParamConfig::GetUpdateList(double time, std::vector<NeuralChangeSet> changeNodes){
+void ParamConfig<DIM>::GetUpdateList(double time, std::vector<NeuralChangeSet> changeNodes){
     
     while (!NData.neural_end && time >= nextChangeTime){
         unsigned ctrlReg = NData.GetCtrlReg();
@@ -179,7 +179,7 @@ void ParamConfig::GetUpdateList(double time, std::vector<NeuralChangeSet> change
         
 }
 
-ParamConfig::ParamConfig(std::string NdataLoc):NData(NdataLoc){
+ParamConfig<DIM>::ParamConfig(std::string NdataLoc):NData(NdataLoc){
     nextChangeTime = NData.GetInitTime();
 }
 

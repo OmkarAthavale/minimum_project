@@ -49,14 +49,15 @@ struct NeuralChangeSet
     NeuralChangeSet(unsigned index, std::string name, double value):globalIndex(index), paramName(name), paramValue(value){};
 };
 
+template <unsigned DIM>
 class ParamConfig
 {
     private:
-    std::unordered_map<int, ChasteCuboid<2> > ctrlRegionDefn;
+    std::unordered_map<int, ChasteCuboid<DIM> > ctrlRegionDefn;
     std::unordered_map<unsigned, std::vector<unsigned>> nodeMapping;
     unsigned keyNum = 0;
     TidyNeuralData NData;
-    static ParamConfig* instance;
+    static ParamConfig<DIM>* instance;
     double nextChangeTime = 999999999999.0;
 
     ParamConfig(std::string NdataLoc);

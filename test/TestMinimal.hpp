@@ -131,9 +131,9 @@ class TestMinimal : public CxxTest::TestSuite
     TRACE("Total number of nodes: " << mesh.GetNumAllNodes());
 
     // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig::InitInstance("projects/NeuralData/testData.txt");
-    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 0.055, 3, 0.0, 0.055, 3);
-    ParamConfig::GetInstance()->MapNodeToControl(&mesh);
+    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/testData.txt");
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(0.0, 0.055, 3, 0.0, 0.055, 3);
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&mesh);
 
     // Initialise problem with cells
     ICCFactory network_cells(iccNodes);

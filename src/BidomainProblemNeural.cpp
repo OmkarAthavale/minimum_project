@@ -65,9 +65,9 @@ void BidomainProblemNeural<DIM>::AtBeginningOfTimestep(double time)
   // ---- Call a function of ParamConfig that returns a vector of objects
   // ---- where each object has (int globalIndex, std::string paramNameString, double paramValue)
 
-  if (ParamConfig::GetInstance() != NULL) {
+  if (ParamConfig<PROBLEM_SPACE_DIM>::GetInstance() != NULL) {
     std::vector<NeuralChangeSet> changeNodes;
-    ParamConfig::GetInstance()->GetUpdateList(time, changeNodes);
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->GetUpdateList(time, changeNodes);
 
     std::vector<NeuralChangeSet>::iterator row;
 

@@ -86,9 +86,9 @@ class TestMinimal3D : public CxxTest::TestSuite
     TRACE("Total number of nodes: " << mesh.GetNumAllNodes());
 
     // TODO: Load neural info and set up ParamConfig singleton instance
-    ParamConfig::InitInstance("projects/NeuralData/test3D.txt");
-    ParamConfig::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1)
-    ParamConfig::GetInstance()->MapNodeToControl(&mesh);
+    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/test3D.txt");
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1)
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&mesh);
 
 
     // Set pacemaker location
