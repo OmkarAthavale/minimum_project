@@ -358,8 +358,8 @@ http://www.cellml.org/
         <variable initial_value="0.3791" name="IP_3" public_interface="out" units="millimolar"/>
         <variable name="time" public_interface="in" units="time_units"/>
         <variable name="V_m" private_interface="out" public_interface="in" units="voltage_units"/>
-        <variable initial_value="0.0002145" name="V_0" units="millimolar_per_time_units"/>
-        <variable initial_value="0.00022094" name="V_1" units="per_time_units"/>
+        <variable initial_value="0.00011" name="V_0" units="millimolar_per_time_units"/>
+        <variable initial_value="0.00033" name="V_1" units="per_time_units"/>
         <variable initial_value="0.0049" name="V_M2" units="millimolar_per_time_units"/>
         <variable initial_value="2" name="n" units="dimensionless"/>
         <variable initial_value="1" name="k_2" units="millimolar"/>
@@ -382,7 +382,7 @@ http://www.cellml.org/
         <variable initial_value="4" name="u" units="dimensionless"/>
         <variable initial_value="0.0325" name="P_MV" units="millimolar_per_time_units"/>
         <variable initial_value="-68" name="k_v" units="voltage_units"/>
-        <variable initial_value="8" name="r" units="dimensionless"/>
+        <variable initial_value="5" name="r" units="dimensionless"/>
         <variable name="Cor" private_interface="out" public_interface="in" units="dimensionless"/>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>

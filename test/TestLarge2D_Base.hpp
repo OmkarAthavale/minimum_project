@@ -1,5 +1,5 @@
-#ifndef TESTMINIMAL_HPP_
-#define TESTMINIMAL_HPP_
+#ifndef TESTLARGE2D_BASE_HPP_
+#define TESTLARGE2D_BASE_HPP_
 
 #define PROBLEM_SPACE_DIM 2
 #define PROBLEM_ELEMENT_DIM 2
@@ -15,76 +15,36 @@
 
 #include "Debug.hpp"
 
-#include "ChasteEllipsoid.hpp"
 #include "ChastePoint.hpp"
+#include "../src/ICCFactory_Large2D_Neural.hpp"
 
-#include "../src/DummyDerivedCa.hpp"
-#include "../src/Du2013_neural.hpp"
-
-#include "AbstractCardiacCellFactory.hpp"
 #include "../src/BidomainProblemNeural.hpp"
 
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
 
-// #include "../src/CardiacSimulationArchiverNeural.hpp"
-#include "../src/ParamConfig.hpp"
+#include "../src/CardiacSimulationArchiverNeural.hpp"
+
 
 #include "PetscSetupAndFinalize.hpp"
 
-class ICCFactory : public AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>
-{
-  private:
-  std::set<unsigned> setICCNode;
-
-  public:
-  ICCFactory(std::set<unsigned> iccNodes) : AbstractCardiacCellFactory<PROBLEM_SPACE_DIM>(), setICCNode(iccNodes)
-  {
-  };
-
-  AbstractCardiacCell* CreateCardiacCellForTissueNode(Node<PROBLEM_SPACE_DIM>* pNode)
-  {
-    unsigned index = pNode->GetIndex();
-
-    ChastePoint<PROBLEM_SPACE_DIM> centre(0.02,0.04);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.01,0.03);
-    ChasteEllipsoid<PROBLEM_SPACE_DIM> pacemaker(centre, radii);
-    
-    if(setICCNode.find(index) != setICCNode.end())
-    {
-      CellDu2013_neuralFromCellML* cell = new CellDu2013_neuralFromCellML(mpSolver, mpZeroStimulus);
-      
-      if (pacemaker.DoesContain(pNode->GetPoint()))
-      {
-        cell->SetParameter("correction", 1.05);
-      }
-
-      return cell;
-
-    }
-
-    return new DummyDerivedCa(mpSolver, mpZeroStimulus);
-
-  };
-};
-
-class TestMinimal : public CxxTest::TestSuite
+class TestMinimal3D : public CxxTest::TestSuite
 {
   public:
   void TestMinimalSimulation() throw(Exception)
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
-    std::string output_dir = mesh_ident + "-2DParamConfig";
+    std::string mesh_ident = "MeshNetwork-2D-2147Nodes-4160Elems";
+    std::string output_dir = mesh_ident + "-2D_Large_Base";
     unsigned bath_attr = 0;
     unsigned icc_attr = 1;
-    double duration = 25000.0;      // ms
+    double duration = 120000.0;      // ms
     double print_step = 100.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
-    std::string mesh_dir = "projects/mesh/ICC2D/" + mesh_ident;
+    std::string mesh_dir = "projects/mesh/Rect2D/sp0-75/" + mesh_ident;
     TrianglesMeshReader<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
@@ -100,14 +60,14 @@ class TestMinimal : public CxxTest::TestSuite
 
     // Construct ICC mesh network from mesh file
     mesh.ConstructFromMeshReader(mesh_reader);
+    
     nElements = mesh.GetNumLocalElements();
-
     // Define boundary nodes as bath
     double eleIdentify = 0;
     for (DistributedTetrahedralMesh<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::ElementIterator iter = mesh.GetElementIteratorBegin(); iter != mesh.GetElementIteratorEnd(); ++iter)
     {
       eleIdentify = iter->GetAttribute();
-      if (eleIdentify == icc_attr) // ICC=1 and Bath=0
+      if (eleIdentify == icc_attr) 
       {
         if(!iter->GetNode(0)->IsBoundaryNode())
         {
@@ -130,13 +90,12 @@ class TestMinimal : public CxxTest::TestSuite
     TRACE("Number of ICC nodes: " << iccNodes.size());
     TRACE("Total number of nodes: " << mesh.GetNumAllNodes());
 
-    // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig::InitInstance("projects/NeuralData/testData.txt");
-    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 0.055, 3, 0.0, 0.055, 3);
-    ParamConfig::GetInstance()->MapNodeToControl(&mesh);
+    // Set pacemaker location
+    ChastePoint<PROBLEM_SPACE_DIM> vertex1(0.0, 0.0);
+    ChastePoint<PROBLEM_SPACE_DIM> vertex2 (2.0, 0.8);
 
     // Initialise problem with cells
-    ICCFactory network_cells(iccNodes);
+    ICCFactory_Large2D_Neural<PROBLEM_SPACE_DIM> network_cells(iccNodes, &vertex1, &vertex2);
     BidomainProblemNeural<PROBLEM_SPACE_DIM> bidomain_problem(&network_cells, true);
     bidomain_problem.SetMesh( &mesh );
 
@@ -146,8 +105,8 @@ class TestMinimal : public CxxTest::TestSuite
     HeartConfig::Instance()->SetOutputDirectory(output_dir.c_str());
     HeartConfig::Instance()->SetOutputFilenamePrefix("results");
     HeartConfig::Instance()->SetTissueAndBathIdentifiers(ICC_id, bath_id);
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.12, 0.12)); // these are quite smaller than cm values
-    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.2, 0.2)); // these are quite smaller than cm values
+    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.12, 0.12));
+    HeartConfig::Instance()->SetExtracellularConductivities(Create_c_vector(0.2, 0.2));
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
     HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);
@@ -161,32 +120,12 @@ class TestMinimal : public CxxTest::TestSuite
     // Solve problem
     bidomain_problem.Solve();
 
-    // // CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(bidomain_problem, output_dir + "/checkpoint_problem");
 
     // Print summary to terminal
     HeartEventHandler::Headings();
     HeartEventHandler::Report();
   };
-
-  // void xTestRestarting()
-  // {
-
-  //   // -------------- OPTIONS ----------------- //
-  //   std::string mesh_ident = "MeshNetwork-2D-85Nodes-144Elems";
-  //   std::string output_dir = mesh_ident + "-2DChkpt";
-  //   double added_duration = 10000.0;      // ms
-  //   // ---------------------------------------- //
-
-  //   BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(output_dir + "checkpoint_problem");
-
-  //   HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
-
-  //   p_bidomain_problem->Solve();
-
-  //   delete p_bidomain_problem;
-
-  // };
-
 };
 
-#endif /*TESTMINIMAL_HPP_*/
+#endif

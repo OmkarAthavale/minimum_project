@@ -74,7 +74,7 @@ class TestMinimal3D : public CxxTest::TestSuite
       eleIdentify = iter->GetAttribute();
       if (eleIdentify == icc_attr)
       {
-        for(int j = 0; j<=3; ++j)
+        for(int j = 0; j<=PROBLEM_ELEMENT_DIM; ++j)
         {
             iccNodes.insert(iter->GetNodeGlobalIndex(j));
         }

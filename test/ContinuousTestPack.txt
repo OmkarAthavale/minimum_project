@@ -2,3 +2,7 @@ TestMinimal.hpp
 TestMinimal3D.hpp
 TestMinimal3D_Restart.hpp
 TestMinimal3D_Checkpoint.hpp
+TestLarge2D_Base.hpp
+TestLarge2D_Neural.hpp
+TestParamConfig.hpp
+TestLarge2D_Restart_Neural.hpp
