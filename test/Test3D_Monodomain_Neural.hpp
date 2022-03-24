@@ -18,7 +18,7 @@
 #include "ChastePoint.hpp"
 #include "../src/ICCFactory.hpp"
 
-#include "MonodomainProblem.hpp"
+#include "MonodomainProblemNeural.hpp"
 
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
@@ -97,7 +97,7 @@ class TestMinimal3D : public CxxTest::TestSuite
 
     // Initialise problem with cells
     ICCFactory<PROBLEM_SPACE_DIM> network_cells(iccNodes, &centre, &radii);
-    MonodomainProblem<PROBLEM_SPACE_DIM> monodomain_problem(&network_cells);
+    MonodomainProblemNeural<PROBLEM_SPACE_DIM> monodomain_problem(&network_cells);
     monodomain_problem.SetMesh( &mesh );
 
     // Modify simulation config
@@ -123,7 +123,7 @@ class TestMinimal3D : public CxxTest::TestSuite
     // Solve problem
     monodomain_problem.Solve();
 
-    CardiacSimulationArchiverNeural< MonodomainProblem<PROBLEM_SPACE_DIM> >::Save(monodomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(monodomain_problem, output_dir + "/checkpoint_problem");
 
     // Print summary to terminal
     HeartEventHandler::Headings();
