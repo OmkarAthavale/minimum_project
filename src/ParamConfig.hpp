@@ -71,42 +71,4 @@ class ParamConfig
 
 };
 
-class SinusoidalData
-{
-    struct SinParamSet
-    {
-        double a0;
-        double a1;
-        double b1;
-        double w;
-
-        SinParamSet(double a0, double a1, double b1, double w):a0(a0), a1(a1), b1(b1), w(w){};
-    }
-
-    private:
-    std::vector<SinParamSet> inputParams; // ([reg; a0; a1; b1; w;])
-    std::string varName;
-
-    public:
-    SinusoidalData(std::string dataFile, std::string varName);
-};
-
-
-class FittedSinusoidConfig
-{
-    private:
-    static FittedSinusoidConfig* instance;
-    std::unordered_map<int, ChasteCuboid<2> > ctrlRegionDefn;
-    std::unordered_map<unsigned, std::vector<unsigned> > nodeMapping;
-    unsigned keyNum = 0;
-    std::vector<SinusoidalData> data;
-
-    public:
-    static FittedSinusoidConfig* InitInstance();
-    static FittedSinusoidConfig* GetInstance();
-
-    void GetData(){return data};
-
-}
-
 #endif
