@@ -105,11 +105,50 @@ void ParamConfig::CreateGriddedControlRegions(double lb_x, double ub_x, int bins
     }
 }
 
+void ParamConfig::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y, double lb_z, double ub_z, int bins_z){
+
+
+    double x_bin_size = (ub_x-lb_x)/bins_x;
+    double y_bin_size = (ub_y-lb_y)/bins_y;
+    double z_bin_size = (ub_z-lb_z)/bins_z;
+
+    for (int i=0; i<bins_y; ++i){
+        for (int j=0; j<bins_x; ++j){
+            for (int k=0; j<bins_z; ++k){
+            keyNum++;
+            
+            ChastePoint<3> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i, lb_z+z_bin_size*k);
+            ChastePoint<3> bottom_corner(lb_x+x_bin_size*(j+1), lb_y+y_bin_size*(i+1), lb_z+z_bin_size*(k+1));
+            ChasteCuboid<3> reg(top_corner, bottom_corner);
+            ctrlRegionDefn.insert({keyNum, reg});
+            
+        }
+    }
+}
+
 void ParamConfig::MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh){
     
     for (unsigned i=1; i<=keyNum; ++i){
         std::vector<unsigned> nodes;
         for (DistributedTetrahedralMesh<2,2>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
+            if (ctrlRegionDefn.find(i)!=ctrlRegionDefn.end() && ctrlRegionDefn.find(i)->second.DoesContain(iter->GetPoint())){
+                nodes.push_back(iter->GetIndex());
+            }
+        }
+            nodeMapping.insert({i, nodes});
+
+            cout << i << ": ";
+            for (std::vector<unsigned>::iterator n = nodes.begin(); n != nodes.end(); n++) cout << *n << ", ";
+            cout << '\n';
+    }
+
+}
+
+void ParamConfig::MapNodeToControl(AbstractTetrahedralMesh<3,3>* mesh){
+    
+    for (unsigned i=1; i<=keyNum; ++i){
+        std::vector<unsigned> nodes;
+        for (DistributedTetrahedralMesh<3,3>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
             if (ctrlRegionDefn.find(i)!=ctrlRegionDefn.end() && ctrlRegionDefn.find(i)->second.DoesContain(iter->GetPoint())){
                 nodes.push_back(iter->GetIndex());
             }
