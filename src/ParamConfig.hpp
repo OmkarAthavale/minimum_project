@@ -63,13 +63,12 @@ class ParamConfig
     ParamConfig(std::string NdataLoc);
 
     public:
-    static ParamConfig* InitInstance(std::string NdataLoc);
-    static ParamConfig* GetInstance();
+    static ParamConfig<DIM>* InitInstance(std::string NdataLoc);
+    static ParamConfig<DIM>* GetInstance();
 
     void CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y);
     void CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y, double lb_z, double ub_z, int bins_z);
-    void MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh);
-    void MapNodeToControl(AbstractTetrahedralMesh<3,3>* mesh);
+    void MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh);
     void GetUpdateList(double time, std::vector<NeuralChangeSet> changeNodes);
 
 };

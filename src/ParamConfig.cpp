@@ -64,9 +64,10 @@ TidyNeuralData::TidyNeuralData(std::string dataFile){
     maxLength = times.size();
 }
 
-
+template <unsigned DIM>
 ParamConfig<DIM>* ParamConfig<DIM>::instance = 0;
 
+template <unsigned DIM>
 ParamConfig<DIM>* ParamConfig<DIM>::InitInstance(std::string NdataLoc)
 {
     if (instance == 0)
@@ -77,6 +78,7 @@ ParamConfig<DIM>* ParamConfig<DIM>::InitInstance(std::string NdataLoc)
     return instance;
 }
 
+template <unsigned DIM>
 ParamConfig<DIM>* ParamConfig<DIM>::GetInstance()
 {
     if (instance == 0) {
@@ -86,6 +88,7 @@ ParamConfig<DIM>* ParamConfig<DIM>::GetInstance()
     }
 }
 
+template <unsigned DIM>
 void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y){
 
 
@@ -96,15 +99,16 @@ void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int
         for (int j=0; j<bins_x; ++j){
             keyNum++;
             
-            ChastePoint<2> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i);
-            ChastePoint<2> bottom_corner(lb_x+x_bin_size*(j+1), lb_y+y_bin_size*(i+1));
-            ChasteCuboid<2> reg(top_corner, bottom_corner);
+            ChastePoint<DIM> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i);
+            ChastePoint<DIM> bottom_corner(lb_x+x_bin_size*(j+1), lb_y+y_bin_size*(i+1));
+            ChasteCuboid<DIM> reg(top_corner, bottom_corner);
             ctrlRegionDefn.insert({keyNum, reg});
             
         }
     }
 }
 
+template <unsigned DIM>
 void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y, double lb_z, double ub_z, int bins_z){
 
 
@@ -117,20 +121,21 @@ void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int
             for (int k=0; j<bins_z; ++k){
             keyNum++;
             
-            ChastePoint<3> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i, lb_z+z_bin_size*k);
-            ChastePoint<3> bottom_corner(lb_x+x_bin_size*(j+1), lb_y+y_bin_size*(i+1), lb_z+z_bin_size*(k+1));
-            ChasteCuboid<3> reg(top_corner, bottom_corner);
+            ChastePoint<DIM> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i, lb_z+z_bin_size*k);
+            ChastePoint<DIM> bottom_corner(lb_x+x_bin_size*(j+1), lb_y+y_bin_size*(i+1), lb_z+z_bin_size*(k+1));
+            ChasteCuboid<DIM> reg(top_corner, bottom_corner);
             ctrlRegionDefn.insert({keyNum, reg});
             
         }
     }
 }
 
-void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh){
+template <unsigned DIM>
+void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh){
     
     for (unsigned i=1; i<=keyNum; ++i){
         std::vector<unsigned> nodes;
-        for (DistributedTetrahedralMesh<2,2>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
+        for (DistributedTetrahedralMesh<DIM,DIM>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
             if (ctrlRegionDefn.find(i)!=ctrlRegionDefn.end() && ctrlRegionDefn.find(i)->second.DoesContain(iter->GetPoint())){
                 nodes.push_back(iter->GetIndex());
             }
@@ -144,24 +149,7 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh){
 
 }
 
-void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<3,3>* mesh){
-    
-    for (unsigned i=1; i<=keyNum; ++i){
-        std::vector<unsigned> nodes;
-        for (DistributedTetrahedralMesh<3,3>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
-            if (ctrlRegionDefn.find(i)!=ctrlRegionDefn.end() && ctrlRegionDefn.find(i)->second.DoesContain(iter->GetPoint())){
-                nodes.push_back(iter->GetIndex());
-            }
-        }
-            nodeMapping.insert({i, nodes});
-
-            cout << i << ": ";
-            for (std::vector<unsigned>::iterator n = nodes.begin(); n != nodes.end(); n++) cout << *n << ", ";
-            cout << '\n';
-    }
-
-}
-
+template <unsigned DIM>
 void ParamConfig<DIM>::GetUpdateList(double time, std::vector<NeuralChangeSet> changeNodes){
     
     while (!NData.neural_end && time >= nextChangeTime){
@@ -176,9 +164,9 @@ void ParamConfig<DIM>::GetUpdateList(double time, std::vector<NeuralChangeSet> c
         nextChangeTime = NData.NextTime();
 
     }
-        
 }
 
+template <unsigned DIM>
 ParamConfig<DIM>::ParamConfig(std::string NdataLoc):NData(NdataLoc){
     nextChangeTime = NData.GetInitTime();
 }
