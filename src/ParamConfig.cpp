@@ -135,7 +135,7 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh){
     
     for (unsigned i=1; i<=keyNum; ++i){
         std::vector<unsigned> nodes;
-        for (DistributedTetrahedralMesh<DIM,DIM>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
+        for (typename DistributedTetrahedralMesh<DIM,DIM>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
             if (ctrlRegionDefn.find(i)!=ctrlRegionDefn.end() && ctrlRegionDefn.find(i)->second.DoesContain(iter->GetPoint())){
                 nodes.push_back(iter->GetIndex());
             }
