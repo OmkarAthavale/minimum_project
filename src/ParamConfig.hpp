@@ -73,4 +73,8 @@ class ParamConfig
 
 };
 
+// Explicit instantiation
+template class ParamConfig<1>;
+template class ParamConfig<2>;
+template class ParamConfig<3>;
 #endif
