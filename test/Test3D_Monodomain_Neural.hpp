@@ -28,7 +28,7 @@
 
 #include "PetscSetupAndFinalize.hpp"
 
-class TestMinimal3D : public CxxTest::TestSuite
+class TestMonodomain3D : public CxxTest::TestSuite
 {
   public:
   void TestMinimalSimulation() throw (Exception)
