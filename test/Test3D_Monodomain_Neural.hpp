@@ -36,11 +36,11 @@ class TestMonodomain3D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_section_16_16_2.1";
-    std::string output_dir = mesh_ident + "-test5Hz5000";
+    std::string output_dir = mesh_ident + "-bline_toSS";
     unsigned bath_attr = 0; // no bath for monodomain
     unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM
-    double duration =  10000.0;      // ms
-    double print_step = 100.0;        // ms
+    double duration =  300000.0;      // ms
+    double print_step = 30000.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -86,9 +86,9 @@ class TestMonodomain3D : public CxxTest::TestSuite
     TRACE("Total number of nodes: " << mesh.GetNumAllNodes());
 
     // TODO: Load neural info and set up ParamConfig singleton instance
-    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/test3D.txt");
-    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1);
-    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&mesh);
+    // ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/test3D.txt");
+    // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1);
+    // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&mesh);
 
 
     // Set pacemaker location

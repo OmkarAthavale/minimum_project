@@ -37,16 +37,16 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_section_16_16_2.1";
-    std::string chkpt_dir = mesh_ident + "-test5Hz5000";
-    double added_duration = 1000.0;      // ms
+    std::string chkpt_dir = mesh_ident + "-bline_toSS";
+    double added_duration = 90000.0;      // ms
     double print_step = 100.0;        // ms
-    std::string output_dir = chkpt_dir + "_testRestart";
+    std::string output_dir = chkpt_dir + "_applyWCBstimApprox";
     // ---------------------------------------- //
     
     MonodomainProblemNeural<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
     
     // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/test3D.txt");
+    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/wcbIn3DApprox.txt");
     ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1);
     ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
 
