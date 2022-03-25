@@ -79,10 +79,10 @@ class TestMinimal : public CxxTest::TestSuite
     // ParamConfig::SetInhibitory("path/to/preprocessed_i.txt");
     // ParamConfig::SetupInfluenceRegionGrid(width, length, width_bins, length_bins)
     // ParamConfig::SetInputTimestep(stepInMillisec)
-    ParamConfig::InitInstance("projects/NeuralData/testData.txt");
+    ParamConfig<PROBLEM_ELEMENT_DIM>::InitInstance("projects/NeuralData/testData.txt");
     // ParamConfig::CreateGriddedControlRegions(0.0, 2.0, 20, 0.0, 3.0, 30);
-    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.0, 0.055, 3, 0.0, 0.055, 3);
-    ParamConfig::GetInstance()->MapNodeToControl(&mesh);
+    ParamConfig<PROBLEM_ELEMENT_DIM>::GetInstance()->CreateGriddedControlRegions(0.0, 0.055, 3, 0.0, 0.055, 3);
+    ParamConfig<PROBLEM_ELEMENT_DIM>::GetInstance()->MapNodeToControl(&mesh);
   };
 
 };
