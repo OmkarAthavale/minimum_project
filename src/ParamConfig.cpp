@@ -118,7 +118,7 @@ void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int
 
     for (int i=0; i<bins_y; ++i){
         for (int j=0; j<bins_x; ++j){
-            for (int k=0; j<bins_z; ++k){
+            for (int k=0; k<bins_z; ++k){
             keyNum++;
             
             ChastePoint<DIM> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i, lb_z+z_bin_size*k);
@@ -126,10 +126,10 @@ void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int
             ChasteCuboid<DIM> reg(top_corner, bottom_corner);
             ctrlRegionDefn.insert({keyNum, reg});
             
+            }
         }
     }
 }
-
 template <unsigned DIM>
 void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh){
     
