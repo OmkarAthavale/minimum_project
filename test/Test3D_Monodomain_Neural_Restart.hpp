@@ -1,8 +1,8 @@
-#ifndef TESTLARGE2D_RESTART_NEURAL_HPP_
-#define TESTLARGE2D_RESTART_NEURAL_HPP_
+#ifndef TESTMINIMAL3DRESTART_HPP_
+#define TESTMINIMAL3DRESTART_HPP_
 
-#define PROBLEM_SPACE_DIM 2
-#define PROBLEM_ELEMENT_DIM 2
+#define PROBLEM_SPACE_DIM 3
+#define PROBLEM_ELEMENT_DIM 3
 /**
  * @file
  * This test runs a minimal simulation with Simplified Imtiaz cells in a 2D mesh
@@ -16,9 +16,9 @@
 #include "Debug.hpp"
 
 #include "ChastePoint.hpp"
-#include "../src/ICCFactory_Large2D_Neural.hpp"
+#include "../src/ICCFactory.hpp"
 
-#include "../src/BidomainProblemNeural.hpp"
+#include "MonodomainProblemNeural.hpp"
 
 #include "DistributedTetrahedralMesh.hpp"
 #include "TrianglesMeshReader.hpp"
@@ -28,35 +28,37 @@
 
 #include "PetscSetupAndFinalize.hpp"
 
-class TestLarge2D_Restart_Neural : public CxxTest::TestSuite
+class TestMonodomain3DRestart : public CxxTest::TestSuite
 {
   public:
+  
   void TestRestarting() throw(Exception)
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "MeshNetwork-2D-2147Nodes-4160Elems";
-    std::string chkpt_dir = mesh_ident + "-2D_Large_Base";
-    double added_duration = 120000.0;      // ms
+    std::string mesh_ident = "rat_scaffold_section_16_16_2.1";
+    std::string chkpt_dir = mesh_ident + "-test5Hz5000";
+    double added_duration = 1000.0;      // ms
     double print_step = 100.0;        // ms
-    std::string output_dir = chkpt_dir + "_neural120s";
+    std::string output_dir = chkpt_dir + "_testRestart";
     // ---------------------------------------- //
-
-    BidomainProblemNeural<PROBLEM_SPACE_DIM>* p_bidomain_problem = CardiacSimulationArchiverNeural< BidomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
-
+    
+    MonodomainProblemNeural<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
+    
     // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/proc_chaste_seq_movmean_wcb_1.txt");
-    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(0.0, 2.0, 20, 0.0, 3.0, 30);
-    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_bidomain_problem->rGetMesh()));
+    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/test3D.txt");
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1);
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&mesh);
 
-    // Heart config changes
-    HeartConfig::Instance()->SetSimulationDuration(p_bidomain_problem->GetCurrentTime() + added_duration); //ms
-    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.1, print_step);
+    HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
+    HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step);
     HeartConfig::Instance()->SetOutputDirectory(output_dir);
 
-    p_bidomain_problem->Solve();
+    p_monodomain_problem->Solve();
 
-    delete p_bidomain_problem;
+    CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(*p_monodomain_problem, output_dir + "/checkpoint_problem");
+
+    delete p_monodomain_problem;
 
   };
   
