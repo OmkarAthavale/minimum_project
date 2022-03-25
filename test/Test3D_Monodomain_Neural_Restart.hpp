@@ -48,7 +48,7 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     // Loads neural info and set up ParamConfig singleton instance
     ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/test3D.txt");
     ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1);
-    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&mesh);
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
 
     HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step);
