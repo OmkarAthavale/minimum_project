@@ -376,7 +376,7 @@ http://www.cellml.org/
         <variable initial_value="0.0000585" name="k_f" units="per_time_units"/>
         <variable initial_value="0.0006435" name="K" units="per_time_units"/>
         <variable name="beta" public_interface="in" units="millimolar_per_time_units"/>
-        <variable initial_value="0.0389" name="eta" units="per_time_units"/>
+        <variable cmeta:id="eta" initial_value="0.0389" name="eta" units="per_time_units"/>
         <variable initial_value="0.0004875" name="V_M4" units="millimolar_per_time_units"/>
         <variable initial_value="0.5" name="k_4" units="millimolar"/>
         <variable initial_value="4" name="u" units="dimensionless"/>
@@ -824,10 +824,13 @@ http://www.cellml.org/
         <rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:about="#correction">
             <modifiable-parameter xmlns="https://chaste.comlab.ox.ac.uk/cellml/ns/pycml#">yes</modifiable-parameter>
         </rdf:Description>
-		<rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:about="#stim_start">
+        <rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:about="#eta">
             <modifiable-parameter xmlns="https://chaste.comlab.ox.ac.uk/cellml/ns/pycml#">yes</modifiable-parameter>
         </rdf:Description>
-		<rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:about="#stim_end">
+        <rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:about="#stim_start">
+            <modifiable-parameter xmlns="https://chaste.comlab.ox.ac.uk/cellml/ns/pycml#">yes</modifiable-parameter>
+        </rdf:Description>
+        <rdf:Description xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" rdf:about="#stim_end">
             <modifiable-parameter xmlns="https://chaste.comlab.ox.ac.uk/cellml/ns/pycml#">yes</modifiable-parameter>
         </rdf:Description>
     </rdf:RDF>
