@@ -37,20 +37,28 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_section_16_16_2.1";
-    std::string chkpt_dir = mesh_ident + "-bline_toSS";
-    double added_duration = 90000.0;      // ms
+    std::string chkpt_dir = mesh_ident + "-testingCond";
+    double added_duration = 120000.0;      // ms
     double print_step = 100.0;        // ms
-    std::string output_dir = chkpt_dir + "_applyWCBstimApprox";
+    std::string output_dir = chkpt_dir + "_EtaMod";
     // ---------------------------------------- //
     
     MonodomainProblemNeural<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
+    AbstractTetrahedralMesh<PROBLEM_SPACE_DIM, PROBLEM_ELEMENT_DIM>* pMesh = &(p_monodomain_problem->rGetMesh());
+    for (unsigned node_index = 0; node_index<pMesh->GetNumNodes(); node_index++)
+    {
+      if (pMesh->GetDistributedVectorFactory()->IsGlobalIndexLocal(node_index)) {
+        p_monodomain_problem->GetTissue()->GetCardiacCell(node_index)->SetParameter("eta", 0.037);
+      }
+    }
     
     // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/wcbIn3DApprox.txt");
-    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1);
-    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
+    // ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/wcbIn3DApprox.txt");
+    // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1);
+    // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
 
     HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
+    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.01, 0.3,0.03)); // TO MODIFY
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step);
     HeartConfig::Instance()->SetOutputDirectory(output_dir);
 
