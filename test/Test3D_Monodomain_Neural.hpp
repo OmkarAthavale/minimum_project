@@ -35,12 +35,12 @@ class TestMonodomain3D : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "rat_scaffold_section_16_16_2.1";
-    std::string output_dir = mesh_ident + "-testingCond";
+    std::string mesh_ident = "rat_scaffold_16_16_2.1";
+    std::string output_dir = mesh_ident + "-testingCondEta";
     unsigned bath_attr = 0; // no bath for monodomain
     unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM
-    double duration =  600000.0;      // ms
-    double print_step = 60000.0;        // ms
+    double duration =  150000.0;      // ms
+    double print_step = 50000.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -109,7 +109,7 @@ class TestMonodomain3D : public CxxTest::TestSuite
 	HeartConfig::Instance()->SetVisualizeWithVtk(true);
     // HeartConfig::Instance()->SetTissueAndBathIdentifiers(tissue_id, bath_id);
     HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3);
-    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.1, 1,0.1));
+    HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.01, 0.3,0.03));
     HeartConfig::Instance()->SetUseAbsoluteTolerance(2e-3); //Changed to get around the DIVERGED_ITS error default:2e-4
     // HeartConfig::Instance()->SetBathConductivity(0.02); // Bath capacitance
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);

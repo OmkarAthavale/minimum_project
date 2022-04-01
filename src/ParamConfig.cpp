@@ -123,6 +123,7 @@ void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int
             
             ChastePoint<DIM> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i, lb_z+z_bin_size*k);
             ChastePoint<DIM> bottom_corner(lb_x+x_bin_size*(j+1), lb_y+y_bin_size*(i+1), lb_z+z_bin_size*(k+1));
+			cout << lb_x+x_bin_size*j << ", " << lb_y+y_bin_size*i << ", " << lb_z+z_bin_size*k << "::" << lb_x+x_bin_size*(j+1) << ", " << lb_y+y_bin_size*(i+1) << ", " << lb_z+z_bin_size*(k+1) << "\n";
             ChasteCuboid<DIM> reg(top_corner, bottom_corner);
             ctrlRegionDefn.insert({keyNum, reg});
             
@@ -150,9 +151,10 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh){
 }
 
 template <unsigned DIM>
-void ParamConfig<DIM>::GetUpdateList(double time, std::vector<NeuralChangeSet> changeNodes){
-    
+void ParamConfig<DIM>::GetUpdateList(double time, std::vector<NeuralChangeSet>& changeNodes){
+    TRACE("B0");
     while (!NData.neural_end && time >= nextChangeTime){
+		TRACE("B0: " << time << ", " << nextChangeTime);
         unsigned ctrlReg = NData.GetCtrlReg();
 
         std::vector<unsigned>::iterator it;
@@ -160,7 +162,7 @@ void ParamConfig<DIM>::GetUpdateList(double time, std::vector<NeuralChangeSet> c
         for(it = nodeMapping.find(ctrlReg)->second.begin(); it != nodeMapping.find(ctrlReg)->second.end(); it++){
             changeNodes.push_back(NeuralChangeSet(*it, NData.GetParamName(), NData.GetParamVal()));
         }
-
+        TRACE(changeNodes.size());
         nextChangeTime = NData.NextTime();
 
     }

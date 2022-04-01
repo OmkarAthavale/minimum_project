@@ -3,7 +3,7 @@
 
 #include "ChasteSerialization.hpp"
 #include <boost/serialization/base_object.hpp>
-
+#include "Debug.hpp"
 #include "MonodomainProblem.hpp"
 #include "AbstractCardiacCellFactory.hpp"
 #include "ParamConfig.hpp"
