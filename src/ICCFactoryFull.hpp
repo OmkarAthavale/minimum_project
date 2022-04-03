@@ -1,5 +1,5 @@
-#ifndef ICCFACTORY_HPP_
-#define ICCFACTORY_HPP_
+#ifndef ICCFACTORYFULL_HPP_
+#define ICCFACTORYFULL_HPP_
 
 #include <set>
 
@@ -11,7 +11,7 @@
 #include "../src/Du2013_CalibNeur.hpp"
 
 template<unsigned DIM>
-class ICCFactory : public AbstractCardiacCellFactory<DIM>
+class ICCFactoryFull : public AbstractCardiacCellFactory<DIM>
 {
   private:
   std::set<unsigned> setICCNode;
@@ -22,7 +22,7 @@ class ICCFactory : public AbstractCardiacCellFactory<DIM>
   void ReadLaplaceFile();
 
   public:
-  ICCFactory(std::set<unsigned> iccNodes, ChastePoint<DIM>* centre, ChastePoint<DIM>* radius) : 
+  ICCFactoryFull(std::set<unsigned> iccNodes, ChastePoint<DIM>* centre, ChastePoint<DIM>* radius) : 
   AbstractCardiacCellFactory<DIM>(), 
   setICCNode(iccNodes), 
   pm_centre(centre), 
@@ -30,7 +30,7 @@ class ICCFactory : public AbstractCardiacCellFactory<DIM>
   {ReadLaplaceFile();};
 
   // Destructor
-  virtual ~ICCFactory(){};
+  virtual ~ICCFactoryFull(){};
 
   AbstractCardiacCell* CreateCardiacCellForTissueNode(Node<DIM>* pNode);
 };

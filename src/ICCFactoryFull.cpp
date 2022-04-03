@@ -1,4 +1,4 @@
-#include "ICCFactory.hpp"
+#include "ICCFactoryFull.hpp"
 
 template<unsigned DIM>
 void ICCFactoryFull<DIM>::ReadLaplaceFile()
@@ -92,6 +92,6 @@ AbstractCardiacCell* ICCFactoryFull<DIM>::CreateCardiacCellForTissueNode(Node<DI
 }
 
 // Explicit instantiation
-template class ICCFactory<1>;
-template class ICCFactory<2>;
-template class ICCFactory<3>;
+template class ICCFactoryFull<1>;
+template class ICCFactoryFull<2>;
+template class ICCFactoryFull<3>;
