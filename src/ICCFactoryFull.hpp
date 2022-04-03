@@ -3,6 +3,7 @@
 
 #include <set>
 
+#include "Debug.hpp"
 #include "AbstractCardiacCell.hpp"
 #include "AbstractCardiacCellFactory.hpp"
 #include "ChastePoint.hpp"
@@ -10,6 +11,15 @@
 #include "../src/DummyDerivedCa.hpp"
 #include "../src/Du2013_CalibNeur.hpp"
 
+
+  struct coordinateV_st
+  {
+      double x;
+      double y;
+      double z;
+      double V;
+  };
+  
 template<unsigned DIM>
 class ICCFactoryFull : public AbstractCardiacCellFactory<DIM>
 {
@@ -19,13 +29,7 @@ class ICCFactoryFull : public AbstractCardiacCellFactory<DIM>
   ChastePoint<DIM>* pm_radius;
   std::vector<coordinateV_st> LaplaceInfo;
   
-  struct coordinateV_st
-{
-    double x;
-    double y;
-    double z;
-    double V;
-};
+
 
   void ReadLaplaceFile();
 

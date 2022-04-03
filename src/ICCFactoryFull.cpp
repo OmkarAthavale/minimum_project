@@ -47,15 +47,18 @@ AbstractCardiacCell* ICCFactoryFull<DIM>::CreateCardiacCellForTissueNode(Node<DI
     return new DummyDerivedCa(this->mpSolver, this->mpZeroStimulus);
   }
   
+  if (counter != 1)
+  {
+    PRINT_4_VARIABLES(x,y,z, counter);
+    EXCEPTION("Coordinates not found in Laplace file");
+  }
+
 
   ChasteEllipsoid<DIM> pacemaker(*pm_centre, *pm_radius);
   
   if(setICCNode.find(index) != setICCNode.end())
   {
-	  
-	  if 
-	  
-    CellDu2013_CalibNeurFromCellML* cell = new CellDu2013_CalibNeurFromCellML(this->mpSolver, this->mpZeroStimulus);
+	  CellDu2013_CalibNeurFromCellML* cell = new CellDu2013_CalibNeurFromCellML(this->mpSolver, this->mpZeroStimulus);
     
     // double xLoc = pNode->GetPoint()[0];
     // double zLoc = pNode->GetPoint()[2];
