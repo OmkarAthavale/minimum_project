@@ -44,7 +44,7 @@ class TestMonodomain3D : public CxxTest::TestSuite
     // ---------------------------------------- //
 
     // Mesh location
-    std::string mesh_dir = "projects/mesh/scaffold/" + mesh_ident;
+    std::string mesh_dir = "projects/mesh/scaffold_full/" + mesh_ident;
     TrianglesMeshReader<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> mesh_reader(mesh_dir.c_str());
 
     // Initialise mesh variables
