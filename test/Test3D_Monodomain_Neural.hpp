@@ -39,8 +39,8 @@ class TestMonodomain3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-3dFull";
     unsigned bath_attr = 0; // no bath for monodomain
     unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM
-    double duration =  150000.0;      // ms
-    double print_step = 50000.0;        // ms
+    double duration =  10000.0;      // ms
+    double print_step = 500.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
