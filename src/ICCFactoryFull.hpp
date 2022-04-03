@@ -19,6 +19,14 @@ class ICCFactoryFull : public AbstractCardiacCellFactory<DIM>
   ChastePoint<DIM>* pm_radius;
   std::vector<coordinateV_st> LaplaceInfo;
   
+  struct coordinateV_st
+{
+    double x;
+    double y;
+    double z;
+    double V;
+};
+
   void ReadLaplaceFile();
 
   public:

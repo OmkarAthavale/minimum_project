@@ -13,7 +13,7 @@ void ICCFactoryFull<DIM>::ReadLaplaceFile()
 
 	while(std::getline(inLaplaceInfo, line))
 	{
-	  stringstream cordinateLap(line);
+	  std::stringstream cordinateLap(line);
 	  cordinateLap >> lapInfo.x >> lapInfo.y >> lapInfo.z >> lapInfo.V;
 	  LaplaceInfo.push_back(lapInfo);
 	}
@@ -44,7 +44,7 @@ AbstractCardiacCell* ICCFactoryFull<DIM>::CreateCardiacCellForTissueNode(Node<DI
 
   if (V_val > 97)
   {
-    return new DummyDerivedCa(mpSolver, mpZeroStimulus);
+    return new DummyDerivedCa(this->mpSolver, this->mpZeroStimulus);
   }
   
 
