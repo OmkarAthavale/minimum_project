@@ -12,14 +12,14 @@
 #include "../src/Du2013_CalibNeur.hpp"
 
 
-  struct coordinateV_st
-  {
-      double x;
-      double y;
-      double z;
-      double V;
-  };
-  
+struct coordinateV_st
+{
+    double x;
+    double y;
+    double z;
+    double V;
+};
+
 template<unsigned DIM>
 class ICCFactoryFull : public AbstractCardiacCellFactory<DIM>
 {
