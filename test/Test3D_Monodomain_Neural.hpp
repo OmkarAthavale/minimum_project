@@ -16,7 +16,7 @@
 #include "Debug.hpp"
 
 #include "ChastePoint.hpp"
-#include "../src/ICCFactory.hpp"
+#include "../src/ICCFactoryFull.hpp"
 
 #include "MonodomainProblemNeural.hpp"
 
@@ -36,7 +36,7 @@ class TestMonodomain3D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_16_16_2.1";
-    std::string output_dir = mesh_ident + "-testingCondEta";
+    std::string output_dir = mesh_ident + "-3dFull";
     unsigned bath_attr = 0; // no bath for monodomain
     unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM
     double duration =  150000.0;      // ms
@@ -96,7 +96,7 @@ class TestMonodomain3D : public CxxTest::TestSuite
     ChastePoint<PROBLEM_SPACE_DIM> radii (1.5, 1.0, 0.3);
 
     // Initialise problem with cells
-    ICCFactory<PROBLEM_SPACE_DIM> network_cells(iccNodes, &centre, &radii);
+    ICCFactoryFull<PROBLEM_SPACE_DIM> network_cells(iccNodes, &centre, &radii);
     MonodomainProblemNeural<PROBLEM_SPACE_DIM> monodomain_problem(&network_cells);
     monodomain_problem.SetMesh( &mesh );
 
