@@ -3,7 +3,7 @@
 template<unsigned DIM>
 void ICCFactoryFull<DIM>::ReadLaplaceFile()
 {
-	std::ifstream inLaplaceInfo("projects/mesh/scaffold_full/rat_scaffold_16_16_2.1_laplace_longi_sw.txt");
+	std::ifstream inLaplaceInfo("projects/mesh/scaffold_full/rat_scaffold_16_16_2.1_laplace_longi.txt");
 	if(!inLaplaceInfo)
 	{
 	  EXCEPTION("Reading laplace solution error");
@@ -46,7 +46,7 @@ AbstractCardiacCell* ICCFactoryFull<DIM>::CreateCardiacCellForTissueNode(Node<DI
   {
     return new DummyDerivedCa(this->mpSolver, this->mpZeroStimulus);
   }
-  
+
   if (counter != 1)
   {
     PRINT_4_VARIABLES(x,y,z, counter);
