@@ -3,7 +3,7 @@
 template<unsigned DIM>
 void ICCFactoryFull<DIM>::ReadLaplaceFile()
 {
-	std::ifstream inLaplaceInfo("projects/mesh/scaffold_full/rat_scaffold_16_16_2.1_laplace_longi.txt");
+	std::ifstream inLaplaceInfo("projects/mesh/scaffold_full/rat_scaffold_16_16_2.1_laplace_longi_sw.txt");
 	if(!inLaplaceInfo)
 	{
 	  EXCEPTION("Reading laplace solution error");

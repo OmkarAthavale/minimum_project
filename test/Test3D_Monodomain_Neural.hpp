@@ -39,8 +39,8 @@ class TestMonodomain3D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-3dFull";
     unsigned bath_attr = 0; // no bath for monodomain
     unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM
-    double duration =  10000.0;      // ms
-    double print_step = 500.0;        // ms
+    double duration = 180000.0;      // ms
+    double print_step = 20000.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -92,8 +92,8 @@ class TestMonodomain3D : public CxxTest::TestSuite
 
 
     // Set pacemaker location
-    ChastePoint<PROBLEM_SPACE_DIM> centre(0.0, -0.9, -3.15);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (1.5, 1.0, 0.3);
+    ChastePoint<PROBLEM_SPACE_DIM> centre(0.0, -0.9, -3.0);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (0.5, 1.0, 0.3);
 
     // Initialise problem with cells
     ICCFactoryFull<PROBLEM_SPACE_DIM> network_cells(iccNodes, &centre, &radii);
