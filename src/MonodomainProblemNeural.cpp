@@ -28,17 +28,17 @@ void MonodomainProblemNeural<DIM>::AtBeginningOfTimestep(double time)
   // -- Where parameters are changed in a region: for cells in region, set respective parameters to new value
   // ---- Call a function of ParamConfig that returns a vector of objects
   // ---- where each object has (int globalIndex, std::string paramNameString, double paramValue)
-  TRACE("-1");
+  // TRACE("-1");
   if (ParamConfig<DIM>::GetInstance() != NULL) {
-    TRACE("0");
+    // TRACE("0");
     std::vector<NeuralChangeSet> changeNodes;
-    TRACE("1");
+    // TRACE("1");
     ParamConfig<DIM>::GetInstance()->GetUpdateList(time, changeNodes);
 
-    TRACE("2:" << changeNodes.size());
+    // TRACE("2:" << changeNodes.size());
     std::vector<NeuralChangeSet>::iterator row;
 
-    TRACE("3");
+    // TRACE("3");
     for(row = changeNodes.begin(); row != changeNodes.end(); row++){
       this->GetMonodomainTissue()->GetCardiacCell(row->globalIndex)->SetParameter(row->paramName, row->paramValue);
     }
