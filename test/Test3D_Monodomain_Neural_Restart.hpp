@@ -49,6 +49,12 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     {
       if (pMesh->GetDistributedVectorFactory()->IsGlobalIndexLocal(node_index)) {
         p_monodomain_problem->GetTissue()->GetCardiacCell(node_index)->SetParameter("stim_cholinergic", 5.0);
+        if (node_index == 10)
+        {
+          std::vector< std::string > paramNames = p_monodomain_problem->GetTissue()->GetCardiacCell(node_index)->rGetParameterNames();
+
+          for(int i=0; i < paramNames.size(); i++) {cout << paramNames[i] << "\n"};
+        }
       }
     }
     
