@@ -51,7 +51,7 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
         p_monodomain_problem->GetTissue()->GetCardiacCell(node_index)->SetParameter("stim_cholinergic", 5.0);
         if (node_index == 10)
         {
-          std::vector< std::string > paramNames = (CellDu2013_CalibNeurFromCellML p_monodomain_problem->GetTissue()->GetCardiacCell(node_index))->rGetParameterNames();
+          std::vector< std::string > paramNames = ((CellDu2013_CalibNeurFromCellML) p_monodomain_problem->GetTissue()->GetCardiacCell(node_index))->rGetParameterNames();
 
           for(int i=0; i < paramNames.size(); i++) {cout << paramNames[i] << "\n"};
         }
