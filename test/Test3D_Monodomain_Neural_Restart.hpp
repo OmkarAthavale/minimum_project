@@ -52,7 +52,7 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
         {
           std::vector< std::string > paramNames = ((CellDu2013_CalibNeurFromCellML*) p_monodomain_problem->GetTissue()->GetCardiacCell(node_index))->rGetParameterNames();
 
-          for(int i=0; i < paramNames.size(); i++) {cout << paramNames[i] << "\n";};
+          for(int i=0; i < paramNames.size(); i++) {cout << paramNames[i] << "abcdefg\n";};
         }
       }
     }
