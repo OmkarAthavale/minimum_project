@@ -34,7 +34,7 @@ TidyNeuralData::TidyNeuralData(std::string dataFile){
 
     // Read input file
     std::ifstream in(dataFile.c_str());
-    if(!dataFile)
+    if(!in)
 	{
         EXCEPTION("Reading neural data error");
 	}
