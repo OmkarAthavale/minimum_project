@@ -19,6 +19,8 @@ void split(const std::string &s, char delim, std::back_insert_iterator<std::vect
 void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<double > > result);
 void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<std::string > > result);
 
+#ifndef LAPLACESTRUCT
+#define LAPLACESTRUCT
 struct coordinateV_st
 {
     double x;
@@ -26,7 +28,7 @@ struct coordinateV_st
     double z;
     double V;
 };
-
+#endif //LAPLACESTRUCT
 class TidyNeuralData
 {
     private:

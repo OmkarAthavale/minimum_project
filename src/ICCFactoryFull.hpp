@@ -11,7 +11,8 @@
 #include "../src/DummyDerivedCa.hpp"
 #include "../src/Du2013_CalibNeur.hpp"
 
-
+#ifndef LAPLACESTRUCT
+#define LAPLACESTRUCT
 struct coordinateV_st
 {
     double x;
@@ -20,6 +21,7 @@ struct coordinateV_st
     double V;
 };
 
+#endif //LAPLACESTRUCT
 template<unsigned DIM>
 class ICCFactoryFull : public AbstractCardiacCellFactory<DIM>
 {
