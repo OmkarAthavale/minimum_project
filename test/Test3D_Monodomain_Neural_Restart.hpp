@@ -38,8 +38,8 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_16_16_2.1";
     std::string chkpt_dir = mesh_ident + "-3dFull_toSS";
-    double added_duration = 5000.0;      // ms
-    double print_step = 1000.0;        // ms
+    double added_duration = 10.0;      // ms
+    double print_step = 5.0;        // ms
     std::string output_dir = chkpt_dir + "_testStim";
     // ---------------------------------------- //
     
@@ -48,7 +48,6 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     for (unsigned node_index = 0; node_index<pMesh->GetNumNodes(); node_index++)
     {
       if (pMesh->GetDistributedVectorFactory()->IsGlobalIndexLocal(node_index)) {
-        if (node_index < 100)
         {
           std::vector< std::string > paramNames = ((CellDu2013_CalibNeurFromCellML*) p_monodomain_problem->GetTissue()->GetCardiacCell(node_index))->rGetParameterNames();
 
