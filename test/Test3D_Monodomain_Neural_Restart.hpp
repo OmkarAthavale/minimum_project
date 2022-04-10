@@ -48,7 +48,7 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     for (unsigned node_index = 0; node_index<pMesh->GetNumNodes(); node_index++)
     {
       if (pMesh->GetDistributedVectorFactory()->IsGlobalIndexLocal(node_index)) {
-        if (node_index == 10)
+        if (node_index < 100)
         {
           std::vector< std::string > paramNames = ((CellDu2013_CalibNeurFromCellML*) p_monodomain_problem->GetTissue()->GetCardiacCell(node_index))->rGetParameterNames();
 
