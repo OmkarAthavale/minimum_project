@@ -160,6 +160,7 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, 
 	}
 	std::string line;
 	coordinateV_st lapInfo;
+    std::vector<coordinateV_st> LaplaceInfo;
 
 	while(std::getline(inLaplaceInfo, line))
 	{
@@ -189,21 +190,23 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, 
                     break;
                 }
             }
+
             if (counter != 1)
             {
                 PRINT_4_VARIABLES(x,y,z, counter);
                 EXCEPTION("Coordinates not found in Laplace file");
             }
-            if (std::abs(V_val - centres[i]) < (bound/2)) 
+            if (std::abs(V_val - centres[i]) < (width/2)) 
             {
                 nodes.push_back(iter->GetIndex());
             }
         }
-            nodeMapping.insert({i+1, nodes});
 
-            cout << i+1 << ": ";
-            for (std::vector<unsigned>::iterator n = nodes.begin(); n != nodes.end(); n++) cout << *n << ", ";
-            cout << '\n';
+        nodeMapping.insert({i+1, nodes});
+
+        cout << i+1 << ": ";
+        for (std::vector<unsigned>::iterator n = nodes.begin(); n != nodes.end(); n++) cout << *n << ", ";
+        cout << '\n';
     }
 }
 
