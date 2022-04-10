@@ -173,7 +173,7 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, 
     for (double m = start + width / 2; m < end; m += width){centres.push_back(m);}
 
 
-    for (unsigned i=0; i<centres.len(); ++i){
+    for (unsigned i=0; i<centres.size(); ++i){
         std::vector<unsigned> nodes;
         for (typename DistributedTetrahedralMesh<DIM,DIM>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
 
