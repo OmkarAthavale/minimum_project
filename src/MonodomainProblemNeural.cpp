@@ -40,7 +40,15 @@ void MonodomainProblemNeural<DIM>::AtBeginningOfTimestep(double time)
 
     // TRACE("3");
     for(row = changeNodes.begin(); row != changeNodes.end(); row++){
-      this->GetMonodomainTissue()->GetCardiacCell(row->globalIndex)->SetParameter(row->paramName, row->paramValue);
+      try
+      {
+        this->GetMonodomainTissue()->GetCardiacCell(row->globalIndex)->SetParameter(row->paramName, row->paramValue);
+      }
+      catch (...)
+      {
+        TRACE("Skipped")
+      }
+      
     }
 
   }
