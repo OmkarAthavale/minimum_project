@@ -69,6 +69,7 @@ class ParamConfig
     void CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y);
     void CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y, double lb_z, double ub_z, int bins_z);
     void MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh);
+    void MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, std::string filename, double start, double end, double width){
     void GetUpdateList(double time, std::vector<NeuralChangeSet>& changeNodes);
 
 };
