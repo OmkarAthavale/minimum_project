@@ -38,9 +38,9 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_16_16_2.1";
     std::string chkpt_dir = mesh_ident + "-3dFull_toSS";
-    double added_duration = 120000.0;      // ms
-    double print_step = 100.0;        // ms
-    std::string output_dir = chkpt_dir + "_baseline";
+    double added_duration = 5000.0;      // ms
+    double print_step = 1000.0;        // ms
+    std::string output_dir = chkpt_dir + "_testStim";
     // ---------------------------------------- //
     
     MonodomainProblemNeural<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
@@ -53,9 +53,10 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     // }
     
     // // Loads neural info and set up ParamConfig singleton instance
-    // ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/testData.txt");
+    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/testLaplaceSet.txt");
     // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 2, -1.5, 0.75, 2, -4.8, -3, 1);
     // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()), "projects/mesh/scaffold_full/rat_scaffold_16_16_2.1_laplace_longi_sw.txt", 10, 97, 10)
 
     HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
     HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.01, 0.3,0.03)); // TO MODIFY
