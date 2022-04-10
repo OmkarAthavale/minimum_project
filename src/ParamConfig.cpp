@@ -34,6 +34,10 @@ TidyNeuralData::TidyNeuralData(std::string dataFile){
 
     // Read input file
     std::ifstream in(dataFile.c_str());
+    if(!dataFile)
+	{
+        EXCEPTION("Reading neural data error");
+	}
     std::string line;
 
     // ----- Parse input file: Four rows of single space separated elements -----
