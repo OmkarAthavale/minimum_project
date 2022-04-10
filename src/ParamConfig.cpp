@@ -168,7 +168,7 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, 
         LaplaceInfo.push_back(lapInfo);
 	}
 
-    std::vector centres;
+    std::vector<double> centres;
     for (m = start + width / 2; m < end; m += width){centres.push_back(m);}
 
 
