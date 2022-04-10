@@ -16,8 +16,8 @@
  * where V_j is the voltage at node j and phi_j is the
  * extracellular potential at node j.
  */
-template<unsigned PROBLEM_DIM>
-class MonodomainProblemNeural : public MonodomainProblem<PROBLEM_DIM>
+template<unsigned DIM>
+class MonodomainProblemNeural : public MonodomainProblem<DIM>
 {
     /** Needed for serialization. */
     friend class boost::serialization::access;
@@ -30,7 +30,7 @@ class MonodomainProblemNeural : public MonodomainProblem<PROBLEM_DIM>
     template<class Archive>
     void serialize(Archive & archive, const unsigned int version)
     {
-        archive & boost::serialization::base_object< MonodomainProblem<PROBLEM_DIM> >(*this);
+        archive & boost::serialization::base_object< MonodomainProblem<DIM> >(*this);
     }
 public:
     /**
@@ -38,7 +38,7 @@ public:
      * @param pCellFactory User defined cell factory which shows how the pde should
      *   create cells.
      */
-    MonodomainProblemNeural(AbstractCardiacCellFactory<PROBLEM_DIM>* pCellFactory);
+    MonodomainProblemNeural(AbstractCardiacCellFactory<DIM>* pCellFactory);
 
     /**
      * Constructor just used for archiving

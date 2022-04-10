@@ -36,38 +36,38 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "BidomainProblemNeural.hpp"
 
-template<unsigned PROBLEM_DIM>
-BidomainProblemNeural<PROBLEM_DIM>::BidomainProblemNeural(
-            AbstractCardiacCellFactory<PROBLEM_DIM>* pCellFactory, bool hasBath)
-    : BidomainProblem<PROBLEM_DIM>(pCellFactory, hasBath)
+template<unsigned DIM>
+BidomainProblemNeural<DIM>::BidomainProblemNeural(
+            AbstractCardiacCellFactory<DIM>* pCellFactory, bool hasBath)
+    : BidomainProblem<DIM>(pCellFactory, hasBath)
 {
 }
 
-template<unsigned PROBLEM_DIM>
-BidomainProblemNeural<PROBLEM_DIM>::BidomainProblemNeural()
-    : BidomainProblem<PROBLEM_DIM>()
+template<unsigned DIM>
+BidomainProblemNeural<DIM>::BidomainProblemNeural()
+    : BidomainProblem<DIM>()
 {
 }
 
-template<unsigned PROBLEM_DIM>
-BidomainProblemNeural<PROBLEM_DIM>::~BidomainProblemNeural()
+template<unsigned DIM>
+BidomainProblemNeural<DIM>::~BidomainProblemNeural()
 {
 }
 
-template<unsigned PROBLEM_DIM>
-void BidomainProblemNeural<PROBLEM_DIM>::AtBeginningOfTimestep(double time)
+template<unsigned DIM>
+void BidomainProblemNeural<DIM>::AtBeginningOfTimestep(double time)
 {
   // Run electrode update as per BidomainProblem
-  BidomainProblem<PROBLEM_DIM>::AtBeginningOfTimestep(time);
+  BidomainProblem<DIM>::AtBeginningOfTimestep(time);
 
   // TODO: Update parameters from singleton instance of ParamConfig
   // -- Where parameters are changed in a region: for cells in region, set respective parameters to new value
   // ---- Call a function of ParamConfig that returns a vector of objects
   // ---- where each object has (int globalIndex, std::string paramNameString, double paramValue)
 
-  if (ParamConfig<PROBLEM_DIM>::GetInstance() != NULL) {
+  if (ParamConfig<DIM>::GetInstance() != NULL) {
     std::vector<NeuralChangeSet> changeNodes;
-    ParamConfig<PROBLEM_DIM>::GetInstance()->GetUpdateList(time, changeNodes);
+    ParamConfig<DIM>::GetInstance()->GetUpdateList(time, changeNodes);
 
     std::vector<NeuralChangeSet>::iterator row;
 
@@ -81,7 +81,7 @@ void BidomainProblemNeural<PROBLEM_DIM>::AtBeginningOfTimestep(double time)
 
 // Serialization for Boost >= 1.36
 #include "SerializationExportWrapperForCpp.hpp"
-EXPORT_TEMPLATE_CLASS_SAME_PROBLEM_DIMS(BidomainProblemNeural)
+EXPORT_TEMPLATE_CLASS_SAME_DIMS(BidomainProblemNeural)
 
 // Explicit instantiation
 template class BidomainProblemNeural<1>;
