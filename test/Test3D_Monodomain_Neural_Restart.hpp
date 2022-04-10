@@ -48,13 +48,13 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     for (unsigned node_index = 0; node_index<pMesh->GetNumNodes(); node_index++)
     {
       if (pMesh->GetDistributedVectorFactory()->IsGlobalIndexLocal(node_index)) {
-        // p_monodomain_problem->GetTissue()->GetCardiacCell(node_index)->SetParameter("stim_cholinergic", 5.0);
-        // if (node_index == 10)
-        // {
-        //   std::vector< std::string > paramNames = p_monodomain_problem->GetTissue()->GetCardiacCell(node_index)->rGetParameterNames();
+        p_monodomain_problem->GetTissue()->GetCardiacCell(node_index)->SetParameter("stim_cholinergic", 5.0);
+        if (node_index == 10)
+        {
+          std::vector< std::string > paramNames = p_monodomain_problem->GetTissue()->GetCardiacCell(node_index)->rGetParameterNames();
 
-        //   for(int i=0; i < paramNames.size(); i++) {cout << paramNames[i] << "\n"};
-        // }
+          for(int i=0; i < paramNames.size(); i++) {cout << paramNames[i] << "\n"};
+        }
     }
     
     // // Loads neural info and set up ParamConfig singleton instance
@@ -67,9 +67,9 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
     HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.01, 0.3,0.03)); // TO MODIFY
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step);
-    // HeartConfig::Instance()->SetOutputDirectory(output_dir);
+    HeartConfig::Instance()->SetOutputDirectory(output_dir);
 
-    // p_monodomain_problem->Solve();
+    p_monodomain_problem->Solve();
 
     CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(*p_monodomain_problem, output_dir + "/checkpoint_problem");
 
