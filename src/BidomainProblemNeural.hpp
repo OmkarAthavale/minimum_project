@@ -52,8 +52,8 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * where V_j is the voltage at node j and phi_j is the
  * extracellular potential at node j.
  */
-template<unsigned DIM>
-class BidomainProblemNeural : public BidomainProblem<DIM>
+template<unsigned PROBLEM_DIM>
+class BidomainProblemNeural : public BidomainProblem<PROBLEM_DIM>
 {
     /** Needed for serialization. */
     friend class boost::serialization::access;
@@ -66,7 +66,7 @@ class BidomainProblemNeural : public BidomainProblem<DIM>
     template<class Archive>
     void serialize(Archive & archive, const unsigned int version)
     {
-        archive & boost::serialization::base_object< BidomainProblem<DIM> >(*this);
+        archive & boost::serialization::base_object< BidomainProblem<PROBLEM_DIM> >(*this);
     }
 public:
     /**
@@ -74,7 +74,7 @@ public:
      * @param pCellFactory User defined cell factory which shows how the pde should
      *   create cells.
      */
-    BidomainProblemNeural(AbstractCardiacCellFactory<DIM>* pCellFactory, bool hasBath=false);
+    BidomainProblemNeural(AbstractCardiacCellFactory<PROBLEM_DIM>* pCellFactory, bool hasBath=false);
 
     /**
      * Constructor just used for archiving
