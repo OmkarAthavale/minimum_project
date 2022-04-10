@@ -180,6 +180,11 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, 
             coordinateV_st info;
             int counter = 0;
             double V_val = 0;
+
+            double x = iter->GetPoint()[0];
+            double y = iter->GetPoint()[1];
+            double z = iter->GetPoint()[2];
+
             for(std::vector<coordinateV_st>::iterator itr = LaplaceInfo.begin(); itr!=LaplaceInfo.end();itr++)
             {
                 info = *itr;
