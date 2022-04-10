@@ -53,7 +53,7 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     // }
     
     // // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/testData.txt");
+    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/testLaplacSet.txt");
     // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 2, -1.5, 0.75, 2, -4.8, -3, 1);
     // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
     TRACE("gets to here")
