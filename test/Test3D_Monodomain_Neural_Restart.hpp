@@ -56,7 +56,7 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/testLaplaceSet.txt");
     // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 2, -1.5, 0.75, 2, -4.8, -3, 1);
     // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
-    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()), "projects/mesh/scaffold_full/rat_scaffold_16_16_2.1_laplace_longi_sw.txt", 10, 97, 10)
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()), "projects/mesh/scaffold_full/rat_scaffold_16_16_2.1_laplace_longi_sw.txt", 10, 97, 10);
 
     HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
     HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.01, 0.3,0.03)); // TO MODIFY
