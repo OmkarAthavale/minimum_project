@@ -50,7 +50,14 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
       if (pMesh->GetDistributedVectorFactory()->IsGlobalIndexLocal(node_index)) {
         {
           //std::vector< std::string > paramNames = 
-          ((CellDu2013_CalibNeurFromCellML*) p_monodomain_problem->GetTissue()->GetCardiacCell(node_index))->SetAnyVariable("stim_cholinergic", 5.0);
+          try 
+          { 
+            p_monodomain_problem->GetTissue()->GetCardiacCell(node_index))->SetParameter("excitatory_neural", 5.0);
+          } catch (...)
+          {
+            TRACE("Node does not have parameter" << node_index);
+          }
+          
 
           //for(int i=0; i < paramNames.size(); i++) {cout << paramNames[i] << "abcdefg\n";};
         }
