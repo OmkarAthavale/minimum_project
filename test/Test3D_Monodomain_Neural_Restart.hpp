@@ -52,7 +52,7 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
           //std::vector< std::string > paramNames = 
           try 
           { 
-            p_monodomain_problem->GetTissue()->GetCardiacCell(node_index))->SetParameter("excitatory_neural", 5.0);
+            p_monodomain_problem->GetTissue()->GetCardiacCell(node_index)->SetParameter("excitatory_neural", 5.0);
           } catch (...)
           {
             TRACE("Node does not have parameter" << node_index);
