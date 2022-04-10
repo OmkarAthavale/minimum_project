@@ -53,7 +53,7 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
         {
           std::vector< std::string > paramNames = p_monodomain_problem->GetTissue()->GetCardiacCell(node_index)->rGetParameterNames ();
 
-        for(int i=0; i < paramNames.size(); i++) cout << paramNames.at(i) << '\n';
+        for(int i=0; i < paramNames.size(); i++) {stdcout << paramNames[i] << "\n"};
         }
     }
     
