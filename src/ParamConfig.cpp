@@ -152,62 +152,62 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh){
 
 template <unsigned DIM>
 void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, std::string filename, double start, double end, double width){
-    // // read laplace soln
-	// std::ifstream inLaplaceInfo(filename);
-	// if(!inLaplaceInfo)
-	// {
-    //     EXCEPTION("Reading laplace solution error");
-	// }
-	// std::string line;
-	// coordinateV_st lapInfo;
-    // std::vector<coordinateV_st> LaplaceInfo;
+    // read laplace soln
+	std::ifstream inLaplaceInfo(filename);
+	if(!inLaplaceInfo)
+	{
+        EXCEPTION("Reading laplace solution error");
+	}
+	std::string line;
+	coordinateV_st lapInfo;
+    std::vector<coordinateV_st> LaplaceInfo;
 
-	// while(std::getline(inLaplaceInfo, line))
-	// {
-    //     std::stringstream cordinateLap(line);
-    //     cordinateLap >> lapInfo.x >> lapInfo.y >> lapInfo.z >> lapInfo.V;
-    //     LaplaceInfo.push_back(lapInfo);
-	// }
+	while(std::getline(inLaplaceInfo, line))
+	{
+        std::stringstream cordinateLap(line);
+        cordinateLap >> lapInfo.x >> lapInfo.y >> lapInfo.z >> lapInfo.V;
+        LaplaceInfo.push_back(lapInfo);
+	}
 
-    // std::vector<double> centres;
-    // for (m = start + width / 2; m < end; m += width){centres.push_back(m);}
+    std::vector<double> centres;
+    for (m = start + width / 2; m < end; m += width){centres.push_back(m);}
 
 
-    // for (unsigned i=0; i<centres.len(); ++i){
-    //     std::vector<unsigned> nodes;
-    //     for (typename DistributedTetrahedralMesh<DIM,DIM>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
+    for (unsigned i=0; i<centres.len(); ++i){
+        std::vector<unsigned> nodes;
+        for (typename DistributedTetrahedralMesh<DIM,DIM>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
 
-    //         coordinateV_st info;
-    //         int counter = 0;
-    //         double V_val = 0;
-    //         for(std::vector<coordinateV_st>::iterator itr = LaplaceInfo.begin(); itr!=LaplaceInfo.end();itr++)
-    //         {
-    //             info = *itr;
-    //             if(info.x > x-0.001 && info.x < x+0.001  && info.y > y-0.001 && info.y < y+0.001 && info.z > z-0.001 && info.z < z + 0.001)
-    //             {
-    //                 counter++;
-    //                 V_val = info.V;
-    //                 break;
-    //             }
-    //         }
+            coordinateV_st info;
+            int counter = 0;
+            double V_val = 0;
+            for(std::vector<coordinateV_st>::iterator itr = LaplaceInfo.begin(); itr!=LaplaceInfo.end();itr++)
+            {
+                info = *itr;
+                if(info.x > x-0.001 && info.x < x+0.001  && info.y > y-0.001 && info.y < y+0.001 && info.z > z-0.001 && info.z < z + 0.001)
+                {
+                    counter++;
+                    V_val = info.V;
+                    break;
+                }
+            }
 
-    //         if (counter != 1)
-    //         {
-    //             PRINT_4_VARIABLES(x,y,z, counter);
-    //             EXCEPTION("Coordinates not found in Laplace file");
-    //         }
-    //         if (std::abs(V_val - centres[i]) < (width/2)) 
-    //         {
-    //             nodes.push_back(iter->GetIndex());
-    //         }
-    //     }
+            if (counter != 1)
+            {
+                PRINT_4_VARIABLES(x,y,z, counter);
+                EXCEPTION("Coordinates not found in Laplace file");
+            }
+            if (std::abs(V_val - centres[i]) < (width/2)) 
+            {
+                nodes.push_back(iter->GetIndex());
+            }
+        }
 
-    //     nodeMapping.insert({i+1, nodes});
+        nodeMapping.insert({i+1, nodes});
 
-    //     cout << i+1 << ": ";
-    //     for (std::vector<unsigned>::iterator n = nodes.begin(); n != nodes.end(); n++) cout << *n << ", ";
-    //     cout << '\n';
-    // }
+        cout << i+1 << ": ";
+        for (std::vector<unsigned>::iterator n = nodes.begin(); n != nodes.end(); n++) cout << *n << ", ";
+        cout << '\n';
+    }
 }
 
 template <unsigned DIM>
