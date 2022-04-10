@@ -170,7 +170,7 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, 
 	}
 
     std::vector<double> centres;
-    for (m = start + width / 2; m < end; m += width){centres.push_back(m);}
+    for (double m = start + width / 2; m < end; m += width){centres.push_back(m);}
 
 
     for (unsigned i=0; i<centres.len(); ++i){
