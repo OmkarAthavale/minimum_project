@@ -19,6 +19,14 @@ void split(const std::string &s, char delim, std::back_insert_iterator<std::vect
 void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<double > > result);
 void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<std::string > > result);
 
+struct coordinateV_st
+{
+    double x;
+    double y;
+    double z;
+    double V;
+};
+
 class TidyNeuralData
 {
     private:
