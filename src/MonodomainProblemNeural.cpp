@@ -42,11 +42,14 @@ void MonodomainProblemNeural<DIM>::AtBeginningOfTimestep(double time)
     for(row = changeNodes.begin(); row != changeNodes.end(); row++){
       try
       {
+		double initVal = this->GetMonodomainTissue()->GetCardiacCell(row->globalIndex)->GetParameter(row->paramName);
         this->GetMonodomainTissue()->GetCardiacCell(row->globalIndex)->SetParameter(row->paramName, row->paramValue);
+		double chVal = this->GetMonodomainTissue()->GetCardiacCell(row->globalIndex)->GetParameter(row->paramName);
+		std::cerr << globalIndex << ', ' << initVal << ', ' << chVal << '\n';
       }
       catch (...)
       {
-        TRACE("Skipped")
+        std::cerr << "Skipped " << globalIndex << '\n';
       }
       
     }

@@ -38,9 +38,9 @@ class TestMonodomain3DRestart : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_16_16_2.1";
     std::string chkpt_dir = mesh_ident + "-3dFull_toSS";
-    double added_duration = 120000.0;      // ms
-    double print_step = 100.0;        // ms
-    std::string output_dir = chkpt_dir + "_stimulation";
+    double added_duration = 10.0;      // ms
+    double print_step = 5.0;        // ms
+    std::string output_dir = chkpt_dir + "_stimTest";
     // ---------------------------------------- //
     
     MonodomainProblemNeural<PROBLEM_SPACE_DIM>* p_monodomain_problem = CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_SPACE_DIM> >::Load(chkpt_dir + "/checkpoint_problem");
