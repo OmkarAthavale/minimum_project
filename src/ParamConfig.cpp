@@ -269,11 +269,5 @@ std::string TidyNeuralData::GetParamName(){
 }
 
 double TidyNeuralData::GetParamVal(){
-    if (GetParamName() == "excitatory_neural") {
-        return CalibrationFunctions::Beta_Zhang2011(paramVals[currIndex]);
-    } else if (GetParamName() == "inhibitory_neural") {
-        return CalibrationFunctions::GBKmax_Kim2003(paramVals[currIndex]);
-    } else {
-        return paramVals[currIndex];
-    }
+    return paramVals[currIndex];
 }
