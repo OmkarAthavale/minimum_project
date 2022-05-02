@@ -91,9 +91,9 @@ class TestMinimal3D : public CxxTest::TestSuite
     TRACE("Total number of nodes: " << mesh.GetNumAllNodes());
 
     // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig::InitInstance("projects/NeuralData/testShort_2DLarge.txt");
-    ParamConfig::GetInstance()->CreateGriddedControlRegions(0.5, 1.5, 2, 1.5, 2.5, 2);
-    ParamConfig::GetInstance()->MapNodeToControl(&mesh);
+    ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/testShort_2DLarge.txt");
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(0.5, 1.5, 2, 1.5, 2.5, 2);
+    ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&mesh);
 
 
     // Set fundus location

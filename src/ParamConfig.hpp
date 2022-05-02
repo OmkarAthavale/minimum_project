@@ -19,6 +19,16 @@ void split(const std::string &s, char delim, std::back_insert_iterator<std::vect
 void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<double > > result);
 void split(const std::string &s, char delim, std::back_insert_iterator<std::vector<std::string > > result);
 
+#ifndef LAPLACESTRUCT
+#define LAPLACESTRUCT
+struct coordinateV_st
+{
+    double x;
+    double y;
+    double z;
+    double V;
+};
+#endif //LAPLACESTRUCT
 class TidyNeuralData
 {
     private:
@@ -49,64 +59,33 @@ struct NeuralChangeSet
     NeuralChangeSet(unsigned index, std::string name, double value):globalIndex(index), paramName(name), paramValue(value){};
 };
 
+template <unsigned DIM>
 class ParamConfig
 {
     private:
-    std::unordered_map<int, ChasteCuboid<2> > ctrlRegionDefn;
+    std::unordered_map<int, ChasteCuboid<DIM> > ctrlRegionDefn;
     std::unordered_map<unsigned, std::vector<unsigned>> nodeMapping;
     unsigned keyNum = 0;
     TidyNeuralData NData;
-    static ParamConfig* instance;
+    static ParamConfig<DIM>* instance;
     double nextChangeTime = 999999999999.0;
 
     ParamConfig(std::string NdataLoc);
 
     public:
-    static ParamConfig* InitInstance(std::string NdataLoc);
-    static ParamConfig* GetInstance();
+    static ParamConfig<DIM>* InitInstance(std::string NdataLoc);
+    static ParamConfig<DIM>* GetInstance();
 
     void CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y);
-    void MapNodeToControl(AbstractTetrahedralMesh<2,2>* mesh);
-    void GetUpdateList(double time, std::vector<NeuralChangeSet> changeNodes);
+    void CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y, double lb_z, double ub_z, int bins_z);
+    void MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh);
+    void MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, std::string filename, double start, double end, double width);
+    void GetUpdateList(double time, std::vector<NeuralChangeSet>& changeNodes);
 
 };
 
-class SinusoidalData
-{
-    struct SinParamSet
-    {
-        double a0;
-        double a1;
-        double b1;
-        double w;
-
-        SinParamSet(double a0, double a1, double b1, double w):a0(a0), a1(a1), b1(b1), w(w){};
-    }
-
-    private:
-    std::vector<SinParamSet> inputParams; // ([reg; a0; a1; b1; w;])
-    std::string varName;
-
-    public:
-    SinusoidalData(std::string dataFile, std::string varName);
-};
-
-
-class FittedSinusoidConfig
-{
-    private:
-    static FittedSinusoidConfig* instance;
-    std::unordered_map<int, ChasteCuboid<2> > ctrlRegionDefn;
-    std::unordered_map<unsigned, std::vector<unsigned> > nodeMapping;
-    unsigned keyNum = 0;
-    std::vector<SinusoidalData> data;
-
-    public:
-    static FittedSinusoidConfig* InitInstance();
-    static FittedSinusoidConfig* GetInstance();
-
-    void GetData(){return data};
-
-}
-
+// Explicit instantiation
+template class ParamConfig<1>;
+template class ParamConfig<2>;
+template class ParamConfig<3>;
 #endif

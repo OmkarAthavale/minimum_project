@@ -6,3 +6,5 @@ TestLarge2D_Base.hpp
 TestLarge2D_Neural.hpp
 TestParamConfig.hpp
 TestLarge2D_Restart_Neural.hpp
+Test3D_Monodomain_Neural.hpp
+Test3D_Monodomain_Neural_Restart.hpp
