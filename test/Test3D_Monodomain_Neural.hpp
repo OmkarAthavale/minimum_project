@@ -36,7 +36,7 @@ class TestMonodomain3D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_16_16_2.1";
-    std::string output_dir = mesh_ident + "-3dFull";
+    std::string output_dir = mesh_ident + "-3dFull_ICCSMC";
     unsigned bath_attr = 0; // no bath for monodomain
     unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM
     double duration = 180000.0;      // ms
