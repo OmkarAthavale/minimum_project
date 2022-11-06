@@ -58,7 +58,7 @@ AbstractCardiacCell* ICCFactoryFull<DIM>::CreateCardiacCellForTissueNode(Node<DI
   
   if(setICCNode.find(index) != setICCNode.end())
   {
-	  CellDu2013_CalibNeurFromCellML* cell = new CellDu2013_CalibNeurFromCellML(this->mpSolver, this->mpZeroStimulus);
+	  CellICCSMCFromCellML* cell = new CellICCSMCFromCellML(this->mpSolver, this->mpZeroStimulus);
     
     // double xLoc = pNode->GetPoint()[0];
     // double zLoc = pNode->GetPoint()[2];
