@@ -59,27 +59,27 @@ struct NeuralChangeSet
     NeuralChangeSet(unsigned index, std::string name, double value):globalIndex(index), paramName(name), paramValue(value){};
 };
 
-template <unsigned DIM>
+template <unsigned ELEMENT_DIM, unsigned SPACE_DIM = ELEMENT_DIM>
 class ParamConfig
 {
     private:
-    std::unordered_map<int, ChasteCuboid<DIM> > ctrlRegionDefn;
+    std::unordered_map<int, ChasteCuboid<ELEMENT_DIM, SPACE_DIM> > ctrlRegionDefn;
     std::unordered_map<unsigned, std::vector<unsigned>> nodeMapping;
     unsigned keyNum = 0;
     TidyNeuralData NData;
-    static ParamConfig<DIM>* instance;
+    static ParamConfig<ELEMENT_DIM, SPACE_DIM>* instance;
     double nextChangeTime = 999999999999.0;
 
     ParamConfig(std::string NdataLoc);
 
     public:
-    static ParamConfig<DIM>* InitInstance(std::string NdataLoc);
-    static ParamConfig<DIM>* GetInstance();
+    static ParamConfig<ELEMENT_DIM, SPACE_DIM>* InitInstance(std::string NdataLoc);
+    static ParamConfig<ELEMENT_DIM, SPACE_DIM>* GetInstance();
 
     void CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y);
     void CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y, double lb_z, double ub_z, int bins_z);
-    void MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh);
-    void MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, std::string filename, double start, double end, double width);
+    void MapNodeToControl(AbstractTetrahedralMesh<ELEMENT_DIM, SPACE_DIM>* mesh);
+    void MapNodeToControl(AbstractTetrahedralMesh<ELEMENT_DIM, SPACE_DIM>* mesh, std::string filename, double start, double end, double width);
     void GetUpdateList(double time, std::vector<NeuralChangeSet>& changeNodes);
 
 };
@@ -88,4 +88,5 @@ class ParamConfig
 template class ParamConfig<1>;
 template class ParamConfig<2>;
 template class ParamConfig<3>;
+template class ParamConfig<2,3>;
 #endif

@@ -70,22 +70,22 @@ TidyNeuralData::TidyNeuralData(std::string dataFile){
     maxLength = times.size();
 }
 
-template <unsigned DIM>
-ParamConfig<DIM>* ParamConfig<DIM>::instance = 0;
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+ParamConfig<ELEMENT_DIM, SPACE_DIM>* ParamConfig<ELEMENT_DIM, SPACE_DIM>::instance = 0;
 
-template <unsigned DIM>
-ParamConfig<DIM>* ParamConfig<DIM>::InitInstance(std::string NdataLoc)
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+ParamConfig<ELEMENT_DIM, SPACE_DIM>* ParamConfig<ELEMENT_DIM, SPACE_DIM>::InitInstance(std::string NdataLoc)
 {
     if (instance == 0)
     {
-        instance = new ParamConfig<DIM>(NdataLoc);
+        instance = new ParamConfig<ELEMENT_DIM, SPACE_DIM>(NdataLoc);
     }
 
     return instance;
 }
 
-template <unsigned DIM>
-ParamConfig<DIM>* ParamConfig<DIM>::GetInstance()
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+ParamConfig<ELEMENT_DIM, SPACE_DIM>* ParamConfig<ELEMENT_DIM, SPACE_DIM>::GetInstance()
 {
     if (instance == 0) {
         return NULL;
@@ -94,8 +94,8 @@ ParamConfig<DIM>* ParamConfig<DIM>::GetInstance()
     }
 }
 
-template <unsigned DIM>
-void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y){
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+void ParamConfig<ELEMENT_DIM, SPACE_DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y){
 
 
     double x_bin_size = (ub_x-lb_x)/bins_x;
@@ -105,17 +105,17 @@ void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int
         for (int j=0; j<bins_x; ++j){
             keyNum++;
             
-            ChastePoint<DIM> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i);
-            ChastePoint<DIM> bottom_corner(lb_x+x_bin_size*(j+1), lb_y+y_bin_size*(i+1));
-            ChasteCuboid<DIM> reg(top_corner, bottom_corner);
+            ChastePoint<SPACE_DIM> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i);
+            ChastePoint<SPACE_DIM> bottom_corner(lb_x+x_bin_size*(j+1), lb_y+y_bin_size*(i+1));
+            ChasteCuboid<SPACE_DIM> reg(top_corner, bottom_corner);
             ctrlRegionDefn.insert({keyNum, reg});
             
         }
     }
 }
 
-template <unsigned DIM>
-void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y, double lb_z, double ub_z, int bins_z){
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+void ParamConfig<ELEMENT_DIM, SPACE_DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int bins_x, double lb_y, double ub_y, int bins_y, double lb_z, double ub_z, int bins_z){
 
 
     double x_bin_size = (ub_x-lb_x)/bins_x;
@@ -127,22 +127,22 @@ void ParamConfig<DIM>::CreateGriddedControlRegions(double lb_x, double ub_x, int
             for (int k=0; k<bins_z; ++k){
             keyNum++;
             
-            ChastePoint<DIM> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i, lb_z+z_bin_size*k);
-            ChastePoint<DIM> bottom_corner(lb_x+x_bin_size*(j+1), lb_y+y_bin_size*(i+1), lb_z+z_bin_size*(k+1));
+            ChastePoint<SPACE_DIM> top_corner(lb_x+x_bin_size*j, lb_y+y_bin_size*i, lb_z+z_bin_size*k);
+            ChastePoint<SPACE_DIM> bottom_corner(lb_x+x_bin_size*(j+1), lb_y+y_bin_size*(i+1), lb_z+z_bin_size*(k+1));
 			cout << lb_x+x_bin_size*j << ", " << lb_y+y_bin_size*i << ", " << lb_z+z_bin_size*k << "::" << lb_x+x_bin_size*(j+1) << ", " << lb_y+y_bin_size*(i+1) << ", " << lb_z+z_bin_size*(k+1) << "\n";
-            ChasteCuboid<DIM> reg(top_corner, bottom_corner);
+            ChasteCuboid<SPACE_DIM> reg(top_corner, bottom_corner);
             ctrlRegionDefn.insert({keyNum, reg});
             
             }
         }
     }
 }
-template <unsigned DIM>
-void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh){
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+void ParamConfig<ELEMENT_DIM, SPACE_DIM>::MapNodeToControl(AbstractTetrahedralMesh<ELEMENT_DIM, SPACE_DIM>* mesh){
     
     for (unsigned i=1; i<=keyNum; ++i){
         std::vector<unsigned> nodes;
-        for (typename DistributedTetrahedralMesh<DIM,DIM>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
+        for (typename DistributedTetrahedralMesh<ELEMENT_DIM, SPACE_DIM>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
             if (ctrlRegionDefn.find(i)!=ctrlRegionDefn.end() && ctrlRegionDefn.find(i)->second.DoesContain(iter->GetPoint())){
                 nodes.push_back(iter->GetIndex());
             }
@@ -156,8 +156,8 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh){
 
 }
 
-template <unsigned DIM>
-void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, std::string filename, double start, double end, double width){
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+void ParamConfig<ELEMENT_DIM, SPACE_DIM>::MapNodeToControl(AbstractTetrahedralMesh<ELEMENT_DIM, SPACE_DIM>* mesh, std::string filename, double start, double end, double width){
     // read laplace soln
 	std::ifstream inLaplaceInfo(filename);
 	if(!inLaplaceInfo)
@@ -181,7 +181,7 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, 
 
     for (unsigned i=0; i<centres.size(); ++i){
         std::vector<unsigned> nodes;
-        for (typename DistributedTetrahedralMesh<DIM,DIM>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
+        for (typename DistributedTetrahedralMesh<ELEMENT_DIM, SPACE_DIM>::NodeIterator iter = mesh->GetNodeIteratorBegin(); iter != mesh->GetNodeIteratorEnd(); ++iter){
 
             coordinateV_st info;
             int counter = 0;
@@ -221,8 +221,8 @@ void ParamConfig<DIM>::MapNodeToControl(AbstractTetrahedralMesh<DIM,DIM>* mesh, 
     }
 }
 
-template <unsigned DIM>
-void ParamConfig<DIM>::GetUpdateList(double time, std::vector<NeuralChangeSet>& changeNodes){
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+void ParamConfig<ELEMENT_DIM, SPACE_DIM>::GetUpdateList(double time, std::vector<NeuralChangeSet>& changeNodes){
     TRACE("B0");
     while (!NData.neural_end && time >= nextChangeTime){
 		TRACE("B0: " << time << ", " << nextChangeTime);
@@ -239,8 +239,8 @@ void ParamConfig<DIM>::GetUpdateList(double time, std::vector<NeuralChangeSet>& 
     }
 }
 
-template <unsigned DIM>
-ParamConfig<DIM>::ParamConfig(std::string NdataLoc):NData(NdataLoc){
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+ParamConfig<ELEMENT_DIM, SPACE_DIM>::ParamConfig(std::string NdataLoc):NData(NdataLoc){
     nextChangeTime = NData.GetInitTime();
 }
 

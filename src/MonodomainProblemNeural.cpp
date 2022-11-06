@@ -1,24 +1,24 @@
 #include "MonodomainProblemNeural.hpp"
 
-template<unsigned ELEMENT_DIM, unsigned SPACE_DIM = ELEMENT_DIM>
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
 MonodomainProblemNeural<ELEMENT_DIM, SPACE_DIM>::MonodomainProblemNeural(
             AbstractCardiacCellFactory<ELEMENT_DIM, SPACE_DIM>* pCellFactory)
     : MonodomainProblem<ELEMENT_DIM, SPACE_DIM>(pCellFactory)
 {
 }
 
-template<unsigned ELEMENT_DIM, unsigned SPACE_DIM = ELEMENT_DIM>
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
 MonodomainProblemNeural<ELEMENT_DIM, SPACE_DIM>::MonodomainProblemNeural()
     : MonodomainProblem<ELEMENT_DIM, SPACE_DIM>()
 {
 }
 
-template<unsigned ELEMENT_DIM, unsigned SPACE_DIM = ELEMENT_DIM>
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
 MonodomainProblemNeural<ELEMENT_DIM, SPACE_DIM>::~MonodomainProblemNeural()
 {
 }
 
-template<unsigned ELEMENT_DIM, unsigned SPACE_DIM = ELEMENT_DIM>
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
 void MonodomainProblemNeural<ELEMENT_DIM, SPACE_DIM>::AtBeginningOfTimestep(double time)
 {
   // Run electrode update as per BidomainProblem
