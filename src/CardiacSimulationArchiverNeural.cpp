@@ -200,4 +200,3 @@ template class CardiacSimulationArchiverNeural<MonodomainProblemNeural<2, 3> >;
 template class CardiacSimulationArchiverNeural<MonodomainProblem<1> >;
 template class CardiacSimulationArchiverNeural<MonodomainProblem<2> >;
 template class CardiacSimulationArchiverNeural<MonodomainProblem<3> >;
-template class CardiacSimulationArchiverNeural<MonodomainProblem<2, 3> >;
