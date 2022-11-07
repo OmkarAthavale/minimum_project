@@ -2,7 +2,7 @@
 #define TESTMONODOMAIN3DNEURAL_HPP_
 
 #define PROBLEM_SPACE_DIM 3
-#define PROBLEM_ELEMENT_DIM 3
+#define PROBLEM_ELEMENT_DIM 2
 /**
  * @file
  * This test runs a minimal simulation with Simplified Imtiaz cells in a 2D mesh
@@ -86,9 +86,9 @@ class TestMonodomain2D : public CxxTest::TestSuite
     TRACE("Total number of nodes: " << mesh.GetNumAllNodes());
 
     // TODO: Load neural info and set up ParamConfig singleton instance
-    // ParamConfig<PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/test3D.txt");
-    // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1);
-    // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&mesh);
+    // ParamConfig<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/test3D.txt");
+    // ParamConfig<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 4, 0.75, 1.5, 2, -3, -1, 1);
+    // ParamConfig<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&mesh);
 
 
     // Set pacemaker location
@@ -96,8 +96,8 @@ class TestMonodomain2D : public CxxTest::TestSuite
     ChastePoint<PROBLEM_SPACE_DIM> radii (0.5, 1.0, 0.3);
 
     // Initialise problem with cells
-    ICCFactoryFull<PROBLEM_SPACE_DIM> network_cells(iccNodes, &centre, &radii);
-    MonodomainProblemNeural<PROBLEM_SPACE_DIM> monodomain_problem(&network_cells);
+    ICCFactoryFull<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> network_cells(iccNodes, &centre, &radii);
+    MonodomainProblemNeural<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> monodomain_problem(&network_cells);
     monodomain_problem.SetMesh( &mesh );
 
     // Modify simulation config
@@ -125,7 +125,7 @@ class TestMonodomain2D : public CxxTest::TestSuite
     // Solve problem
     monodomain_problem.Solve();
 
-    CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_SPACE_DIM> >::Save(monodomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> >::Save(monodomain_problem, output_dir + "/checkpoint_problem");
 
     // Print summary to terminal
     HeartEventHandler::Headings();

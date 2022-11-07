@@ -22,13 +22,13 @@ struct coordinateV_st
 };
 
 #endif //LAPLACESTRUCT
-template<unsigned DIM>
-class ICCFactoryFull : public AbstractCardiacCellFactory<DIM>
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM = ELEMENT_DIM>
+class ICCFactoryFull : public AbstractCardiacCellFactory<ELEMENT_DIM, SPACE_DIM>
 {
   private:
   std::set<unsigned> setICCNode;
-  ChastePoint<DIM>* pm_centre;
-  ChastePoint<DIM>* pm_radius;
+  ChastePoint<SPACE_DIM>* pm_centre;
+  ChastePoint<SPACE_DIM>* pm_radius;
   std::vector<coordinateV_st> LaplaceInfo;
   
 
@@ -36,8 +36,8 @@ class ICCFactoryFull : public AbstractCardiacCellFactory<DIM>
   void ReadLaplaceFile();
 
   public:
-  ICCFactoryFull(std::set<unsigned> iccNodes, ChastePoint<DIM>* centre, ChastePoint<DIM>* radius) : 
-  AbstractCardiacCellFactory<DIM>(), 
+  ICCFactoryFull(std::set<unsigned> iccNodes, ChastePoint<SPACE_DIM>* centre, ChastePoint<SPACE_DIM>* radius) : 
+  AbstractCardiacCellFactory<ELEMENT_DIM, SPACE_DIM>(), 
   setICCNode(iccNodes), 
   pm_centre(centre), 
   pm_radius(radius)
@@ -46,7 +46,7 @@ class ICCFactoryFull : public AbstractCardiacCellFactory<DIM>
   // Destructor
   virtual ~ICCFactoryFull(){};
 
-  AbstractCardiacCell* CreateCardiacCellForTissueNode(Node<DIM>* pNode);
+  AbstractCardiacCell* CreateCardiacCellForTissueNode(Node<SPACE_DIM>* pNode);
 };
 
 #endif

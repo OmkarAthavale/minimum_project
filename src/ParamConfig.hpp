@@ -63,7 +63,7 @@ template <unsigned ELEMENT_DIM, unsigned SPACE_DIM = ELEMENT_DIM>
 class ParamConfig
 {
     private:
-    std::unordered_map<int, ChasteCuboid<ELEMENT_DIM, SPACE_DIM> > ctrlRegionDefn;
+    std::unordered_map<int, ChasteCuboid<SPACE_DIM> > ctrlRegionDefn;
     std::unordered_map<unsigned, std::vector<unsigned>> nodeMapping;
     unsigned keyNum = 0;
     TidyNeuralData NData;

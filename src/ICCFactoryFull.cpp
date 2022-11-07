@@ -1,9 +1,9 @@
 #include "ICCFactoryFull.hpp"
 
-template<unsigned DIM>
-void ICCFactoryFull<DIM>::ReadLaplaceFile()
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+void ICCFactoryFull<ELEMENT_DIM, SPACE_DIM>::ReadLaplaceFile()
 {
-	std::ifstream inLaplaceInfo("projects/mesh/scaffold_full/rat_scaffold_16_16_2.1_laplace_longi_sw.txt");
+	std::ifstream inLaplaceInfo("projects/mesh/Stomach2D/rat_scaffold_64_64_2_2D_laplace_longi.txt");
 	if(!inLaplaceInfo)
 	{
 	  EXCEPTION("Reading laplace solution error");
@@ -19,8 +19,8 @@ void ICCFactoryFull<DIM>::ReadLaplaceFile()
 	}
 }
 
-template<unsigned DIM>
-AbstractCardiacCell* ICCFactoryFull<DIM>::CreateCardiacCellForTissueNode(Node<DIM>* pNode)
+template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
+AbstractCardiacCell* ICCFactoryFull<ELEMENT_DIM, SPACE_DIM>::CreateCardiacCellForTissueNode(Node<SPACE_DIM>* pNode)
 {
   double x = pNode->rGetLocation()[0];
   double y = pNode->rGetLocation()[1];
@@ -54,7 +54,7 @@ AbstractCardiacCell* ICCFactoryFull<DIM>::CreateCardiacCellForTissueNode(Node<DI
   }
 
 
-  ChasteEllipsoid<DIM> pacemaker(*pm_centre, *pm_radius);
+  ChasteEllipsoid<SPACE_DIM> pacemaker(*pm_centre, *pm_radius);
   
   if(setICCNode.find(index) != setICCNode.end())
   {
@@ -98,3 +98,4 @@ AbstractCardiacCell* ICCFactoryFull<DIM>::CreateCardiacCellForTissueNode(Node<DI
 template class ICCFactoryFull<1>;
 template class ICCFactoryFull<2>;
 template class ICCFactoryFull<3>;
+template class ICCFactoryFull<2, 3>;
