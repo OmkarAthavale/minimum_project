@@ -42,7 +42,7 @@ AbstractCardiacCell* ICCFactoryFull<ELEMENT_DIM, SPACE_DIM>::CreateCardiacCellFo
   }
   
 
-  if (V_val > 97)
+  if (V_val > 40)
   {
     return new DummyDerivedCa(this->mpSolver, this->mpZeroStimulus);
   }
@@ -83,7 +83,7 @@ AbstractCardiacCell* ICCFactoryFull<ELEMENT_DIM, SPACE_DIM>::CreateCardiacCellFo
 	double etaMax = 0.03775;
 	double etaMin = 0.03625;
 	
-	cell->SetParameter("eta", vVal*(etaMax-etaMin)/100);
+	cell->SetParameter("eta", V_val*(etaMax-etaMin)/100);
 	
     // if (pacemaker.DoesContain(pNode->GetPoint()))
     // {

@@ -39,8 +39,8 @@ class TestMonodomain2D : public CxxTest::TestSuite
     std::string output_dir = mesh_ident + "-2dFull_ICCSMC";
     unsigned bath_attr = 1; // no bath for monodomain
     unsigned icc_attr = 0; // 2=LM, 3=ICC, 4=CM // WRONG AND BAD
-    double duration = 30000.0;      // ms
-    double print_step = 100.0;        // ms
+    double duration = 12000.0;      // ms
+    double print_step = 500.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -95,12 +95,12 @@ class TestMonodomain2D : public CxxTest::TestSuite
     MonodomainProblemNeural<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> monodomain_problem(&network_cells);
     monodomain_problem.SetMesh( &mesh );
 	
-    // // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/testLaplaceSet_early.txt");
-    // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 2, -1.5, 0.75, 2, -4.8, -3, 1);
-    // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
-    // TRACE("gets to here")
-    ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(monodomain_problem.rGetMesh()), "projects/mesh/Stomach2D/rat_scaffold_32_32_2_2D_laplace_longi.txt", 10, 97, 10);
+    // // // Loads neural info and set up ParamConfig singleton instance
+    // ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/WholeStomach_2D.txt");
+    // // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 2, -1.5, 0.75, 2, -4.8, -3, 1);
+    // // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
+    // // TRACE("gets to here")
+    // ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(monodomain_problem.rGetMesh()), "projects/mesh/Stomach2D/rat_scaffold_32_32_2_2D_laplace_longi.txt", 0, 100, 10);
 
 
     // Modify simulation config
