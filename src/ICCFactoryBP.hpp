@@ -9,7 +9,7 @@
 #include "ChastePoint.hpp"
 #include "ChasteEllipsoid.hpp"
 #include "../src/DummyDerivedCa.hpp"
-#include "../src/ICCSMC.hpp"
+#include "../src/ICC_SMC_BP.hpp"
 
 #ifndef LAPLACESTRUCT
 #define LAPLACESTRUCT
