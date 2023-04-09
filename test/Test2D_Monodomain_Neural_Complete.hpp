@@ -91,7 +91,7 @@ class TestMonodomain2D : public CxxTest::TestSuite
     ChastePoint<PROBLEM_SPACE_DIM> radii (0.5, 1.0, 0.3);
 
     // Initialise problem with cells
-    ICCFactoryFull<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> network_cells(iccNodes, &centre, &radii);
+    ICCFactoryBP<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> network_cells(iccNodes, &centre, &radii);
     MonodomainProblemNeural<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> monodomain_problem(&network_cells);
     monodomain_problem.SetMesh( &mesh );
 	
