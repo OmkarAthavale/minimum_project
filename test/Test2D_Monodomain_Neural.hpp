@@ -35,12 +35,12 @@ class TestMonodomain2D : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "rat_scaffold_64_64_2_2D";
-    std::string output_dir = mesh_ident + "-2dFull_ICCSMC";
-    unsigned bath_attr = 0; // no bath for monodomain
-    unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM
-    double duration = 10000.0;      // ms
-    double print_step = 500.0;        // ms
+    std::string mesh_ident = "rat_scaffold_32_32_2_2D";
+    std::string output_dir = mesh_ident + "-2dFull_ICCSMC_toSS";
+    unsigned bath_attr = 1; // no bath for monodomain
+    unsigned icc_attr = 0; // 2=LM, 3=ICC, 4=CM // WRONG AND BAD
+    double duration = 180000.0;      // ms
+    double print_step = 5000.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -92,8 +92,8 @@ class TestMonodomain2D : public CxxTest::TestSuite
 
 
     // Set pacemaker location
-    ChastePoint<PROBLEM_SPACE_DIM> centre(0.0, -0.9, -3.0);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.5, 1.0, 0.3);
+    ChastePoint<PROBLEM_SPACE_DIM> centre(0.0, -1.5, -3.5);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (0.5, 1.0, 0.2);
 
     // Initialise problem with cells
     ICCFactoryBP<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> network_cells(iccNodes, &centre, &radii);
@@ -114,8 +114,9 @@ class TestMonodomain2D : public CxxTest::TestSuite
     // HeartConfig::Instance()->SetBathConductivity(0.02); // Bath capacitance
     HeartConfig::Instance()->SetSurfaceAreaToVolumeRatio(2000);
     HeartConfig::Instance()->SetCapacitance(2.5);
-    HeartConfig::Instance()->SetVisualizeWithMeshalyzer(true);        
+    HeartConfig::Instance()->SetVisualizeWithMeshalyzer(false);        
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step); //timesteps: ode, pde, printing
+    HeartConfig::Instance()->SetOutputVariables("cytosolic_calcium_concentration"); //timesteps: ode, pde, printing
 
     // Update problem from config
     monodomain_problem.SetWriteInfo();
