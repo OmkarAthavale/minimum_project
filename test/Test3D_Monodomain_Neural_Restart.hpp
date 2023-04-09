@@ -16,7 +16,7 @@
 #include "Debug.hpp"
 
 #include "ChastePoint.hpp"
-#include "../src/ICCFactoryFull.hpp"
+#include "../src/ICCFactoryBP.hpp"
 
 #include "MonodomainProblemNeural.hpp"
 
