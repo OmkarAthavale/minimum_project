@@ -223,9 +223,9 @@ void ParamConfig<ELEMENT_DIM, SPACE_DIM>::MapNodeToControl(AbstractTetrahedralMe
 
 template<unsigned ELEMENT_DIM, unsigned SPACE_DIM>
 void ParamConfig<ELEMENT_DIM, SPACE_DIM>::GetUpdateList(double time, std::vector<NeuralChangeSet>& changeNodes){
-    TRACE("B0");
+    // TRACE("B0");
     while (!NData.neural_end && time >= nextChangeTime){
-		TRACE("B0: " << time << ", " << nextChangeTime);
+		// TRACE("B0: " << time << ", " << nextChangeTime);
         unsigned ctrlReg = NData.GetCtrlReg();
 
         std::vector<unsigned>::iterator it;

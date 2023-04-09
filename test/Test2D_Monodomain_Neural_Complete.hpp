@@ -36,11 +36,11 @@ class TestMonodomain2D : public CxxTest::TestSuite
 
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_32_32_2_2D";
-    std::string output_dir = mesh_ident + "-2dFull_ICCSMC";
+    std::string output_dir = mesh_ident + "-2dFull_ICCSMC_chktest";
     unsigned bath_attr = 1; // no bath for monodomain
     unsigned icc_attr = 0; // 2=LM, 3=ICC, 4=CM // WRONG AND BAD
-    double duration = 12000.0;      // ms
-    double print_step = 500.0;        // ms
+    double duration = 20.0;      // ms
+    double print_step = 10.0;        // ms
     // ---------------------------------------- //
 
     // Mesh location
@@ -87,20 +87,20 @@ class TestMonodomain2D : public CxxTest::TestSuite
 
 
     // Set pacemaker location
-    ChastePoint<PROBLEM_SPACE_DIM> centre(0.0, -0.9, -3.0);
-    ChastePoint<PROBLEM_SPACE_DIM> radii (0.5, 1.0, 0.3);
+    ChastePoint<PROBLEM_SPACE_DIM> centre(0.0, -1.5, -3.5);
+    ChastePoint<PROBLEM_SPACE_DIM> radii (0.5, 1.0, 0.2);
 
     // Initialise problem with cells
     ICCFactoryFull<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> network_cells(iccNodes, &centre, &radii);
     MonodomainProblemNeural<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> monodomain_problem(&network_cells);
     monodomain_problem.SetMesh( &mesh );
 	
-    // // // Loads neural info and set up ParamConfig singleton instance
-    // ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/WholeStomach_2D.txt");
-    // // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 2, -1.5, 0.75, 2, -4.8, -3, 1);
-    // // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
-    // // TRACE("gets to here")
-    // ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(monodomain_problem.rGetMesh()), "projects/mesh/Stomach2D/rat_scaffold_32_32_2_2D_laplace_longi.txt", 0, 100, 10);
+    // // Loads neural info and set up ParamConfig singleton instance
+    ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/WholeStomach_2D.txt");
+    // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 2, -1.5, 0.75, 2, -4.8, -3, 1);
+    // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
+    // TRACE("gets to here")
+    ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(monodomain_problem.rGetMesh()), "projects/mesh/Stomach2D/rat_scaffold_32_32_2_2D_laplace_longi.txt", 0, 100, 10);
 
 
     // Modify simulation config
@@ -128,7 +128,7 @@ class TestMonodomain2D : public CxxTest::TestSuite
     // Solve problem
     monodomain_problem.Solve();
 
-    // CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> >::Save(monodomain_problem, output_dir + "/checkpoint_problem");
+    CardiacSimulationArchiverNeural< MonodomainProblemNeural<PROBLEM_ELEMENT_DIM,PROBLEM_SPACE_DIM> >::Save(monodomain_problem, output_dir + "/checkpoint_problem");
 
     // Print summary to terminal
     HeartEventHandler::Headings();

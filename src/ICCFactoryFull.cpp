@@ -80,16 +80,19 @@ AbstractCardiacCell* ICCFactoryFull<ELEMENT_DIM, SPACE_DIM>::CreateCardiacCellFo
 
     // cell->SetParameter("correction", gradVal);
     // cell->SetParameter("eta", 0.037);
-	double etaMax = 0.03775;
-	double etaMin = 0.03625;
+	double parMax = -65.0;
+	double parMin = -72.0;
 	
-	cell->SetParameter("eta", V_val*(etaMax-etaMin)/100);
+	// if ((V_val < 41) & (V_val > 37)) { cell->SetParameter("eta", 0.035);} else {
+	cell->SetParameter("E_K", parMin+V_val*(parMax-parMin)/100.0);
+		// };
 	
-    // if (pacemaker.DoesContain(pNode->GetPoint()))
-    // {
-      // cell->SetParameter("correction", 1.075);
+    if (pacemaker.DoesContain(pNode->GetPoint()))
+    {
+		double scalingVal = (((pNode->GetPoint()[0]-pacemaker.rGetCentre()[0])/ pacemaker.rGetRadii()[0])+((pNode->GetPoint()[1]-pacemaker.rGetCentre()[1])/ pacemaker.rGetRadii()[0])+((pNode->GetPoint()[2]-pacemaker.rGetCentre()[2])/ pacemaker.rGetRadii()[0]))/3.0;
+      cell->SetParameter("eta", 0.0380+0.009*scalingVal);
       
-    // }
+    }
 
     return cell;
 

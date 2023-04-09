@@ -36,10 +36,10 @@ class TestMonodomain2DRestart : public CxxTest::TestSuite
   {
 
     // -------------- OPTIONS ----------------- //
-    std::string mesh_ident = "rat_scaffold_64_64_2_2D";
-    std::string chkpt_dir = mesh_ident + "-2dFull_ICCSMC";
-    double added_duration = 10000.0;      // ms
-    double print_step = 500.0;        // ms
+    std::string mesh_ident = "rat_scaffold_32_32_2_2D";
+    std::string chkpt_dir = mesh_ident + "-2dFull_ICCSMC_toSS";
+    double added_duration = 180000.0;      // ms
+    double print_step = 100.0;        // ms
     std::string output_dir = chkpt_dir + "_stimulation";
     // ---------------------------------------- //
     
@@ -67,11 +67,11 @@ class TestMonodomain2DRestart : public CxxTest::TestSuite
     // }
     
     // // Loads neural info and set up ParamConfig singleton instance
-    ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/testLaplaceSet.txt");
+    ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::InitInstance("projects/NeuralData/2Delems.txt");
     // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->CreateGriddedControlRegions(-1, 1, 2, -1.5, 0.75, 2, -4.8, -3, 1);
     // ParamConfig<PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()));
     // TRACE("gets to here")
-    ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()), "projects/mesh/Stomach2D/rat_scaffold_64_64_2_2D_laplace_longi.txt", 10, 97, 10);
+    ParamConfig<PROBLEM_ELEMENT_DIM, PROBLEM_SPACE_DIM>::GetInstance()->MapNodeToControl(&(p_monodomain_problem->rGetMesh()), "projects/mesh/Stomach2D/rat_scaffold_32_32_2_2D_laplace_longi.txt", 0, 100, 10);
 
     HeartConfig::Instance()->SetSimulationDuration(p_monodomain_problem->GetCurrentTime() + added_duration); //ms
     HeartConfig::Instance()->SetIntracellularConductivities(Create_c_vector(0.01, 0.3,0.03)); // TO MODIFY

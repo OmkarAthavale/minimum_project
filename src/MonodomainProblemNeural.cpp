@@ -58,12 +58,15 @@ void MonodomainProblemNeural<ELEMENT_DIM, SPACE_DIM>::AtBeginningOfTimestep(doub
 }
 
 
-// Serialization for Boost >= 1.36
-#include "SerializationExportWrapperForCpp.hpp"
-EXPORT_TEMPLATE_CLASS_SAME_DIMS(MonodomainProblemNeural)
-
 // Explicit instantiation
 template class MonodomainProblemNeural<1>;
 template class MonodomainProblemNeural<2>;
 template class MonodomainProblemNeural<3>;
 template class MonodomainProblemNeural<2, 3>;
+
+// Serialization for Boost >= 1.36
+#include "SerializationExportWrapperForCpp.hpp"
+EXPORT_TEMPLATE_CLASS2(MonodomainProblemNeural, 1, 1)
+EXPORT_TEMPLATE_CLASS2(MonodomainProblemNeural, 2, 3)
+EXPORT_TEMPLATE_CLASS2(MonodomainProblemNeural, 2, 2)
+EXPORT_TEMPLATE_CLASS2(MonodomainProblemNeural, 3, 3)
