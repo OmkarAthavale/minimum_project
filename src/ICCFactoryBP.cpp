@@ -58,7 +58,7 @@ AbstractCardiacCell* ICCFactoryBP<ELEMENT_DIM, SPACE_DIM>::CreateCardiacCellForT
   
   if(setICCNode.find(index) != setICCNode.end())
   {
-	  CellICCSMCFromCellML* cell = new CellICCSMCFromCellML(this->mpSolver, this->mpZeroStimulus);
+	  CellICC_SMC_BPFromCellML* cell = new CellICC_SMC_BPFromCellML(this->mpSolver, this->mpZeroStimulus);
     
     // double xLoc = pNode->GetPoint()[0];
     // double zLoc = pNode->GetPoint()[2];
