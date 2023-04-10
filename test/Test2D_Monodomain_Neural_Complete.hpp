@@ -37,8 +37,8 @@ class TestMonodomain2D : public CxxTest::TestSuite
     // -------------- OPTIONS ----------------- //
     std::string mesh_ident = "rat_scaffold_32_32_2_2D";
     std::string output_dir = mesh_ident + "-2dFull_ICCSMC_BPTest";
-    unsigned bath_attr = 1; // no bath for monodomain
-    unsigned icc_attr = 0; // 2=LM, 3=ICC, 4=CM // WRONG AND BAD
+    unsigned bath_attr = 0; // no bath for monodomain
+    unsigned icc_attr = 1; // 2=LM, 3=ICC, 4=CM // WRONG AND BAD
     double duration = 20.0;      // ms
     double print_step = 10.0;        // ms
     // ---------------------------------------- //

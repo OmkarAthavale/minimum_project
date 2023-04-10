@@ -116,7 +116,7 @@ class TestMonodomain2D : public CxxTest::TestSuite
     HeartConfig::Instance()->SetCapacitance(2.5);
     HeartConfig::Instance()->SetVisualizeWithMeshalyzer(false);        
     HeartConfig::Instance()->SetOdePdeAndPrintingTimeSteps(0.1, 0.2, print_step); //timesteps: ode, pde, printing
-    HeartConfig::Instance()->SetOutputVariables("cytosolic_calcium_concentration"); //timesteps: ode, pde, printing
+    //HeartConfig::Instance()->SetOutputVariables("cytosolic_calcium_concentration"); //timesteps: ode, pde, printing
 
     // Update problem from config
     monodomain_problem.SetWriteInfo();
